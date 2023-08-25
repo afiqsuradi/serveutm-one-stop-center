@@ -1,5 +1,5 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
-
 const userSchema = mongoose.Schema({
   name: {
     type: String,
@@ -42,7 +42,6 @@ const userSchema = mongoose.Schema({
     },
   ],
 });
-
 const User = mongoose.model("User", userSchema, "User");
 
 exports.User = User;

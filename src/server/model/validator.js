@@ -8,12 +8,10 @@ exports.validateUser = (userData) => {
     email: z.string().email().trim().min(5).max(255),
     password: z.string().min(5).max(255),
     role: z
-      .string()
       .enum(["user", "service_provider", "admin"])
-      .default("user"),
-    services: z
-      .array(z.instanceof(mongoose.Schema.Types.ObjectId).ref("Service"))
+      .default("user")
       .optional(),
+    services: z.array(z.instanceof(mongoose.Schema.Types.ObjectId)).optional(),
   });
-  return User.parse(userData);
+  return User.safeParse(userData);
 };
