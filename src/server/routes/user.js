@@ -3,6 +3,8 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const { User } = require("../model/user");
 const { validateUser } = require("../model/validator");
+const { VerificationToken } = require("../model/verificationToken");
+const { genToken } = require("../utils/tokenGen");
 
 router.post("/", async (req, res) => {
   // Validate with zod
@@ -27,9 +29,25 @@ router.post("/", async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
-  // Save User
-  const result = await newUser.save();
-  return res.status(200).send(result);
+  // Create new verify token
+  try {
+    req.body.token = await bcrypt.hash(
+      genToken(),
+      Number(process.env.SALT_ROUND)
+    );
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+  const verifyToken = new VerificationToken({
+    owner: newUser._id,
+    token: req.body.token,
+  });
+  // Save User and token
+  const resultUser = await newUser.save();
+  const resultToken = await verifyToken.save();
+  if (!resultUser || !resultToken)
+    return res.status(500).send({ message: "Something went wrong" });
+  return res.status(200).send(resultUser);
 });
 
 module.exports = router;
