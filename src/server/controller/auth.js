@@ -1,7 +1,7 @@
 require("dotenv").config();
 const { User } = require("../model/user");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const { generateAccessToken, generateRefreshToken } = require("./helper/token");
 const authController = {};
 
 authController.handleLogin = async (req, res) => {
@@ -13,28 +13,17 @@ authController.handleLogin = async (req, res) => {
       .json({ message: "username and password are required" });
   // check if user exists
   const user = await User.findOne({ username });
-  if (!user) return res.status(401);
+  if (!user)
+    return res.status(401).json({ message: "User or password is incorrect" });
   // Evaluate password
   const match = await bcrypt.compare(password, user.password);
-  if (!match) return res.status(401);
+  if (!match)
+    return res.status(401).json({ message: "User or password is incorrect" });
   // Create token if true
   //generate access token
-  const accessToken = jwt.sign(
-    {
-      UserInfo: {
-        username: user.username,
-        role: user.role,
-      },
-    },
-    process.env.ACCESS_TOKEN_PRIVATE_KEY,
-    { expiresIn: "10s" }
-  );
+  const accessToken = await generateAccessToken(user);
   //generate refresh token
-  const newRefreshToken = jwt.sign(
-    { username: user.username },
-    process.env.REFRESH_TOKEN_PRIVATE_KEY,
-    { expiresIn: "15s" }
-  );
+  const newRefreshToken = await generateRefreshToken(user);
   //send refresh token to cookie with httpOnly
   res.cookie("jwt", newRefreshToken, {
     httpOnly: true,
