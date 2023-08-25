@@ -6,7 +6,7 @@ async function generateVerificationToken(userId) {
     owner: userId,
     token: genToken(),
   });
-  await newToken.save();
+  return await newToken.save();
 }
 
 exports.generateVerificationToken = generateVerificationToken;
