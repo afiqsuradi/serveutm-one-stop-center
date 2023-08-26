@@ -1,4 +1,5 @@
 require("dotenv").config();
+const jwtCookie = require("./helper/cookie");
 const { User } = require("../model/user");
 const bcrypt = require("bcrypt");
 const { generateAccessToken, generateRefreshToken } = require("./helper/token");
@@ -25,12 +26,14 @@ authController.handleLogin = async (req, res) => {
   //generate refresh token
   const newRefreshToken = await generateRefreshToken(user);
   //send refresh token to cookie with httpOnly
-  res.cookie("jwt", newRefreshToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "None",
+  res.cookie(jwtCookie.name, newRefreshToken, {
+    ...jwtCookie.properties,
     maxAge: 24 * 60 * 60 * 1000,
   });
+  const result = await User.updateOne(user, {
+    $set: { refreshToken: newRefreshToken },
+  });
+  if (!result) return res.sendStatus(500);
   //send access token
   return res.json({ accessToken });
 };

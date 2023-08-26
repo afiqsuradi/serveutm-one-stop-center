@@ -18,7 +18,7 @@ async function generateAccessToken(user) {
       },
     },
     process.env.ACCESS_TOKEN_PRIVATE_KEY,
-    { expiresIn: "10s" }
+    { expiresIn: "15m" }
   );
 }
 
@@ -26,10 +26,14 @@ async function generateRefreshToken(user) {
   return jwt.sign(
     { username: user.username },
     process.env.REFRESH_TOKEN_PRIVATE_KEY,
-    { expiresIn: "15s" }
+    { expiresIn: "1d" }
   );
 }
-
-exports.generateAccessToken = generateAccessToken;
-exports.generateRefreshToken = generateRefreshToken;
-exports.generateVerificationToken = generateVerificationToken;
+// exports.generateAccessToken = generateAccessToken;
+// exports.generateRefreshToken = generateRefreshToken;
+// exports.generateVerificationToken = generateVerificationToken;
+module.exports = {
+  generateAccessToken,
+  generateRefreshToken,
+  generateVerificationToken,
+};

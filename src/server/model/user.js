@@ -39,6 +39,8 @@ const userSchema = mongoose.Schema({
     default: "user",
     required: true,
   },
+  // Bad implementation, ik but im too lazy
+  refreshToken: { type: String, default: "" },
   services: [
     {
       type: mongoose.Schema.Types.ObjectId,
