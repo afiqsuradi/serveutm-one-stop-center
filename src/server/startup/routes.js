@@ -2,7 +2,6 @@ const express = require("express");
 const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const corsOptions = require("../config/corsOption");
 module.exports = function (app) {
   app.use(cors({ origin: "http://localhost:5173", credentials: true }));
   app.use(helmet());

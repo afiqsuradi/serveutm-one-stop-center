@@ -22,7 +22,7 @@ userController.validateAndCreateUser = async (req, res) => {
     const newUser = await createUserInDatabase(user.data);
     const token = await generateVerificationToken(newUser._id);
     sendMail(newUser.email, token.token);
-    return res.status(200).send(newUser);
+    return res.sendStatus(200);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
