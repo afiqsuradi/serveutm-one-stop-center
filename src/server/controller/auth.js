@@ -35,7 +35,12 @@ authController.handleLogin = async (req, res) => {
   });
   if (!result) return res.sendStatus(500);
   //send access token
-  return res.json({ accessToken });
+  return res.json({
+    accessToken,
+    username: user.username,
+    role: user.role,
+    isVerified: user.isVerified,
+  });
 };
 
 module.exports = authController;
