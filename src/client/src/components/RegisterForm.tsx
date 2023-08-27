@@ -8,8 +8,11 @@ import { useNavigate } from "react-router-dom";
 import { REGISTER_SUCCESS } from "../constants/path";
 import { useAuth } from "../hooks/useAuth";
 import { AuthType } from "../context/authProvider";
+import { useState } from "react";
+import { AxiosError } from "axios";
 
 const RegisterForm = () => {
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const { setAuth } = useAuth();
   const {
@@ -19,17 +22,19 @@ const RegisterForm = () => {
   } = useForm<RegisterFormStruct>({ resolver: RegisterFormStructResolver });
 
   const onSubmit = async (data: RegisterFormStruct) => {
-    const result = await apiClient.post<AuthType>(
-      "/api/user",
-      JSON.stringify(data),
-      {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }
-    );
-    if (result.status === 200) {
+    try {
+      const result = await apiClient.post<AuthType>(
+        "/api/user",
+        JSON.stringify(data),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
       setAuth(result.data);
       navigate(REGISTER_SUCCESS);
+    } catch (error) {
+      setError((error as AxiosError).message);
     }
   };
 
@@ -38,8 +43,12 @@ const RegisterForm = () => {
       className="flex flex-col"
       method="POST"
       action="#"
-      onSubmit={handleSubmit((data) => onSubmit(data))}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      onSubmit={handleSubmit((data) => {
+        return onSubmit(data);
+      })}
     >
+      {error}
       <div className="flex gap-4">
         <div className="mb-6 pt-3 rounded bg-gray-200">
           <label

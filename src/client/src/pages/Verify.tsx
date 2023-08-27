@@ -1,8 +1,7 @@
 import { useLocation } from "react-router-dom";
-import apiClient from "../services/apiClient";
-import { AuthType } from "../context/authProvider";
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 interface VerifyResponse {
   status: number;
@@ -13,11 +12,12 @@ const Verify = () => {
   const { Auth, setAuth } = useAuth();
   const [success, setSuccess] = useState(false);
   const location = useLocation();
+  const privateApiClient = useAxiosPrivate();
   const token = new URLSearchParams(location.search).get("token");
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    const promise = apiClient
+    const promise = privateApiClient
       .post<VerifyResponse>(
         "/api/verify-email",
         JSON.stringify({ token: token }),

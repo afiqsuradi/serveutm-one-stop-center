@@ -1,8 +1,10 @@
 import axios from "axios";
-export const BASE_PARAM = "http://localhost:8080";
+import { BASE_PARAM } from "./apiClient";
 
 export default axios.create({
   baseURL: BASE_PARAM,
+  headers: { "Content-Type": "application/json" },
+  withCredentials: true,
   params: {
     baseUrl: window.location.origin,
   },
