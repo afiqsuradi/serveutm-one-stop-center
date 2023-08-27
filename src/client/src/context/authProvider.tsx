@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 
-interface AuthType {
+export interface AuthType {
   accessToken: string;
   isVerified: boolean;
 }

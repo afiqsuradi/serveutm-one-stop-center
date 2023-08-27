@@ -4,7 +4,7 @@ const { createUserInDatabase } = require("./helper/database");
 const jwtCookie = require("./helper/cookie");
 const { generateVerificationToken } = require("./helper/token");
 const { generateAccessToken, generateRefreshToken } = require("./helper/token");
-const { sendMail } = require("./helper/mail");
+const { sendVerifyMail } = require("./helper/mail");
 
 const userController = {};
 
@@ -32,11 +32,11 @@ userController.validateAndCreateUser = async (req, res) => {
     });
     // Add refresh token to user data
     data.refreshToken = newRefreshToken;
-
+    const userUrl = req.query.baseUrl;
     const newUser = await createUserInDatabase(data);
     const token = await generateVerificationToken(newUser._id);
 
-    sendMail(newUser.email, token.token);
+    sendVerifyMail(newUser.email, userUrl, token.token);
     return res.status(200).json({
       isVerified: newUser.isVerified,
       accessToken: accessToken,

@@ -5,9 +5,13 @@ import {
 } from "../types/register";
 import apiClient from "../services/apiClient";
 import { useNavigate } from "react-router-dom";
+import { REGISTER_SUCCESS } from "../constants/path";
+import { useAuth } from "../hooks/useAuth";
+import { AuthType } from "../context/authProvider";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
+  const { setAuth } = useAuth();
   const {
     register,
     handleSubmit,
@@ -15,11 +19,18 @@ const RegisterForm = () => {
   } = useForm<RegisterFormStruct>({ resolver: RegisterFormStructResolver });
 
   const onSubmit = async (data: RegisterFormStruct) => {
-    const result = await apiClient.post("/api/user", JSON.stringify(data), {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    });
-    if (result.status === 200) navigate("/signup/success");
+    const result = await apiClient.post<AuthType>(
+      "/api/user",
+      JSON.stringify(data),
+      {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }
+    );
+    if (result.status === 200) {
+      setAuth(result.data);
+      navigate(REGISTER_SUCCESS);
+    }
   };
 
   return (

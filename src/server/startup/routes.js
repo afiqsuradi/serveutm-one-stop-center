@@ -9,6 +9,8 @@ module.exports = function (app) {
   app.use(express.json());
   app.use("/api/user", require("../routes/user"));
   app.use("/api/auth", require("../routes/auth"));
-  app.use("/refresh", require("../routes/refresh"));
+  app.use("/api/refresh", require("../routes/refresh"));
   app.use("/logout", require("../routes/logout"));
+  app.use(require("../middleware/authenticateToken"));
+  app.use("/api/verify-email", require("../controller/verifyController"));
 };
