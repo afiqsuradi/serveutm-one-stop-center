@@ -1,4 +1,4 @@
-import RegisterForm from "./RegisterForm";
+import RegisterForm from "../../components/RegisterForm";
 import styles from "./style.module.css";
 const Register = () => {
   return (

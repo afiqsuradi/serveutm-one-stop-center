@@ -1,30 +1,30 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useState } from "react";
 
 interface AuthType {
   accessToken: string;
+  isVerified: boolean;
 }
 
 interface AuthContextType {
   Auth: AuthType;
   setAuth: (auth: AuthType) => void;
 }
-const AuthContext = createContext<AuthContextType>({
-  Auth: { accessToken: "" },
+export const AuthContext = createContext<AuthContextType>({
+  Auth: { accessToken: "", isVerified: false },
   setAuth: () => {
     return;
   },
 });
-
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
 
 interface Props {
   children: React.ReactNode;
 }
 
 export const AuthProvider = ({ children }: Props) => {
-  const [Auth, setAuth] = useState<AuthType>({ accessToken: "" });
+  const [Auth, setAuth] = useState<AuthType>({
+    accessToken: "",
+    isVerified: false,
+  });
   return (
     <AuthContext.Provider value={{ Auth, setAuth }}>
       {children}

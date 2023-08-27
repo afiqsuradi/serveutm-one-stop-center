@@ -2,8 +2,8 @@ import { useForm } from "react-hook-form";
 import {
   RegisterFormStruct,
   RegisterFormStructResolver,
-} from "../../types/register";
-import apiClient from "../../services/apiClient";
+} from "../types/register";
+import apiClient from "../services/apiClient";
 import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
