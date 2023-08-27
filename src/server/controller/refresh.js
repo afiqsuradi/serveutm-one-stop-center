@@ -22,7 +22,7 @@ refreshContoller.handleRefreshToken = async (req, res) => {
       // Generate new access token
       const newAccessToken = await generateAccessToken(user);
       // Send new access token to user
-      return res.json({ newAccessToken });
+      return res.json({ accessToken: newAccessToken });
     }
   );
 };
