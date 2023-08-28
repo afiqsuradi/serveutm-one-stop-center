@@ -3,43 +3,15 @@ import {
   RegisterFormStruct,
   RegisterFormStructResolver,
 } from "../types/register";
-import apiClient from "../services/apiClient";
-import { useNavigate } from "react-router-dom";
-import { REGISTER_SUCCESS } from "../constants/path";
-import { useAuth } from "../hooks/useAuth";
-import { AuthType } from "../context/authProvider";
-import { useState } from "react";
-import { AxiosError } from "axios";
+import useRegister from "../hooks/useRegister";
 
 const RegisterForm = () => {
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
-  const { setAuth } = useAuth();
+  const { registerUser, error, isLoading } = useRegister();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterFormStruct>({ resolver: RegisterFormStructResolver });
-
-  const onSubmit = async (data: RegisterFormStruct) => {
-    try {
-      const result = await apiClient.post<AuthType>(
-        "/api/user",
-        JSON.stringify(data),
-        {
-          headers: { "Content-Type": "application/json" },
-          params: {
-            baseUrl: window.location.origin,
-          },
-          withCredentials: true,
-        }
-      );
-      setAuth(result.data);
-      navigate(REGISTER_SUCCESS);
-    } catch (error) {
-      setError((error as AxiosError).message);
-    }
-  };
 
   return (
     <form
@@ -47,9 +19,7 @@ const RegisterForm = () => {
       method="POST"
       action="#"
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      onSubmit={handleSubmit((data) => {
-        return onSubmit(data);
-      })}
+      onSubmit={handleSubmit((data) => registerUser(data))}
     >
       {error}
       <div className="flex gap-4">

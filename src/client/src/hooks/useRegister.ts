@@ -1,41 +1,39 @@
 import React, { useState } from "react";
+import apiClient from "../services/apiClient";
 import { useAuth } from "./useAuth";
 import { useNavigate } from "react-router-dom";
-import apiClient from "../services/apiClient";
-import { HOMEPAGE } from "../constants/path";
-import { AxiosError } from "axios";
+import { RegisterFormStruct } from "../types/register";
 import { AuthType } from "../context/authProvider";
+import { REGISTER_SUCCESS } from "../constants/path";
+import { AxiosError } from "axios";
 
-export interface LoginFormData {
-  username: string;
-  password: string;
-}
-
-const useLogin = () => {
-  const [isLoading, setIsLoading] = useState(true);
+const useRegister = () => {
   const [error, setError] = useState("");
-  const { setAuth } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-
-  const login = async (data: LoginFormData) => {
+  const { setAuth } = useAuth();
+  const registerUser = async (data: RegisterFormStruct) => {
     try {
       const result = await apiClient.post<AuthType>(
-        "/api/auth",
+        "/api/user",
         JSON.stringify(data),
         {
           headers: { "Content-Type": "application/json" },
+          params: {
+            baseUrl: window.location.origin,
+          },
           withCredentials: true,
         }
       );
       setAuth(result.data);
-      navigate(HOMEPAGE);
+      navigate(REGISTER_SUCCESS);
     } catch (error) {
       setError((error as AxiosError).message);
     } finally {
       setIsLoading(false);
     }
   };
-  return { login, error, isLoading };
+  return { registerUser, isLoading, error };
 };
 
-export default useLogin;
+export default useRegister;
