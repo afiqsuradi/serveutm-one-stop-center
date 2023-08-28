@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom";
 import LoginForm from "../../components/LoginForm";
 import styles from "./style.module.css";
+import { REGISTER } from "../../constants/path";
 const SignIn = () => {
   return (
     <>
@@ -28,9 +30,9 @@ const SignIn = () => {
         <div className="max-w-lg mx-auto text-center mt-12 mb-6">
           <p className="text-white">
             Don't have an account?{" "}
-            <a href="#" className="font-bold hover:underline">
+            <Link to={REGISTER} className="font-bold hover:underline">
               Sign up
-            </a>
+            </Link>
             .
           </p>
         </div>

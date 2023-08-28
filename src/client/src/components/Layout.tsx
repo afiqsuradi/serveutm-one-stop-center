@@ -1,36 +1,15 @@
 import { Outlet } from "react-router-dom";
+import useLogout from "../hooks/useLogout";
 import { useAuth } from "../hooks/useAuth";
-import { defaultAuthValue } from "../context/authProvider";
-import apiClient from "../services/apiClient";
+import Navbar from "./Navbar";
 
 const Layout = () => {
-  const { Auth, setAuth } = useAuth();
-
-  const logOut = async () => {
-    setAuth(defaultAuthValue);
-    try {
-      await apiClient.get("/logout", {
-        withCredentials: true,
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  console.log(Auth);
+  const { Auth } = useAuth();
+  const logout = useLogout();
   return (
     <>
       <header>
-        {Auth.username !== "" ? (
-          <button
-            onClick={() => {
-              void logOut();
-            }}
-          >
-            Logout
-          </button>
-        ) : (
-          <></>
-        )}
+        <Navbar />
       </header>
       <main className="App">
         <Outlet />

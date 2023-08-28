@@ -22,9 +22,9 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route path={REGISTER} element={<Register />} />
         <Route path={LOGIN} element={<Login />} />
-        <Route path={REGISTER_SUCCESS} element={<RegisterSuccess />} />
-
         <Route element={<PersistLogin />}>
+          <Route path={REGISTER_SUCCESS} element={<RegisterSuccess />} />
+
           <Route path={HOMEPAGE} element={<Homepage />} />
 
           <Route element={<RequireAuth allowedRole={"user"} />}>

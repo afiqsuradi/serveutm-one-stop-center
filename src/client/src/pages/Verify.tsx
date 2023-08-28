@@ -38,7 +38,7 @@ const Verify = () => {
     return () => {
       controller.abort();
     };
-  }, [token]);
+  }, []);
   return (
     <div>
       {success ? <h1>Successfully Verified</h1> : <h1>Failed to verified</h1>}
