@@ -4,6 +4,8 @@ import { AuthType } from "../context/authProvider";
 import { useAuth } from "../hooks/useAuth";
 import { AxiosError } from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { HOMEPAGE } from "../constants/path";
 
 interface LoginFormData {
   username: string;
@@ -13,6 +15,7 @@ interface LoginFormData {
 const LoginForm = () => {
   const [error, setError] = useState("");
   const { setAuth } = useAuth();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -30,6 +33,7 @@ const LoginForm = () => {
         }
       );
       setAuth(result.data);
+      navigate(HOMEPAGE);
     } catch (error) {
       setError((error as AxiosError).message);
     }

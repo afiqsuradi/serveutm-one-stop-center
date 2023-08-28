@@ -15,13 +15,11 @@ export const defaultAuthValue: AuthType = {
 
 interface AuthContextType {
   Auth: AuthType;
-  setAuth: (auth: AuthType) => void;
+  setAuth: React.Dispatch<React.SetStateAction<AuthType>>; // Use React.Dispatch type
 }
 export const AuthContext = createContext<AuthContextType>({
   Auth: defaultAuthValue,
-  setAuth: () => {
-    return;
-  },
+  setAuth: () => defaultAuthValue,
 });
 
 interface Props {

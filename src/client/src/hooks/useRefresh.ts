@@ -1,18 +1,23 @@
 import { useAuth } from "./useAuth";
 import apiClient from "../services/apiClient";
-
-interface verifyResponse {
-  accessToken: string;
-}
+import { AuthType } from "../context/authProvider";
 
 export const useRefresh = () => {
   const { Auth, setAuth } = useAuth();
   const refresh = async () => {
-    const response = await apiClient.get<verifyResponse>("/api/refresh", {
+    const response = await apiClient.get<AuthType>("/api/refresh", {
       withCredentials: true,
     });
     if (!response) return "";
-    setAuth({ ...Auth, accessToken: response.data.accessToken });
+    setAuth((prevAuth: AuthType) => {
+      return {
+        ...prevAuth,
+        username: response.data.username,
+        isVerified: response.data.isVerified,
+        role: response.data.role,
+        accessToken: response.data.accessToken,
+      };
+    });
     return response.data.accessToken;
   };
   return refresh;
