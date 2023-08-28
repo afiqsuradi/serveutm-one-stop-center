@@ -1,43 +1,13 @@
 import { useForm } from "react-hook-form";
-import apiClient from "../services/apiClient";
-import { AuthType } from "../context/authProvider";
-import { useAuth } from "../hooks/useAuth";
-import { AxiosError } from "axios";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { HOMEPAGE } from "../constants/path";
-
-interface LoginFormData {
-  username: string;
-  password: string;
-}
+import useLogin, { LoginFormData } from "../hooks/useLogin";
 
 const LoginForm = () => {
-  const [error, setError] = useState("");
-  const { setAuth } = useAuth();
-  const navigate = useNavigate();
+  const { login, error, isLoading } = useLogin();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>();
-
-  const onSubmit = async (data: LoginFormData) => {
-    try {
-      const result = await apiClient.post<AuthType>(
-        "/api/auth",
-        JSON.stringify(data),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
-      setAuth(result.data);
-      navigate(HOMEPAGE);
-    } catch (error) {
-      setError((error as AxiosError).message);
-    }
-  };
 
   return (
     <>
@@ -47,7 +17,7 @@ const LoginForm = () => {
         method="POST"
         action="#"
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSubmit={handleSubmit((data) => onSubmit(data))}
+        onSubmit={handleSubmit((data) => login(data))}
       >
         <div className="mb-6 pt-3 rounded bg-gray-200">
           <label
@@ -88,6 +58,7 @@ const LoginForm = () => {
         <button
           className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200"
           type="submit"
+          disabled={!isLoading}
         >
           Sign In
         </button>
