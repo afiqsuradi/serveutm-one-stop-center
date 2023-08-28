@@ -38,8 +38,10 @@ userController.validateAndCreateUser = async (req, res) => {
 
     sendVerifyMail(newUser.email, userUrl, token.token);
     return res.status(200).json({
+      accessToken,
+      username: newUser.username,
+      role: newUser.role,
       isVerified: newUser.isVerified,
-      accessToken: accessToken,
     });
   } catch (error) {
     return res.status(500).json({ message: `"${error.message}"` });
