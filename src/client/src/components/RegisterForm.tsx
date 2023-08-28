@@ -28,6 +28,9 @@ const RegisterForm = () => {
         JSON.stringify(data),
         {
           headers: { "Content-Type": "application/json" },
+          params: {
+            baseUrl: window.location.origin,
+          },
           withCredentials: true,
         }
       );
