@@ -13,7 +13,7 @@ userController.validateAndCreateUser = async (req, res) => {
     const { success, data, error } = await validateUserInput(req.body);
 
     if (!success) {
-      return res.status(400).send(error);
+      return res.status(400).json({ message: `"${error.issues.message}"` });
     }
 
     const existingUser = await User.findOne({ email: data.email });

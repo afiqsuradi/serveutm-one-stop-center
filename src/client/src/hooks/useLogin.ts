@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useAuth } from "./useAuth";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../services/apiClient";
@@ -9,6 +9,10 @@ import { AuthType } from "../context/authProvider";
 export interface LoginFormData {
   username: string;
   password: string;
+}
+
+export interface ErrorData {
+  message: string;
 }
 
 const useLogin = () => {
@@ -30,7 +34,9 @@ const useLogin = () => {
       setAuth(result.data);
       navigate(HOMEPAGE);
     } catch (error) {
-      setError((error as AxiosError).message);
+      setError(
+        (error as AxiosError<ErrorData>).response?.data.message as string
+      );
     } finally {
       setIsLoading(false);
     }

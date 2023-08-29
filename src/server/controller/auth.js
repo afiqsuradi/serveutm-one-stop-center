@@ -11,15 +11,15 @@ authController.handleLogin = async (req, res) => {
   if (!username || !password)
     return res
       .status(400)
-      .json({ message: "username and password are required" });
+      .json({ message: "Username and password are required." });
   // check if user exists
   const user = await User.findOne({ username });
   if (!user)
-    return res.status(401).json({ message: "User or password is incorrect" });
+    return res.status(401).json({ message: "User or password is incorrect." });
   // Evaluate password
   const match = await bcrypt.compare(password, user.password);
   if (!match)
-    return res.status(401).json({ message: "User or password is incorrect" });
+    return res.status(401).json({ message: "User or password is incorrect." });
   // Create token if true
   //generate access token
   const accessToken = await generateAccessToken(user);
