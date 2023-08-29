@@ -1,19 +1,17 @@
 import { Outlet } from "react-router-dom";
-import useLogout from "../hooks/useLogout";
-import { useAuth } from "../hooks/useAuth";
 import Navbar from "./Navbar";
 
 const Layout = () => {
-  const { Auth } = useAuth();
-  const logout = useLogout();
   return (
     <>
-      <header>
-        <Navbar />
-      </header>
-      <main className="App">
-        <Outlet />
-      </main>
+      <div className="flex flex-col h-screen">
+        <header>
+          <Navbar />
+        </header>
+        <main className="App flex-1">
+          <Outlet />
+        </main>
+      </div>
     </>
   );
 };
