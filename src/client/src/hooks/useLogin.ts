@@ -34,9 +34,13 @@ const useLogin = () => {
       setAuth(result.data);
       navigate(HOMEPAGE);
     } catch (error) {
-      setError(
-        (error as AxiosError<ErrorData>).response?.data.message as string
-      );
+      if ((error as AxiosError<ErrorData>).response) {
+        setError(
+          (error as AxiosError<ErrorData>).response?.data.message as string
+        );
+      }
+      // If backend crash / not found
+      setError((error as AxiosError<ErrorData>).message);
     } finally {
       setIsLoading(false);
     }

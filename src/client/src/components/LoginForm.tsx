@@ -1,7 +1,9 @@
 import { useForm } from "react-hook-form";
 import useLogin, { LoginFormData } from "../hooks/useLogin";
-
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useState } from "react";
 const LoginForm = () => {
+  const [show, setShow] = useState(false);
   const { login, error, isLoading } = useLogin();
   const { register, handleSubmit } = useForm<LoginFormData>();
   return (
@@ -60,20 +62,29 @@ const LoginForm = () => {
               </a>
             </div>
           </div>
-          <div className="mt-2">
+          <div className="pt-2 relative">
             <input
               {...register("password")}
               id="password"
               name="password"
-              type="password"
+              type={show ? "text" : "password"}
               autoComplete="current-password"
               required
-              className="block w-full rounded-md px-3 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full pr-8 rounded-md px-3 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
+            <div
+              className="absolute pt-2 top-1/2 right-1 transform -translate-y-1/2 hover:cursor-pointer"
+              onClick={() => {
+                setShow(!show);
+              }}
+            >
+              {show ? (
+                <AiOutlineEye className="w-7 h-auto" />
+              ) : (
+                <AiOutlineEyeInvisible className="w-7 h-auto " />
+              )}
+            </div>
           </div>
-          {/* <p className="text-sm text-red-600">
-            {errors.username ? errors.username.message : ""}
-          </p> */}
         </div>
 
         <div>
