@@ -1,5 +1,5 @@
 const { VerificationToken } = require("../../model/verificationToken");
-const { PasswordResetToken } = require("../model/passwordResetToken");
+const { PasswordResetToken } = require("../..//model/passwordResetToken");
 const genToken = require("../../utils/tokenGen");
 const jwt = require("jsonwebtoken");
 async function generateVerificationToken(userId) {
