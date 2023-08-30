@@ -10,6 +10,7 @@ module.exports = function (app) {
   app.use("/api/user", require("../routes/user"));
   app.use("/api/auth", require("../routes/auth"));
   app.use("/api/refresh", require("../routes/refresh"));
+  app.use("/api/forgot-password", require("../routes/forgotPassword"));
   app.use("/logout", require("../routes/logout"));
   app.use(require("../middleware/authenticateToken"));
   app.use("/api/verify-email", require("../controller/verifyController"));

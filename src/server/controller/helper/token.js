@@ -1,8 +1,17 @@
 const { VerificationToken } = require("../../model/verificationToken");
-const { genToken } = require("../../utils/tokenGen");
+const { PasswordResetToken } = require("../model/passwordResetToken");
+const genToken = require("../../utils/tokenGen");
 const jwt = require("jsonwebtoken");
 async function generateVerificationToken(userId) {
   const newToken = new VerificationToken({
+    owner: userId,
+    token: genToken(),
+  });
+  return await newToken.save();
+}
+
+async function generatePasswordResetToken(userId) {
+  const newToken = new PasswordResetToken({
     owner: userId,
     token: genToken(),
   });
@@ -36,4 +45,5 @@ module.exports = {
   generateAccessToken,
   generateRefreshToken,
   generateVerificationToken,
+  generatePasswordResetToken,
 };
