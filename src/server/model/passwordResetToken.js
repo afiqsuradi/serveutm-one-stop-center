@@ -11,7 +11,7 @@ const passwordResetToken = mongoose.Schema({
     expires: 1800,
     default: Date.now(),
   },
-  token: { type: Number, length: 6, required: true },
+  token: { type: String, required: true },
 });
 
 exports.PasswordResetToken = mongoose.model(

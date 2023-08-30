@@ -18,13 +18,13 @@ forgotPasswordController.sendMail = async (req, res) => {
   // If yes then delete previous one
   if (prevToken) await prevToken.deleteOne();
   // If found user then generate otp and save it to db
-  const newToken = generatePasswordResetToken(user._id);
+  const newToken = await generatePasswordResetToken(user._id);
   // Send OTP through email
 
   const userUrl = req.query.baseUrl;
   sendPasswordResetMail(email, userUrl, newToken.token);
   // Send 201 res to user
-  res.sendStatus(201);
+  return res.sendStatus(201);
 };
 
 forgotPasswordController.resetPass = async (req, res) => {
@@ -35,8 +35,19 @@ forgotPasswordController.resetPass = async (req, res) => {
   const user = await User.findOne({ _id: resetToken.owner });
   user.password = await bcrypt.hash(password, Number(process.env.SALT_ROUND));
   const result = await user.save();
-  if (!result) return res.sendStatus(500);
-  res.sendStatus(202);
+  const deleteResult = await PasswordResetToken.findByIdAndDelete(
+    resetToken._id
+  );
+  if (!result || !deleteResult) return res.sendStatus(500);
+  return res.sendStatus(202);
+};
+
+forgotPasswordController.isValid = async (req, res) => {
+  const { token } = req.body;
+  if (!token) return res.sendStatus(400);
+  const resetToken = await PasswordResetToken.findOne({ token });
+  if (!resetToken) return res.sendStatus(400);
+  return res.sendStatus(200);
 };
 
 module.exports = forgotPasswordController;

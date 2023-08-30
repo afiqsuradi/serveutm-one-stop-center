@@ -8,7 +8,6 @@ const PersistLogin = () => {
   const { Auth } = useAuth();
   const refresh = useRefresh();
   useEffect(() => {
-    console.log("initiate persist login");
     const verifyRefreshToken = async () => {
       try {
         await refresh();

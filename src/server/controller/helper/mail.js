@@ -13,7 +13,7 @@ async function sendPasswordResetMail(email, url, token) {
     from: "no-reply@serveutm.online",
     to: email,
     subject: "One-time code for password reset",
-    html: `<a href="${url}/passwordReset?token=${token}">Reset Password</a>`,
+    html: `<a href="${url}/password-reset/confirm?token=${token}">Reset Password</a>`,
   });
 }
 module.exports = { sendVerifyMail, sendPasswordResetMail };

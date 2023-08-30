@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import useLogin, { LoginFormData } from "../hooks/useLogin";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { PASSWORD_RESET } from "../constants/path";
 const LoginForm = () => {
   const [show, setShow] = useState(false);
   const { login, error, isLoading } = useLogin();
@@ -28,7 +30,7 @@ const LoginForm = () => {
       >
         <div>
           <label
-            htmlFor="email"
+            htmlFor="username"
             className="block text-base font-medium leading-6 text-[#e5e7eb]"
           >
             Username
@@ -54,12 +56,12 @@ const LoginForm = () => {
               Password
             </label>
             <div className="text-base">
-              <a
-                href="#"
+              <Link
+                to={PASSWORD_RESET}
                 className="font-semibold text-[#818cf8] hover:text-indigo-500"
               >
                 Forgot password?
-              </a>
+              </Link>
             </div>
           </div>
           <div className="pt-2 relative">

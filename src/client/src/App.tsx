@@ -6,6 +6,8 @@ import {
   CONTACT_US,
   HOMEPAGE,
   LOGIN,
+  PASSWORD_RESET,
+  PASSWORD_RESET_CONFIRM,
   REGISTER,
   REGISTER_SUCCESS,
   VERIFY,
@@ -19,6 +21,8 @@ import PersistLogin from "./components/PersistLogin";
 import Missing from "./pages/Missing";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
+import ResetPassword from "./pages/ResetPassword";
+import ResetPasswordRequest from "./pages/ResetPasswordRequest";
 
 function App() {
   return (
@@ -26,6 +30,8 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route path={REGISTER} element={<Register />} />
         <Route path={LOGIN} element={<Login />} />
+        <Route path={PASSWORD_RESET} element={<ResetPasswordRequest />} />
+        <Route path={PASSWORD_RESET_CONFIRM} element={<ResetPassword />} />
         <Route element={<PersistLogin />}>
           <Route path={REGISTER_SUCCESS} element={<RegisterSuccess />} />
 
