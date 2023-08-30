@@ -5,7 +5,7 @@ async function validateUserInput(userData) {
     username: userData.username,
     email: userData.email,
     password: userData.password,
-    role: userData.role ? userData.role : undefined,
+    role: "user",
   });
 }
 exports.validateUserInput = validateUserInput;
