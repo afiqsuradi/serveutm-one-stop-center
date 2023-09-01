@@ -1,28 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Flex,
-  FormControl,
-  FormLabel,
-  HStack,
-  Heading,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Stack,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { SetStateAction, useRef, useState } from "react";
 import AvatarSetting from "../components/UserSettings/AvatarSetting";
 import ProfileSetting from "../components/UserSettings/ProfileSetting";
@@ -37,6 +13,8 @@ const UserSetting = () => {
         paddingX="6"
         paddingY="10"
         gap="6"
+        justifyContent="center"
+        alignContent="center"
         flexDirection={{ base: "column", md: "row" }}
         flexWrap={{ base: "wrap", md: "nowrap" }}
       >

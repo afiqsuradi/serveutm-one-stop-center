@@ -19,9 +19,22 @@ interface Props {
 
 const ProfileSetting = ({ isOpen, setIsOpen }: Props) => {
   return (
-    <Card flex={2} justifyContent="center" alignItems="center" paddingX="8">
-      <CardHeader minWidth="full" paddingX="0">
-        <Heading textAlign="start">Edit Profile</Heading>
+    <Card
+      flex={2}
+      justifyContent="center"
+      alignItems="center"
+      paddingX="8"
+      maxWidth="65rem"
+    >
+      <CardHeader
+        minWidth="full"
+        paddingX="0"
+        minHeight="20%"
+        className="flex items-center"
+      >
+        <Heading textAlign="start" paddingY={4}>
+          Edit Profile
+        </Heading>
       </CardHeader>
       <CardBody
         paddingX="0"
