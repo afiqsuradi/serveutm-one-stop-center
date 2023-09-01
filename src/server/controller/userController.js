@@ -5,6 +5,7 @@ const jwtCookie = require("./helper/cookie");
 const { generateVerificationToken } = require("./helper/token");
 const { generateAccessToken, generateRefreshToken } = require("./helper/token");
 const { sendVerifyMail } = require("./helper/mail");
+const _ = require("lodash");
 
 const userController = {};
 
@@ -46,6 +47,17 @@ userController.validateAndCreateUser = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: `"${error.message}"` });
   }
+};
+
+userController.getUserByUsername = (req, res) => {
+  const username = req.params.username;
+  if (!username) return res.sendStatus(400);
+  const user = User.findOne({ username });
+  if (!user)
+    return res
+      .status(400)
+      .json({ message: `User with username ${username} not found` });
+  return res.status(200).send(_.pick(user, ["name", "username", "email"]));
 };
 
 module.exports.userController = userController;
