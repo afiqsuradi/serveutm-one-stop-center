@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { HOMEPAGE } from "../constants/path";
+import ROUTES from "../constants/path";
 import useValidResetToken from "../hooks/useValidResetToken";
 import { useForm } from "react-hook-form";
 import ErrorLabel from "./RegisterForm/ErrorLabel";
@@ -29,7 +29,7 @@ const ResetPasswordForm = () => {
   } = useForm<PasswordResetFormStruct>({
     resolver: PasswordResetFormStructResolver,
   });
-  if (!isLoadingVerify && !success) return navigate(HOMEPAGE);
+  if (!isLoadingVerify && !success) return navigate(ROUTES.HOMEPAGE);
 
   const resetPassword = (data: PasswordResetFormStruct) => {
     apiClient

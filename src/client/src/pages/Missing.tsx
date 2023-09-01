@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { CONTACT_US, HOMEPAGE } from "../constants/path";
+import ROUTES from "../constants/path";
 
 const Missing = () => {
   return (
@@ -15,13 +15,13 @@ const Missing = () => {
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Link
-              to={HOMEPAGE}
+              to={ROUTES.HOMEPAGE}
               className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Go back home
             </Link>
             <Link
-              to={CONTACT_US}
+              to={ROUTES.CONTACT_US}
               className="text-sm font-semibold text-gray-900"
             >
               Contact support <span aria-hidden="true">&rarr;</span>

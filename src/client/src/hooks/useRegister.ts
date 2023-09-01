@@ -4,7 +4,7 @@ import { useAuth } from "./useAuth";
 import { useNavigate } from "react-router-dom";
 import { RegisterFormStruct } from "../types/register";
 import { AuthType } from "../context/authProvider";
-import { REGISTER_SUCCESS } from "../constants/path";
+import ROUTES from "../constants/path";
 import { AxiosError } from "axios";
 import { ErrorData } from "./useLogin";
 
@@ -27,7 +27,7 @@ const useRegister = () => {
         }
       );
       setAuth(result.data);
-      navigate(REGISTER_SUCCESS);
+      navigate(ROUTES.REGISTER_SUCCESS);
     } catch (error) {
       setError(
         (error as AxiosError<ErrorData>).response?.data.message as string

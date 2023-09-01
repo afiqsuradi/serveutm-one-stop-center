@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import LoginForm from "../components/LoginForm";
-import { REGISTER } from "../constants/path";
+import ROUTES from "../constants/path";
 const SignIn = () => {
   return (
     <>
@@ -17,7 +17,7 @@ const SignIn = () => {
           <p className="mt-10 text-center text-base text-[#e5e7eb]">
             Not a member?{" "}
             <Link
-              to={REGISTER}
+              to={ROUTES.REGISTER}
               className="font-semibold leading-6 text-[#818cf8] hover:text-indigo-500"
             >
               Create an account.

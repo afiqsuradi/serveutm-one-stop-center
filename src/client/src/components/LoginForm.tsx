@@ -3,7 +3,7 @@ import useLogin, { LoginFormData } from "../hooks/useLogin";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { PASSWORD_RESET } from "../constants/path";
+import ROUTES from "../constants/path";
 const LoginForm = () => {
   const [show, setShow] = useState(false);
   const { login, error, isLoading } = useLogin();
@@ -57,7 +57,7 @@ const LoginForm = () => {
             </label>
             <div className="text-base">
               <Link
-                to={PASSWORD_RESET}
+                to={ROUTES.PASSWORD_RESET}
                 className="font-semibold text-[#818cf8] hover:text-indigo-500"
               >
                 Forgot password?

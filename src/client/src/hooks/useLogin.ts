@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "./useAuth";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../services/apiClient";
-import { HOMEPAGE } from "../constants/path";
+import ROUTES from "../constants/path";
 import { AxiosError } from "axios";
 import { AuthType } from "../context/authProvider";
 
@@ -32,7 +32,7 @@ const useLogin = () => {
         }
       );
       setAuth(result.data);
-      navigate(HOMEPAGE);
+      navigate(ROUTES.HOMEPAGE);
     } catch (error) {
       if ((error as AxiosError<ErrorData>).response) {
         setError(

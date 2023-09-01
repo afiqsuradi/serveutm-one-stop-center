@@ -1,10 +1,13 @@
-export const REGISTER = "/register";
-export const REGISTER_SUCCESS = "/register/success";
-export const LOGIN = "/login";
-export const VERIFY = "/verify-confirm";
-export const PASSWORD_RESET = "/password-reset";
-export const PASSWORD_RESET_CONFIRM = `${PASSWORD_RESET}/confirm`;
-// Essential
-export const HOMEPAGE = "/";
-export const ABOUT_US = "/about-us";
-export const CONTACT_US = "/contact";
+const ROUTES = {
+  REGISTER: "/register",
+  REGISTER_SUCCESS: "/register/success",
+  LOGIN: "/login",
+  VERIFY: "/verify-confirm",
+  PASSWORD_RESET: "/password-reset",
+  PASSWORD_RESET_CONFIRM: "/password-reset/confirm",
+  HOMEPAGE: "/",
+  ABOUT_US: "/about-us",
+  CONTACT_US: "/contact",
+  USER_SETTING: "/settings",
+};
+export default ROUTES;

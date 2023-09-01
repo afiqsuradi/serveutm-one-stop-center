@@ -1,17 +1,7 @@
+import ROUTES from "./constants/path";
 import { Route, Routes } from "react-router-dom";
 import Register from "./pages/Register";
 import RegisterSuccess from "./pages/Success";
-import {
-  ABOUT_US,
-  CONTACT_US,
-  HOMEPAGE,
-  LOGIN,
-  PASSWORD_RESET,
-  PASSWORD_RESET_CONFIRM,
-  REGISTER,
-  REGISTER_SUCCESS,
-  VERIFY,
-} from "./constants/path";
 import Verify from "./pages/Verify";
 import Layout from "./components/Layout";
 import Login from "./pages/Login";
@@ -23,23 +13,31 @@ import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import ResetPassword from "./pages/ResetPassword";
 import ResetPasswordRequest from "./pages/ResetPasswordRequest";
+import UserSetting from "./pages/UserSetting";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route path={REGISTER} element={<Register />} />
-        <Route path={LOGIN} element={<Login />} />
-        <Route path={PASSWORD_RESET} element={<ResetPasswordRequest />} />
-        <Route path={PASSWORD_RESET_CONFIRM} element={<ResetPassword />} />
+        <Route path={ROUTES.REGISTER} element={<Register />} />
+        <Route path={ROUTES.LOGIN} element={<Login />} />
+        <Route
+          path={ROUTES.PASSWORD_RESET}
+          element={<ResetPasswordRequest />}
+        />
+        <Route
+          path={ROUTES.PASSWORD_RESET_CONFIRM}
+          element={<ResetPassword />}
+        />
         <Route element={<PersistLogin />}>
-          <Route path={REGISTER_SUCCESS} element={<RegisterSuccess />} />
+          <Route path={ROUTES.REGISTER_SUCCESS} element={<RegisterSuccess />} />
 
-          <Route path={HOMEPAGE} element={<Homepage />} />
-          <Route path={ABOUT_US} element={<AboutUs />} />
-          <Route path={CONTACT_US} element={<ContactUs />} />
+          <Route path={ROUTES.HOMEPAGE} element={<Homepage />} />
+          <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
+          <Route path={ROUTES.CONTACT_US} element={<ContactUs />} />
           <Route element={<RequireAuth allowedRole={"user"} />}>
-            <Route path={VERIFY} element={<Verify />} />
+            <Route path={ROUTES.USER_SETTING} element={<UserSetting />} />
+            <Route path={ROUTES.VERIFY} element={<Verify />} />
           </Route>
         </Route>
         <Route path="*" element={<Missing />} />

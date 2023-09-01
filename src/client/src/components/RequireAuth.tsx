@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import { HOMEPAGE, LOGIN } from "../constants/path";
+import ROUTES from "../constants/path";
 import { AuthType } from "../context/authProvider";
 
 interface Props {
@@ -15,9 +15,9 @@ const RequireAuth = ({ allowedRole }: Props) => {
     <Outlet />
   ) : Auth.username !== "" ? (
     // TODO: ADD UNAUTHORISED PAGE
-    <Navigate to={HOMEPAGE} state={{ from: location }} replace />
+    <Navigate to={ROUTES.HOMEPAGE} state={{ from: location }} replace />
   ) : (
-    <Navigate to={LOGIN} state={{ from: location }} replace />
+    <Navigate to={ROUTES.LOGIN} state={{ from: location }} replace />
   );
 };
 

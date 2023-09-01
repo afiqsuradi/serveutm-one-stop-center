@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import RegisterForm from "../../components/RegisterForm/RegisterForm";
-import { LOGIN } from "../../constants/path";
+import ROUTES from "../../constants/path";
 const Register = () => {
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-10 bg-[#111827] items-center lg:px-8">
@@ -16,7 +16,7 @@ const Register = () => {
         <p className="mt-10 text-center text-base text-[#e5e7eb]">
           Already have an account?{" "}
           <Link
-            to={LOGIN}
+            to={ROUTES.LOGIN}
             className="font-semibold leading-6 text-[#818cf8] hover:text-indigo-500"
           >
             Sign in.

@@ -11,6 +11,7 @@ const MobileNav = () => {
           <Disclosure.Button
             as={Link}
             to={item.to}
+            key={item.name}
             className={classNames(
               item.to === location.pathname
                 ? "bg-gray-900 text-white"

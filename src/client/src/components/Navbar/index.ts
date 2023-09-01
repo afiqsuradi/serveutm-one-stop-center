@@ -1,5 +1,5 @@
 import Navbar from "./Navbar";
-import { ABOUT_US, CONTACT_US, HOMEPAGE } from "../../constants/path";
+import ROUTES from "../../constants/path";
 
 export default Navbar;
 
@@ -10,9 +10,9 @@ export interface NavLinksType {
 }
 
 export const navigation: NavLinksType[] = [
-  { name: "Dashboard", to: HOMEPAGE },
-  { name: "About Us", to: ABOUT_US },
-  { name: "Contact Us", to: CONTACT_US },
+  { name: "Dashboard", to: ROUTES.HOMEPAGE },
+  { name: "About Us", to: ROUTES.ABOUT_US },
+  { name: "Contact Us", to: ROUTES.CONTACT_US },
 ];
 
 export function classNames(...classes: string[]) {
