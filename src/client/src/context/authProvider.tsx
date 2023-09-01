@@ -1,13 +1,15 @@
 import { createContext, useState } from "react";
 
 export interface AuthType {
+  profileImage: string;
   accessToken: string;
-  username: "";
+  username: string;
   role?: "user" | "admin" | "service_provider";
   isVerified: boolean;
 }
 
 export const defaultAuthValue: AuthType = {
+  profileImage: "",
   accessToken: "",
   username: "",
   isVerified: false,

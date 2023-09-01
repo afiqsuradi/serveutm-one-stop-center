@@ -8,6 +8,7 @@ const useValidResetToken = (token: string) => {
     const controller = new AbortController();
     apiClient
       .post("/api/forgot-password/reset-status", JSON.stringify({ token }), {
+        signal: controller.signal,
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       })

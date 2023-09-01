@@ -12,9 +12,43 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useRef } from "react";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { useAuth } from "../../hooks/useAuth";
+import { UserInfo } from "../../pages/UserSetting";
+interface ProfileUploadData {
+  profileImage: string;
+}
 
-const AvatarSetting = () => {
+interface Props {
+  info: UserInfo | undefined;
+}
+const AvatarSetting = ({ info }: Props) => {
   const imageInput = useRef<HTMLInputElement>(null);
+  const privateApiClient = useAxiosPrivate();
+  const { Auth, setAuth } = useAuth();
+  const uploadProfileImage = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (!event.target.files) return;
+
+    try {
+      const formData = new FormData();
+      formData.append("image", event.target.files[0]);
+      console.log(formData);
+      await privateApiClient
+        .post<ProfileUploadData>("api/profile-image/upload", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+        })
+        .then((res) => {
+          setAuth({ ...Auth, profileImage: res.data.profileImage });
+        });
+
+      // do something after upload
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <Card
       flex={1}
@@ -26,19 +60,15 @@ const AvatarSetting = () => {
       <CardHeader>
         {" "}
         <Heading as="h1" size="lg" noOfLines={1} paddingY="3">
-          Aiman Afiq
+          {info?.name}
         </Heading>
         <Heading as="h2" size="md" noOfLines={1} textAlign="center">
-          @afiq3067
+          @{Auth.username}
         </Heading>
       </CardHeader>
       <CardBody textAlign="center" marginY="auto" className="flex items-center">
         <VStack gap={6} w="full" justify="center" align="center">
-          <Avatar
-            size="2xl"
-            name="Dan Abrahmov"
-            src="https://bit.ly/dan-abramov"
-          />
+          <Avatar size="2xl" name="PFP" src={Auth.profileImage} />
           <Button
             backgroundColor="#9e47e5"
             _hover={{
@@ -53,7 +83,15 @@ const AvatarSetting = () => {
           >
             Select Image
           </Button>
-          <Input ref={imageInput} type="file" accept="image/*" hidden />
+          <Input
+            ref={imageInput}
+            id="image"
+            name="image"
+            type="file"
+            accept="image/*"
+            hidden
+            onChange={(event) => void uploadProfileImage(event)}
+          />
           <Box border="2px" borderStyle="dotted" p={4} maxW="200px">
             <Text>
               Upload a new avatar. Larger image will be resized automatically.
@@ -62,7 +100,7 @@ const AvatarSetting = () => {
         </VStack>
       </CardBody>
       <CardFooter paddingTop="0">
-        <Text>Member since 1 September 2023</Text>
+        <Text>{info?.dateJoined}</Text>
       </CardFooter>
     </Card>
   );

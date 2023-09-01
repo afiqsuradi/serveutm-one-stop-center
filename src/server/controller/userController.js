@@ -5,6 +5,8 @@ const jwtCookie = require("./helper/cookie");
 const { generateVerificationToken } = require("./helper/token");
 const { generateAccessToken, generateRefreshToken } = require("./helper/token");
 const { sendVerifyMail } = require("./helper/mail");
+const bcrypt = require("bcrypt");
+require("dotenv").config();
 const _ = require("lodash");
 
 const userController = {};
@@ -40,6 +42,7 @@ userController.validateAndCreateUser = async (req, res) => {
     sendVerifyMail(newUser.email, userUrl, token.token);
     return res.status(200).json({
       accessToken,
+      profileImage: newUser.profileImage,
       username: newUser.username,
       role: newUser.role,
       isVerified: newUser.isVerified,
@@ -49,15 +52,73 @@ userController.validateAndCreateUser = async (req, res) => {
   }
 };
 
-userController.getUserByUsername = (req, res) => {
+userController.getUserByUsername = async (req, res) => {
   const username = req.params.username;
   if (!username) return res.sendStatus(400);
-  const user = User.findOne({ username });
+  const user = await User.findOne({ username });
   if (!user)
     return res
       .status(400)
       .json({ message: `User with username ${username} not found` });
-  return res.status(200).send(_.pick(user, ["name", "username", "email"]));
+  const userData = _.pick(user, ["name", "username", "email"]);
+  userData.dateJoined = user._id.getTimestamp();
+  return res.status(200).send(userData);
+};
+
+userController.uploadProfileImage = async (req, res) => {
+  const { username } = req.user;
+  if (!username) return res.sendStatus(400);
+  const user = await User.findOne({ username });
+  if (!user) return res.status(404).json({ message: "User not found" });
+  const imagePath = `${req.protocol}://${req.get("host")}/${
+    req.file.destination + req.file.filename
+  }`;
+  user.profileImage = imagePath;
+  const result = await user.save();
+  if (!result) return res.sendStatus(500);
+  return res.status(200).json({ profileImage: imagePath });
+};
+
+userController.updateUser = async (req, res) => {
+  const { name, username: newUsername, email } = req.body;
+  if (!name || !newUsername || !email)
+    return res
+      .status(400)
+      .json({ message: "Name, username and email required!" });
+  const { username } = req.user;
+  if (!username) return res.sendStatus(400);
+  const user = await User.findOne({ username });
+  (user.name = name), (user.username = newUsername), (user.email = email);
+  const result = await user.save();
+  if (!result) res.status(500).json({ message: "Something went wrong!" });
+  return res.sendStatus(201);
+};
+userController.updateUserPassword = async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  //fk the validation process
+  if (!currentPassword || !newPassword)
+    return res.status(400).json({ message: "New password is required!" });
+  const { username } = req.user;
+  if (!username) return res.sendStatus(400);
+  const user = await User.findOne({ username });
+  if (!user) return res.status(404).json({ message: "User not found!" });
+  // check if password is the same as old one
+  bcrypt.compare(currentPassword, user.password, async function (err, result) {
+    // result == true
+    if (result) {
+      console.log(result);
+      user.password = await bcrypt.hash(
+        newPassword,
+        Number(process.env.SALT_ROUND)
+      );
+      const saveResult = await user.save();
+      if (!saveResult)
+        res.status(500).json({ message: "Something went wrong!" });
+      return res.sendStatus(201);
+    }
+    //if not then f off
+    return res.status(401).json({ message: "Invalid Password!" });
+  });
 };
 
 module.exports.userController = userController;

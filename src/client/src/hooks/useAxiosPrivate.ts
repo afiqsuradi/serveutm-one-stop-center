@@ -10,7 +10,7 @@ interface CustomAxiosRequestConfig extends AxiosRequestConfig {
 
 const useAxiosPrivate = () => {
   const refresh = useRefresh();
-  const { Auth, setAuth } = useAuth();
+  const { Auth } = useAuth();
   useEffect(() => {
     const requestIntercept = privateApiClient.interceptors.request.use(
       (config) => {

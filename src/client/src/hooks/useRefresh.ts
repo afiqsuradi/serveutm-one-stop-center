@@ -12,6 +12,7 @@ export const useRefresh = () => {
     setAuth((prevAuth: AuthType) => {
       return {
         ...prevAuth,
+        profileImage: response.data.profileImage,
         username: response.data.username,
         isVerified: response.data.isVerified,
         role: response.data.role,

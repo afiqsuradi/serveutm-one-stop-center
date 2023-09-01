@@ -1,6 +1,10 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const userSchema = mongoose.Schema({
+  profileImage: {
+    type: String,
+    default: "http://localhost:8080/images/profileImages/default.png",
+  },
   name: {
     type: String,
     required: true,

@@ -3,6 +3,7 @@ const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 module.exports = function (app) {
+  app.use("/images", express.static("images"));
   app.use(cors({ origin: "http://localhost:5173", credentials: true }));
   app.use(helmet());
   app.use(cookieParser());
@@ -13,5 +14,6 @@ module.exports = function (app) {
   app.use("/api/forgot-password", require("../routes/forgotPassword"));
   app.use("/logout", require("../routes/logout"));
   app.use(require("../middleware/authenticateToken"));
+  app.use("/api/profile-image/upload", require("../routes/profileImageUpload"));
   app.use("/api/verify-email", require("../controller/verifyController"));
 };
