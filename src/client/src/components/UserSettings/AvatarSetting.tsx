@@ -14,7 +14,7 @@ import {
 import { useRef } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useAuth } from "../../hooks/useAuth";
-import { UserInfo } from "../../pages/UserSetting";
+import { UserInfo } from "../../hooks/useUser";
 interface ProfileUploadData {
   profileImage: string;
 }
@@ -100,7 +100,7 @@ const AvatarSetting = ({ info }: Props) => {
         </VStack>
       </CardBody>
       <CardFooter paddingTop="0">
-        <Text>{info?.dateJoined}</Text>
+        <Text>Member since {info?.dateJoined}</Text>
       </CardFooter>
     </Card>
   );

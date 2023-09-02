@@ -11,7 +11,6 @@ import {
   Stack,
   useToast,
 } from "@chakra-ui/react";
-import { UserInfo } from "../../pages/UserSetting";
 import { useForm } from "react-hook-form";
 import {
   ProfileUpdateFormStruct,
@@ -20,6 +19,9 @@ import {
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useState } from "react";
 import { useRefresh } from "../../hooks/useRefresh";
+import { AxiosError } from "axios";
+import { ErrorData } from "../../hooks/useLogin";
+import { UserInfo } from "../../hooks/useUser";
 interface Props {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -54,6 +56,16 @@ const ProfileSetting = ({ isOpen, setIsOpen, info }: Props) => {
           });
         });
     } catch (error) {
+      if ((error as AxiosError<ErrorData>).response) {
+        toast({
+          title: "Failed to change password",
+          description: `${
+            (error as AxiosError<ErrorData>).response?.data.message as string
+          }`,
+          status: "error",
+          isClosable: true,
+        });
+      }
       console.error(error);
     } finally {
       setLoading(false);
@@ -132,7 +144,7 @@ const ProfileSetting = ({ isOpen, setIsOpen, info }: Props) => {
               </Button>
               <Button
                 minW="10rem"
-                colorScheme="red"
+                variant="danger"
                 onClick={() => {
                   setIsOpen(!isOpen);
                 }}

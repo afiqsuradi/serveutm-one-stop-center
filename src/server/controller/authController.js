@@ -37,7 +37,7 @@ authController.handleLogin = async (req, res) => {
   //send access token
   return res.json({
     accessToken,
-    profileImage: user.profileImage,
+    profileImage: `${req.protocol}://${req.get("host")}/${user.profileImage}`,
     username: user.username,
     role: user.role,
     isVerified: user.isVerified,

@@ -42,7 +42,9 @@ userController.validateAndCreateUser = async (req, res) => {
     sendVerifyMail(newUser.email, userUrl, token.token);
     return res.status(200).json({
       accessToken,
-      profileImage: newUser.profileImage,
+      profileImage: `${req.protocol}://${req.get("host")}/${
+        newUser.profileImage
+      }`,
       username: newUser.username,
       role: newUser.role,
       isVerified: newUser.isVerified,
@@ -60,8 +62,11 @@ userController.getUserByUsername = async (req, res) => {
     return res
       .status(400)
       .json({ message: `User with username ${username} not found` });
-  const userData = _.pick(user, ["name", "username", "email"]);
-  userData.dateJoined = user._id.getTimestamp();
+  const userData = _.pick(user, ["name", "username", "email", "profileImage"]);
+  (userData.profileImage = `${req.protocol}://${req.get("host")}/${
+    userData.profileImage
+  }`),
+    (userData.dateJoined = user._id.getTimestamp());
   return res.status(200).send(userData);
 };
 
@@ -70,9 +75,7 @@ userController.uploadProfileImage = async (req, res) => {
   if (!username) return res.sendStatus(400);
   const user = await User.findOne({ username });
   if (!user) return res.status(404).json({ message: "User not found" });
-  const imagePath = `${req.protocol}://${req.get("host")}/${
-    req.file.destination + req.file.filename
-  }`;
+  const imagePath = `${req.file.destination + req.file.filename}`;
   user.profileImage = imagePath;
   const result = await user.save();
   if (!result) return res.sendStatus(500);
@@ -106,7 +109,6 @@ userController.updateUserPassword = async (req, res) => {
   bcrypt.compare(currentPassword, user.password, async function (err, result) {
     // result == true
     if (result) {
-      console.log(result);
       user.password = await bcrypt.hash(
         newPassword,
         Number(process.env.SALT_ROUND)

@@ -9,5 +9,6 @@ const ROUTES = {
   ABOUT_US: "/about-us",
   CONTACT_US: "/contact",
   USER_SETTING: "/settings",
+  USER_PROFILE: "/profile",
 };
 export default ROUTES;
