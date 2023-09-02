@@ -1,6 +1,7 @@
 import {
   Button,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
   Modal,
@@ -29,7 +30,12 @@ interface Props {
 const ChangePasswordModal = ({ isOpen, setIsOpen }: Props) => {
   const toast = useToast();
   const privateApiClient = useAxiosPrivate();
-  const { register, handleSubmit, reset } = useForm<PasswordChangeFormStruct>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<PasswordChangeFormStruct>({
     resolver: PasswordChangeFormStructResolver,
   });
   const changeUserPassword = async (data: PasswordChangeFormStruct) => {
@@ -82,8 +88,11 @@ const ChangePasswordModal = ({ isOpen, setIsOpen }: Props) => {
           <ModalHeader>Change Your Password</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FormControl isRequired>
-              <FormLabel>Current Password</FormLabel>
+            <FormControl
+              isInvalid={errors.currentPassword ? true : false}
+              isRequired
+            >
+              <FormLabel htmlFor="currentPassword">Current Password</FormLabel>
               <Input
                 {...register("currentPassword")}
                 type="password"
@@ -91,10 +100,17 @@ const ChangePasswordModal = ({ isOpen, setIsOpen }: Props) => {
                 name="currentPassword"
                 required
               />
+              <FormErrorMessage>
+                {errors.currentPassword && errors.currentPassword.message}
+              </FormErrorMessage>
             </FormControl>
 
-            <FormControl mt={4} isRequired>
-              <FormLabel>New Password</FormLabel>
+            <FormControl
+              mt={4}
+              isInvalid={errors.newPassword ? true : false}
+              isRequired
+            >
+              <FormLabel htmlFor="newPassword">New Password</FormLabel>
               <Input
                 {...register("newPassword")}
                 type="password"
@@ -102,9 +118,18 @@ const ChangePasswordModal = ({ isOpen, setIsOpen }: Props) => {
                 name="newPassword"
                 required
               />
+              <FormErrorMessage>
+                {errors.newPassword && errors.newPassword.message}
+              </FormErrorMessage>
             </FormControl>
-            <FormControl mt={4} isRequired>
-              <FormLabel>Confirm New Password</FormLabel>
+            <FormControl
+              mt={4}
+              isInvalid={errors.confirmPassword ? true : false}
+              isRequired
+            >
+              <FormLabel htmlFor="confirmPassword">
+                Confirm New Password
+              </FormLabel>
               <Input
                 {...register("confirmPassword")}
                 type="password"
@@ -112,6 +137,9 @@ const ChangePasswordModal = ({ isOpen, setIsOpen }: Props) => {
                 name="confirmPassword"
                 required
               />
+              <FormErrorMessage>
+                {errors.confirmPassword && errors.confirmPassword.message}
+              </FormErrorMessage>
             </FormControl>
           </ModalBody>
 
