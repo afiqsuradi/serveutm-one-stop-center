@@ -4,14 +4,20 @@ import ROUTES from "../constants/path";
 import { AuthType } from "../context/authProvider";
 
 interface Props {
-  allowedRole: AuthType["role"];
+  allowedRole: AuthType["role"][];
 }
 
 const RequireAuth = ({ allowedRole }: Props) => {
-  const location = useLocation();
   const { Auth } = useAuth();
+  const location = useLocation();
+  const authorise = allowedRole.reduce((acc, curr, i) => {
+    if (acc === true) {
+      return acc;
+    }
+    return Auth.role === curr;
+  }, false);
   // user exist -> user role
-  return Auth?.role !== undefined && Auth.role === allowedRole ? (
+  return Auth?.role !== undefined && authorise ? (
     <Outlet />
   ) : Auth.username !== "" ? (
     // TODO: ADD UNAUTHORISED PAGE

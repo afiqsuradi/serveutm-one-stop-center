@@ -5,6 +5,7 @@ import useLogout from "../../hooks/useLogout";
 import { Link } from "react-router-dom";
 import ROUTES from "../../constants/path";
 import { useAuth } from "../../hooks/useAuth";
+import { Avatar } from "@chakra-ui/react";
 
 const UserMenu = () => {
   const logout = useLogout();
@@ -18,11 +19,7 @@ const UserMenu = () => {
         <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
           <span className="absolute -inset-1.5" />
           <span className="sr-only">Open user menu</span>
-          <img
-            className="h-8 w-8 rounded-full"
-            src={`${Auth.profileImage}`}
-            alt=""
-          />
+          <Avatar src={`${Auth.profileImage}`} width="2.6rem" height="2.6rem" />
         </Menu.Button>
       </div>
       <Transition

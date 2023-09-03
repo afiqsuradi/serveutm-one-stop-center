@@ -43,14 +43,12 @@ const userSchema = mongoose.Schema({
     default: "user",
     required: true,
   },
+  profile: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Profile",
+  },
   // Bad implementation, ik but im too lazy
   refreshToken: { type: String, default: "" },
-  services: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Service",
-    },
-  ],
 });
 const User = mongoose.model("User", userSchema, "User");
 

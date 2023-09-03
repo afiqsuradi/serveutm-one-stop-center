@@ -10,5 +10,6 @@ const ROUTES = {
   CONTACT_US: "/contact",
   USER_SETTING: "/settings",
   USER_PROFILE: "/profile",
+  PROVIDER_REGISTER: "/seller_onboarding",
 };
 export default ROUTES;

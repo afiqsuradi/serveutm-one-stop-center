@@ -14,6 +14,7 @@ module.exports = function (app) {
   app.use("/api/forgot-password", require("../routes/forgotPassword"));
   app.use("/logout", require("../routes/logout"));
   app.use(require("../middleware/authenticateToken"));
+  app.use("/api/service-provider", require("../routes/serviceProvider"));
   app.use("/api/profile-image/upload", require("../routes/profileImageUpload"));
   app.use("/api/verify-email", require("../controller/verifyController"));
 };

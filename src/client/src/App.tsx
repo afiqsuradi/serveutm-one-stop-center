@@ -15,6 +15,7 @@ import ResetPassword from "./pages/ResetPassword";
 import ResetPasswordRequest from "./pages/ResetPasswordRequest";
 import UserSetting from "./pages/UserSetting";
 import UserProfile from "./pages/UserProfile";
+import RegisterProvider from "./pages/RegisterProvider";
 
 function App() {
   return (
@@ -36,10 +37,18 @@ function App() {
           <Route path={ROUTES.HOMEPAGE} element={<Homepage />} />
           <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
           <Route path={ROUTES.CONTACT_US} element={<ContactUs />} />
-          <Route element={<RequireAuth allowedRole={"user"} />}>
+          <Route
+            element={<RequireAuth allowedRole={["user", "service_provider"]} />}
+          >
             <Route path={ROUTES.USER_PROFILE} element={<UserProfile />} />
             <Route path={ROUTES.USER_SETTING} element={<UserSetting />} />
             <Route path={ROUTES.VERIFY} element={<Verify />} />
+          </Route>
+          <Route element={<RequireAuth allowedRole={["user"]} />}>
+            <Route
+              path={ROUTES.PROVIDER_REGISTER}
+              element={<RegisterProvider />}
+            />
           </Route>
         </Route>
         <Route path="*" element={<Missing />} />
