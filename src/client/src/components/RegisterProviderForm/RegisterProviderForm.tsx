@@ -8,13 +8,14 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
-import SkillTable, { Skill } from "./SkillTable";
+import SkillTable from "./SkillTable";
 import { useEffect, useRef, useState } from "react";
-import LanguageTable, { Language } from "./LanguageTable";
+import LanguageTable from "./LanguageTable";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { AxiosError } from "axios";
 import { ErrorData } from "../../hooks/useLogin";
 import SuccessOverlay from "./SuccessOverlay";
+import { Skill, Language } from "../../hooks/useUserProfile";
 
 interface ProviderRegisterData {
   description: string;

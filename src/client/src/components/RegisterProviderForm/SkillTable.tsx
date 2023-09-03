@@ -15,12 +15,8 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { MdEdit, MdDelete } from "react-icons/md";
+import { Skill, skillLevel } from "../../hooks/useUserProfile";
 
-export const skillLevel = ["Beginner", "Intermediate", "Expert"] as const;
-export interface Skill {
-  name: string;
-  level: (typeof skillLevel)[number];
-}
 interface Props {
   skills: Skill[];
   setSkills: React.Dispatch<React.SetStateAction<Skill[]>>;

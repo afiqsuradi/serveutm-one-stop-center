@@ -76,10 +76,11 @@ userController.uploadProfileImage = async (req, res) => {
   const user = await User.findOne({ username });
   if (!user) return res.status(404).json({ message: "User not found" });
   const imagePath = `${req.file.destination + req.file.filename}`;
-  user.profileImage = imagePath;
+  const imageLink = `${req.protocol}://${req.get("host")}/${imagePath}`;
+  user.profileImage = imageLink;
   const result = await user.save();
   if (!result) return res.sendStatus(500);
-  return res.status(200).json({ profileImage: imagePath });
+  return res.status(200).json({ profileImage: imageLink });
 };
 
 userController.updateUser = async (req, res) => {

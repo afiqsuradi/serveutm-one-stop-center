@@ -16,13 +16,7 @@ import {
 import { useRef, useState } from "react";
 import { MdEdit, MdDelete } from "react-icons/md";
 import wikipediaLanguages from "../../constants/languages";
-
-export const languageLevel = ["Basic", "Fluent", "Native"] as const;
-
-export interface Language {
-  name: string;
-  level: (typeof languageLevel)[number];
-}
+import { Language, languageLevel } from "../../hooks/useUserProfile";
 
 interface Props {
   languages: Language[];

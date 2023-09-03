@@ -25,6 +25,15 @@ const theme = extendTheme({
         },
       },
     },
+    Card: {
+      variants: {
+        secondary: {
+          container: {
+            backgroundColor: "#3c566c",
+          },
+        },
+      },
+    },
   },
   colors: {
     gray: {

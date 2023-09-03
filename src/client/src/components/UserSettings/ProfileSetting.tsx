@@ -1,12 +1,9 @@
 import {
+  Box,
   Button,
-  Card,
-  CardBody,
-  CardHeader,
   FormControl,
   FormLabel,
   HStack,
-  Heading,
   Input,
   Stack,
   useToast,
@@ -72,90 +69,72 @@ const ProfileSetting = ({ isOpen, setIsOpen, info }: Props) => {
     }
   };
   return (
-    <Card
-      flex={2}
-      justifyContent="center"
-      alignItems="center"
-      paddingX="8"
-      maxWidth="65rem"
-    >
-      <CardHeader minWidth="full" paddingX="0" className="flex items-center">
-        <Heading textAlign="start" paddingY={4}>
-          Edit Profile
-        </Heading>
-      </CardHeader>
-      <CardBody
-        paddingX="0"
-        paddingY="8"
-        minWidth="full"
-        className="flex items-center"
+    <Box className="flex items-center">
+      <form
+        className="min-w-full"
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSubmit={handleSubmit((data) => {
+          void updateUserInfo(data);
+        })}
       >
-        <form
-          className="min-w-full"
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onSubmit={handleSubmit((data) => {
-            void updateUserInfo(data);
-          })}
-        >
-          <Stack spacing={4}>
-            <FormControl>
-              <FormLabel>Full Name</FormLabel>
-              <Input
-                {...register("name")}
-                type="text"
-                id="name"
-                name="name"
-                defaultValue={info?.name}
-              />
-            </FormControl>
+        <Stack spacing={4}>
+          <FormControl>
+            <FormLabel>Full Name</FormLabel>
+            <Input
+              {...register("name")}
+              type="text"
+              id="name"
+              name="name"
+              defaultValue={info?.name}
+            />
+          </FormControl>
 
-            <FormControl>
-              <FormLabel>Username</FormLabel>
-              <Input
-                {...register("username")}
-                type="text"
-                id="username"
-                name="username"
-                defaultValue={info?.username}
-              />
-            </FormControl>
+          <FormControl>
+            <FormLabel>Username</FormLabel>
+            <Input
+              {...register("username")}
+              type="text"
+              id="username"
+              name="username"
+              defaultValue={info?.username}
+            />
+          </FormControl>
 
-            <FormControl>
-              <FormLabel>Email</FormLabel>
-              <Input
-                {...register("email")}
-                type="email"
-                id="email"
-                name="email"
-                defaultValue={info?.email}
-              />
-            </FormControl>
-            <HStack justifyContent="space-around" pt="8">
-              <Button
-                disabled={loading}
-                minW="10rem"
-                backgroundColor="#9e47e5"
-                _hover={{
-                  backgroundColor: "#7037d9",
-                }}
-                type="submit"
-              >
-                Update Info
-              </Button>
-              <Button
-                minW="10rem"
-                variant="danger"
-                onClick={() => {
-                  setIsOpen(!isOpen);
-                }}
-              >
-                Change Password
-              </Button>
-            </HStack>
-          </Stack>
-        </form>
-      </CardBody>
-    </Card>
+          <FormControl>
+            <FormLabel>Email</FormLabel>
+            <Input
+              {...register("email")}
+              type="email"
+              id="email"
+              name="email"
+              defaultValue={info?.email}
+            />
+          </FormControl>
+          <HStack justifyContent="space-around" pt="8">
+            <Button
+              disabled={loading}
+              minW="10rem"
+              backgroundColor="#9e47e5"
+              _hover={{
+                backgroundColor: "#7037d9",
+              }}
+              type="submit"
+            >
+              Update Info
+            </Button>
+            <Button
+              minW="10rem"
+              variant="danger"
+              onClick={() => {
+                setIsOpen(!isOpen);
+              }}
+            >
+              Change Password
+            </Button>
+          </HStack>
+        </Stack>
+      </form>
+    </Box>
   );
 };
 

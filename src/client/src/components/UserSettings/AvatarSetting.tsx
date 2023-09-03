@@ -56,6 +56,7 @@ const AvatarSetting = ({ info }: Props) => {
       alignItems="center"
       maxWidth="fit-content"
       paddingX="10"
+      className="max-h-[32em]"
     >
       <CardHeader>
         {" "}
