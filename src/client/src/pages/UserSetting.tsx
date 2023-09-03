@@ -4,10 +4,12 @@ import ProfileSetting from "../components/UserSettings/ProfileSetting";
 import ChangePasswordModal from "../components/UserSettings/ChangePasswordModal";
 import useUser from "../hooks/useUser";
 import { useState } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 const UserSetting = () => {
+  const { Auth } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const { data } = useUser();
+  const { data } = useUser(Auth.username);
   return (
     <>
       <Flex

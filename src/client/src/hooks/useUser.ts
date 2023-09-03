@@ -10,7 +10,7 @@ export interface UserInfo {
   dateJoined: string;
 }
 
-const useUser = () => {
+const useUser = (username: string) => {
   const { Auth } = useAuth();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<UserInfo>();
@@ -18,7 +18,7 @@ const useUser = () => {
     setLoading(true);
     const controller = new AbortController();
     apiClient
-      .get<UserInfo>(`api/user/${Auth.username}`, {
+      .get<UserInfo>(`api/user/${username}`, {
         signal: controller.signal,
         withCredentials: true,
       })
@@ -40,7 +40,7 @@ const useUser = () => {
     return () => {
       controller.abort();
     };
-  }, [Auth.username, Auth.accessToken]);
+  }, [Auth.accessToken, username]);
   return { data, loading };
 };
 

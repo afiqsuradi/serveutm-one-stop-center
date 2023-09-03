@@ -11,9 +11,11 @@ import {
 } from "@chakra-ui/react";
 import { BiSolidUser } from "react-icons/bi";
 import useUser from "../../hooks/useUser";
-
-const ProfileCard = () => {
-  const { data } = useUser();
+interface Props {
+  username: string;
+}
+const ProfileCard = ({ username }: Props) => {
+  const { data } = useUser(username);
   return (
     <Card maxW={"full"} textAlign="center" flex={1}>
       <CardBody minW="90%">
