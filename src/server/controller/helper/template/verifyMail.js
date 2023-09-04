@@ -81,7 +81,7 @@ module.exports = (url, token) => {
               <h1>Thank you for joining us.</h1>
               <img src="https://cdn-icons-png.flaticon.com/512/6711/6711626.png ">
               <p>Welcome aboard serveUTM! To begin, please click the verification button below to activate your account. Let's explore together!</p>
-              <a class="button" href="${url}/password-reset/confirm?token=${token}">Reset Password">Verify Email</a>
+              <a class="button" href="${url}/password-reset/confirm?token=${token}">Verify Email</a>
           </div>
       </div> 
   </body>

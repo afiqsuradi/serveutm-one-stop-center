@@ -6,7 +6,7 @@ async function sendVerifyMail(email, url, token) {
     from: "no-reply@serveutm.online",
     to: email,
     subject: "Verify Your Email",
-    html: `<a href=\"${url}/verify-confirm?token=${token}\">Verify Email</a>`,
+    html: verifyMail(url, token),
   });
 }
 async function sendPasswordResetMail(email, url, token) {
@@ -14,7 +14,7 @@ async function sendPasswordResetMail(email, url, token) {
     from: "no-reply@serveutm.online",
     to: email,
     subject: "One-time code for password reset",
-    html: verifyMail(url, token),
+    html: `<a href="${url}/password-reset/confirm?token=${token}">Reset Password</a>`,
   });
 }
 module.exports = { sendVerifyMail, sendPasswordResetMail };
