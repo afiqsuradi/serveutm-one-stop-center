@@ -21,7 +21,7 @@ interface Props {
 }
 
 const ProviderInfo = ({ username }: Props) => {
-  const { data, loading } = useUserProfile(username);
+  const { data } = useUserProfile(username);
   return (
     <Card>
       <CardBody>

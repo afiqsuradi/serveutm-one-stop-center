@@ -41,7 +41,7 @@ const ProfileSetting = ({ isOpen, setIsOpen, info }: Props) => {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         })
-        .then(async (res) => {
+        .then(async () => {
           await refresh();
           toast({
             title: "Profile Updated.",

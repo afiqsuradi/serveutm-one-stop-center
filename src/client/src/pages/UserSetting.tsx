@@ -3,7 +3,6 @@ import {
   CardBody,
   CardHeader,
   Flex,
-  Heading,
   Tab,
   TabList,
   TabPanel,

@@ -8,7 +8,7 @@ const useLogout = () => {
   const logout = async () => {
     setAuth(defaultAuthValue);
     try {
-      const result = await apiClient.get("/logout", {
+      await apiClient.get("/logout", {
         withCredentials: true,
       });
     } catch (err) {

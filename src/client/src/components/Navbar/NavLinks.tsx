@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { NavLinksType, classNames, navigation } from ".";
 
-const NavLink = ({ name, to, currentLocation }: NavLinksType) => {
+const NavLink = ({ name, to }: NavLinksType) => {
   return (
     <Link
       to={to}

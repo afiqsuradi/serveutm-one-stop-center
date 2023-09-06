@@ -3,7 +3,7 @@ import apiClient from "../services/apiClient";
 import { AuthType } from "../context/authProvider";
 
 export const useRefresh = () => {
-  const { Auth, setAuth } = useAuth();
+  const { setAuth } = useAuth();
   const refresh = async () => {
     const response = await apiClient.get<AuthType>("/api/refresh", {
       withCredentials: true,
