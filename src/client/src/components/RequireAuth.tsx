@@ -10,7 +10,7 @@ interface Props {
 const RequireAuth = ({ allowedRole }: Props) => {
   const { Auth } = useAuth();
   const location = useLocation();
-  const authorise = allowedRole.reduce((acc, curr, i) => {
+  const authorise = allowedRole.reduce((acc, curr) => {
     if (acc === true) {
       return acc;
     }

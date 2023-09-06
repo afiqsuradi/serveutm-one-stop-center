@@ -17,13 +17,6 @@ import { ErrorData } from "../../hooks/useLogin";
 import SuccessOverlay from "./SuccessOverlay";
 import { Skill, Language } from "../../hooks/useUserProfile";
 
-interface ProviderRegisterData {
-  description: string;
-  language: Language[];
-  skills: Skill[];
-  PersonalWebsite?: string;
-}
-
 interface ProviderFormError {
   title: string;
   description: string;

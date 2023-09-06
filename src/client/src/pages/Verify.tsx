@@ -17,7 +17,7 @@ const Verify = () => {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    const promise = privateApiClient
+    privateApiClient
       .post<VerifyResponse>(
         "/api/verify-email",
         JSON.stringify({ token: token }),
@@ -34,6 +34,9 @@ const Verify = () => {
         } else {
           setSuccess(false);
         }
+      })
+      .catch((err) => {
+        console.error(err);
       });
     return () => {
       controller.abort();
