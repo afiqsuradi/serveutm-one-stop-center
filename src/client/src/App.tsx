@@ -1,35 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import ROUTES from "./constants/path";
+import { Route, Routes } from "react-router-dom";
+import Register from "./pages/Register";
+import RegisterSuccess from "./pages/Success";
+import Verify from "./pages/Verify";
+import Layout from "./components/Layout";
+import Login from "./pages/Login";
+import Homepage from "./pages/Homepage";
+import RequireAuth from "./components/RequireAuth";
+import PersistLogin from "./components/PersistLogin";
+import Missing from "./pages/Missing";
+import AboutUs from "./pages/AboutUs";
+import ContactUs from "./pages/ContactUs";
+import ResetPassword from "./pages/ResetPassword";
+import ResetPasswordRequest from "./pages/ResetPasswordRequest";
+import UserSetting from "./pages/UserSetting";
+import UserProfile from "./pages/UserProfile";
+import RegisterProvider from "./pages/RegisterProvider";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route path={ROUTES.REGISTER} element={<Register />} />
+        <Route path={ROUTES.LOGIN} element={<Login />} />
+        <Route
+          path={ROUTES.PASSWORD_RESET}
+          element={<ResetPasswordRequest />}
+        />
+        <Route
+          path={ROUTES.PASSWORD_RESET_CONFIRM}
+          element={<ResetPassword />}
+        />
+        <Route element={<PersistLogin />}>
+          <Route path={ROUTES.REGISTER_SUCCESS} element={<RegisterSuccess />} />
+
+          <Route path={ROUTES.HOMEPAGE} element={<Homepage />} />
+          <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
+          <Route path={ROUTES.CONTACT_US} element={<ContactUs />} />
+          <Route
+            element={<RequireAuth allowedRole={["user", "service_provider"]} />}
+          >
+            <Route path={ROUTES.USER_PROFILE} element={<UserProfile />} />
+            <Route path={ROUTES.USER_SETTING} element={<UserSetting />} />
+            <Route path={ROUTES.VERIFY} element={<Verify />} />
+          </Route>
+          <Route element={<RequireAuth allowedRole={["user"]} />}>
+            <Route
+              path={ROUTES.PROVIDER_REGISTER}
+              element={<RegisterProvider />}
+            />
+          </Route>
+        </Route>
+        <Route path="*" element={<Missing />} />
+      </Route>
+    </Routes>
+  );
 }
 
-export default App
+export default App;

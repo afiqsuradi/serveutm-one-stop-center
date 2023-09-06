@@ -1,0 +1,55 @@
+require("dotenv").config();
+const mongoose = require("mongoose");
+const userSchema = mongoose.Schema({
+  profileImage: {
+    type: String,
+    default: "images/profileImages/default.png",
+  },
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: 5,
+    maxlength: 50,
+  },
+  username: {
+    type: String,
+    unique: true,
+    minlength: 5,
+    maxlength: 20,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    match: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+    minlength: 5,
+    maxlength: 255,
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 5,
+    maxlength: 255,
+  },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  role: {
+    type: String,
+    enum: ["user", "service_provider", "admin"],
+    default: "user",
+    required: true,
+  },
+  profile: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Profile",
+  },
+  // Bad implementation, ik but im too lazy
+  refreshToken: { type: String, default: "" },
+});
+const User = mongoose.model("User", userSchema, "User");
+
+exports.User = User;
