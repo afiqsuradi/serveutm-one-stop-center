@@ -1,10 +1,11 @@
+require("dotenv").config();
 const express = require("express");
 const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 module.exports = function (app) {
   app.use("/images", express.static("images"));
-  app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+  app.use(cors({ origin: process.env.ORIGIN_URL, credentials: true }));
   app.use(helmet());
   app.use(cookieParser());
   app.use(express.json());
