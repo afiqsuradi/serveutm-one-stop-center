@@ -1,26 +1,19 @@
-import { Navigate, useLocation } from "react-router-dom";
-import ROUTES from "../constants/path";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import useValidResetToken from "../hooks/useValidResetToken";
 import { useForm } from "react-hook-form";
-import ErrorLabel from "./RegisterForm/ErrorLabel";
-import apiClient from "../services/apiClient";
-import { useState } from "react";
-import { AxiosError } from "axios";
-import { ErrorData } from "../hooks/useLogin";
 import {
   PasswordResetFormStruct,
   PasswordResetFormStructResolver,
 } from "../types/passwordReset";
+import useResetPassword from "../hooks/useResetPassword";
+import ErrorLabel from "./RegisterForm/ErrorLabel";
+import ROUTES from "../constants/path";
 
 const ResetPasswordForm = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [resetSuccess, setResetSuccess] = useState(false);
-  const [error, setError] = useState("");
   const location = useLocation();
-  const token = new URLSearchParams(location.search).get("token");
-  const { success, isLoading: isLoadingVerify } = useValidResetToken(
-    token ? token : ""
-  );
+  const token = new URLSearchParams(location.search).get("token") || "";
+  const { valid } = useValidResetToken(token);
+  const { success, error, isLoading, resetPassword } = useResetPassword(token);
   const {
     register,
     handleSubmit,
@@ -28,29 +21,12 @@ const ResetPasswordForm = () => {
   } = useForm<PasswordResetFormStruct>({
     resolver: PasswordResetFormStructResolver,
   });
-  if (!isLoadingVerify && !success)
-    return <Navigate to={ROUTES.HOMEPAGE} replace />;
-
-  const resetPassword = (data: PasswordResetFormStruct) => {
-    apiClient
-      .post("/api/forgot-password/reset", JSON.stringify({ ...data, token }), {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      })
-      .then((res) => {
-        if (res.status === 202) {
-          setResetSuccess(true);
-        }
-      })
-      .catch((err) => {
-        setResetSuccess(false);
-        setError((err as AxiosError<ErrorData>).message);
-      })
-      .finally(() => setIsLoading(false));
-  };
+  if (valid !== null && !valid) {
+    return <Navigate to={ROUTES.HOMEPAGE} />;
+  }
   return (
     <>
-      {!isLoading && resetSuccess ? (
+      {!isLoading && success ? (
         <div
           className="mb-4 rounded-lg bg-green-100 px-6 py-5 text-base text-green-700"
           role="alert"
@@ -73,8 +49,8 @@ const ResetPasswordForm = () => {
         action="#"
         method="POST"
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSubmit={handleSubmit((data) => {
-          resetPassword(data);
+        onSubmit={handleSubmit(async (data) => {
+          await resetPassword(data);
         })}
       >
         <div>

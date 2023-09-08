@@ -1,34 +1,45 @@
+import { AxiosError } from "axios";
 import apiClient from "../services/apiClient";
 import { useEffect, useState } from "react";
 
 const useValidResetToken = (token: string) => {
-  const [success, setSuccess] = useState<boolean>(false);
-  const [isLoading, setLoading] = useState(true);
+  const [valid, setValid] = useState<boolean | null>(true);
   useEffect(() => {
     const controller = new AbortController();
-    apiClient
-      .post("/api/forgot-password/reset-status", JSON.stringify({ token }), {
-        signal: controller.signal,
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      })
-      .then((res) => {
-        if (!(res.status === 200)) {
-          setSuccess(false);
+    const validateToken = async () => {
+      try {
+        const respond = await apiClient.post(
+          "/api/forgot-password/reset-status",
+          JSON.stringify({ token }),
+          {
+            headers: { "Content-Type": "application/json" },
+            signal: controller.signal,
+            withCredentials: true,
+          }
+        );
+
+        if (respond.status === 200) {
+          setValid(true);
         }
-        setSuccess(true);
-      })
-      .catch(() => {
-        setSuccess(false);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      } catch (error) {
+        if (
+          !(
+            (error as AxiosError).config &&
+            (error as AxiosError).config?.signal?.aborted
+          )
+        ) {
+          setValid(false);
+        }
+      }
+    };
+    validateToken().catch((error) => {
+      console.error(error);
+    });
     return () => {
       controller.abort();
     };
-  }, []);
-  return { success, isLoading };
+  }, [token]);
+  return { valid };
 };
 
 export default useValidResetToken;
