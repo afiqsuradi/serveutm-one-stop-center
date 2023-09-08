@@ -1,6 +1,6 @@
 import axios from "axios";
-export const BASE_PARAM = "https://localhost:8080";
+import BASE_URL from "../constants/environment";
 
 export default axios.create({
-  baseURL: BASE_PARAM,
+  baseURL: BASE_URL,
 });
