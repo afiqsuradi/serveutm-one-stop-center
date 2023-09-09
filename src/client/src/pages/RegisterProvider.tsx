@@ -14,7 +14,7 @@ const RegisterProvider = () => {
   return (
     <Box paddingY="5">
       <Card maxW="90%" marginX="auto">
-        <CardHeader maxW="60%">
+        <CardHeader maxW={{ sm: "100%", md: "60%" }}>
           <Stack spacing={4}>
             <Heading as="h1" fontSize="4xl">
               Professional Info

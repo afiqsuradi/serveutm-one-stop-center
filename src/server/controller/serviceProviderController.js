@@ -20,7 +20,7 @@ serviceProviderController.registerProvider = async (req, res) => {
   });
   user.profile = (await profile.save())._id;
   user.role = "service_provider";
-  const result = await user.save();
+  const result = await user.save({ validateModifiedOnly: true });
   if (!result) res.status(500).json({ message: "Something wrong with server" });
   res
     .status(200)
