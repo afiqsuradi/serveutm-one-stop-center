@@ -21,7 +21,7 @@ forgotPasswordController.sendMail = async (req, res) => {
   const newToken = await generatePasswordResetToken(user._id);
   // Send OTP through email
 
-  const userUrl = req.query.baseUrl;
+  const userUrl = req.headers.origin;
   sendPasswordResetMail(email, userUrl, newToken.token);
   // Send 201 res to user
   return res.sendStatus(201);

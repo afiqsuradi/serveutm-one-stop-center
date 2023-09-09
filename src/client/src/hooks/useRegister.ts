@@ -1,12 +1,11 @@
-import { useState } from "react";
-import apiClient from "../services/apiClient";
+import { useEffect, useState } from "react";
+import apiClient, { ErrorData } from "../services/apiClient";
 import { useAuth } from "./useAuth";
 import { useNavigate } from "react-router-dom";
 import { RegisterFormStruct } from "../types/register";
 import { AuthType } from "../context/authProvider";
 import ROUTES from "../constants/path";
 import { AxiosError } from "axios";
-import { ErrorData } from "./useLogin";
 import { useToast } from "@chakra-ui/react";
 
 const useRegister = () => {
@@ -40,16 +39,25 @@ const useRegister = () => {
         // If backend crash / not found
         setError((resError as AxiosError<ErrorData>).message);
       }
-      toast({
-        title: `${error}`,
-        status: "error",
-        position: "top",
-        isClosable: true,
-      });
     } finally {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (error.length > 0) {
+      if (error) {
+        toast({
+          title: `${error}`,
+          status: "error",
+          position: "top",
+          isClosable: true,
+        });
+      }
+    }
+    setError("");
+  }, [error]);
+
   return { registerUser, isLoading };
 };
 

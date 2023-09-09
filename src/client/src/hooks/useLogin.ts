@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "./useAuth";
 import { useNavigate } from "react-router-dom";
-import apiClient from "../services/apiClient";
+import apiClient, { ErrorData } from "../services/apiClient";
 import ROUTES from "../constants/path";
 import { AxiosError } from "axios";
 import { AuthType } from "../context/authProvider";
@@ -10,10 +10,6 @@ import { useToast } from "@chakra-ui/react";
 export interface LoginFormData {
   username: string;
   password: string;
-}
-
-export interface ErrorData {
-  message: string;
 }
 
 const useLogin = () => {
@@ -45,16 +41,24 @@ const useLogin = () => {
         // If backend crash / not found
         setError((resError as AxiosError<ErrorData>).message);
       }
-      toast({
-        title: `${error}`,
-        status: "error",
-        position: "top",
-        isClosable: true,
-      });
     } finally {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (error.length > 0) {
+      if (error) {
+        toast({
+          title: `${error}`,
+          status: "error",
+          position: "top",
+          isClosable: true,
+        });
+      }
+    }
+    setError("");
+  }, [error]);
   return { login, isLoading };
 };
 

@@ -1,28 +1,30 @@
 import { useEffect, useState } from "react";
 import apiClient, { ErrorData } from "../services/apiClient";
 import { AxiosError } from "axios";
-import { PasswordResetFormStruct } from "../types/passwordReset";
 import { useToast } from "@chakra-ui/react";
 
-const useResetPassword = (token: string) => {
+export interface passwordResetRequestFormData {
+  email: string;
+}
+
+const useRequestReset = () => {
   const toast = useToast();
-  const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-  const resetPassword = async (data: PasswordResetFormStruct) => {
-    setIsLoading(true);
+  const [isLoading, setLoading] = useState(false);
+  const requestPasswordReset = async (data: passwordResetRequestFormData) => {
     try {
-      const respond = await apiClient.post(
-        "/api/forgot-password/reset",
-        JSON.stringify({ ...data, token }),
+      const response = await apiClient.post(
+        "/api/forgot-password",
+        JSON.stringify(data),
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
       );
-      if (respond.status === 200) {
+      if (response.status === 201) {
+        setError("");
         setSuccess(true);
-        setIsLoading(false);
       }
     } catch (resError) {
       if ((resError as AxiosError<ErrorData>).response) {
@@ -33,6 +35,8 @@ const useResetPassword = (token: string) => {
         // If backend crash / not found
         setError((resError as AxiosError<ErrorData>).message);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -49,8 +53,7 @@ const useResetPassword = (token: string) => {
     }
     setError("");
   }, [error]);
-
-  return { success, isLoading, resetPassword };
+  return { success, isLoading, requestPasswordReset };
 };
 
-export default useResetPassword;
+export default useRequestReset;
