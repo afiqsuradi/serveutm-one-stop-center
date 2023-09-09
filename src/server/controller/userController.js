@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { User } = require("../model/user");
 const { validateUserInput } = require("./helper/validation");
 const { createUserInDatabase } = require("./helper/database");
@@ -35,7 +36,7 @@ userController.validateAndCreateUser = async (req, res) => {
     });
     // Add refresh token to user data
     data.refreshToken = newRefreshToken;
-    const userUrl = req.query.baseUrl;
+    const userUrl = process.env.ORIGIN_URL;
     const newUser = await createUserInDatabase(data);
     const token = await generateVerificationToken(newUser._id);
 

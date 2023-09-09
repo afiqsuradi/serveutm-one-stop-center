@@ -12,6 +12,7 @@ const useRegister = () => {
   const [error, setError] = useState("");
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
   const { setAuth } = useAuth();
   const registerUser = async (data: RegisterFormStruct) => {
@@ -22,14 +23,13 @@ const useRegister = () => {
         JSON.stringify(data),
         {
           headers: { "Content-Type": "application/json" },
-          params: {
-            baseUrl: window.location.origin,
-          },
           withCredentials: true,
         }
       );
-      setAuth(result.data);
-      navigate(ROUTES.REGISTER_SUCCESS);
+      if (result.status === 200) {
+        setAuth(result.data);
+        setSuccess(true);
+      }
     } catch (resError) {
       if ((resError as AxiosError<ErrorData>).response) {
         setError(
@@ -39,6 +39,7 @@ const useRegister = () => {
         // If backend crash / not found
         setError((resError as AxiosError<ErrorData>).message);
       }
+      setSuccess(false);
     } finally {
       setIsLoading(false);
     }
@@ -58,7 +59,7 @@ const useRegister = () => {
     setError("");
   }, [error]);
 
-  return { registerUser, isLoading };
+  return { registerUser, isLoading, success };
 };
 
 export default useRegister;

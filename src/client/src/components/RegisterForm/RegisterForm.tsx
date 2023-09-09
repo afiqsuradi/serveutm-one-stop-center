@@ -5,18 +5,49 @@ import {
 } from "../../types/register";
 import useRegister from "../../hooks/useRegister";
 import ErrorLabel from "./ErrorLabel";
-import { Button } from "@chakra-ui/react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+} from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "../../constants/path";
 
 const RegisterForm = () => {
-  const { registerUser, isLoading } = useRegister();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterFormStruct>({ resolver: RegisterFormStructResolver });
-
+  const { registerUser, isLoading, success } = useRegister();
+  const onClose = () => {
+    navigate(ROUTES.HOMEPAGE);
+  };
   return (
     <>
+      <Modal blockScrollOnMount={false} isOpen={success} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Account Successfully Created</ModalHeader>
+          <ModalBody>
+            <Text fontWeight="bold" mb="1rem">
+              Please check your email for email verification.
+            </Text>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" onClick={onClose} variant="base">
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <form
         className="space-y-6"
         action="#"
