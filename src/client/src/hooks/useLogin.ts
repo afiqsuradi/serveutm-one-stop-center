@@ -36,20 +36,19 @@ const useLogin = () => {
       );
       setAuth(result.data);
       navigate(ROUTES.HOMEPAGE);
-    } catch (error) {
-      if ((error as AxiosError<ErrorData>).response) {
+    } catch (resError) {
+      if ((resError as AxiosError<ErrorData>).response) {
         setError(
-          (error as AxiosError<ErrorData>).response?.data.message as string
+          (resError as AxiosError<ErrorData>).response?.data.message as string
         );
       } else {
         // If backend crash / not found
-        setError((error as AxiosError<ErrorData>).message);
+        setError((resError as AxiosError<ErrorData>).message);
       }
       toast({
-        title: `${
-          (error as AxiosError<ErrorData>).response?.data.message as string
-        }`,
+        title: `${error}`,
         status: "error",
+        position: "top",
         isClosable: true,
       });
     } finally {

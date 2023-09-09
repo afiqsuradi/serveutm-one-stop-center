@@ -5,9 +5,10 @@ import {
 } from "../../types/register";
 import useRegister from "../../hooks/useRegister";
 import ErrorLabel from "./ErrorLabel";
+import { Button } from "@chakra-ui/react";
 
 const RegisterForm = () => {
-  const { registerUser, error, isLoading } = useRegister();
+  const { registerUser, isLoading } = useRegister();
   const {
     register,
     handleSubmit,
@@ -16,16 +17,6 @@ const RegisterForm = () => {
 
   return (
     <>
-      {error ? (
-        <div
-          className="mb-4 rounded-lg bg-red-100 px-6 py-5 text-base text-red-700"
-          role="alert"
-        >
-          {error}
-        </div>
-      ) : (
-        ""
-      )}
       <form
         className="space-y-6"
         action="#"
@@ -153,13 +144,15 @@ const RegisterForm = () => {
         </div>
 
         <div>
-          <button
-            disabled={!isLoading}
+          <Button
+            variant="base"
+            isLoading={isLoading}
+            loadingText="Registering User..."
             type="submit"
             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-base font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Register
-          </button>
+          </Button>
         </div>
       </form>
     </>
