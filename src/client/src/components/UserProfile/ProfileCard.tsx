@@ -41,7 +41,7 @@ const ProfileCard = ({ username }: Props) => {
             <BiSolidUser />
             <Text>Member since</Text>
           </Box>
-          <Text>{data?.dateJoined}</Text>
+          <Text marginX={"1"}>{data?.dateJoined}</Text>
         </Box>
       </CardFooter>
     </Card>

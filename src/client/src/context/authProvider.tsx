@@ -1,5 +1,4 @@
 import { createContext, useState } from "react";
-
 export interface AuthType {
   profileImage: string;
   accessToken: string;

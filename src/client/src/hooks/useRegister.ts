@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import apiClient, { ErrorData } from "../services/apiClient";
 import { useAuth } from "./useAuth";
-import { useNavigate } from "react-router-dom";
 import { RegisterFormStruct } from "../types/register";
 import { AuthType } from "../context/authProvider";
-import ROUTES from "../constants/path";
+import defaultProfile from "../assets/default.png";
 import { AxiosError } from "axios";
 import { useToast } from "@chakra-ui/react";
 
@@ -13,7 +12,6 @@ const useRegister = () => {
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const navigate = useNavigate();
   const { setAuth } = useAuth();
   const registerUser = async (data: RegisterFormStruct) => {
     setIsLoading(true);
