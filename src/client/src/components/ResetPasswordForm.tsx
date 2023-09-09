@@ -1,4 +1,4 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import useValidResetToken from "../hooks/useValidResetToken";
 import { useForm } from "react-hook-form";
 import {
@@ -8,12 +8,23 @@ import {
 import useResetPassword from "../hooks/useResetPassword";
 import ErrorLabel from "./RegisterForm/ErrorLabel";
 import ROUTES from "../constants/path";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+} from "@chakra-ui/react";
 
 const ResetPasswordForm = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const token = new URLSearchParams(location.search).get("token") || "";
   const { valid } = useValidResetToken(token);
-  const { success, error, isLoading, resetPassword } = useResetPassword(token);
+  const { success, isLoading, resetPassword } = useResetPassword(token);
   const {
     register,
     handleSubmit,
@@ -24,26 +35,29 @@ const ResetPasswordForm = () => {
   if (valid !== null && !valid) {
     return <Navigate to={ROUTES.HOMEPAGE} />;
   }
+
+  const onClose = () => {
+    navigate(ROUTES.LOGIN);
+  };
   return (
     <>
-      {!isLoading && success ? (
-        <div
-          className="mb-4 rounded-lg bg-green-100 px-6 py-5 text-base text-green-700"
-          role="alert"
-        >
-          Successfully reset password
-        </div>
-      ) : !isLoading && !(error.length === 0) ? (
-        <div
-          className="mb-4 rounded-lg bg-red-100 px-6 py-5 text-base text-red-700"
-          role="alert"
-        >
-          {error}
-        </div>
-      ) : (
-        ""
-      )}
+      <Modal blockScrollOnMount={false} isOpen={success} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Update Successfull</ModalHeader>
+          <ModalBody>
+            <Text fontWeight="bold" mb="1rem">
+              You may now login with your new password
+            </Text>
+          </ModalBody>
 
+          <ModalFooter>
+            <Button colorScheme="blue" onClick={onClose}>
+              Login
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <form
         className="space-y-6"
         action="#"
@@ -103,12 +117,14 @@ const ResetPasswordForm = () => {
         </div>
 
         <div>
-          <button
+          <Button
+            isLoading={isLoading}
+            loadingText="Resetting..."
             type="submit"
             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-base font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Reset
-          </button>
+          </Button>
         </div>
       </form>
     </>

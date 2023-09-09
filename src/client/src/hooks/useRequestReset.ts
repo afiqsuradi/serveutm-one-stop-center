@@ -53,7 +53,7 @@ const useRequestReset = () => {
     }
     setError("");
   }, [error]);
-  return { success, isLoading, requestPasswordReset };
+  return { success, isLoading, requestPasswordReset, setSuccess };
 };
 
 export default useRequestReset;

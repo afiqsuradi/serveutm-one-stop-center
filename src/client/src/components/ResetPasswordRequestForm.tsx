@@ -6,22 +6,21 @@ import {
   Button,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalHeader,
   ModalOverlay,
   Text,
   ModalFooter,
 } from "@chakra-ui/react";
-import ROUTES from "../constants/path";
-import { useNavigate } from "react-router-dom";
 
 const ResetPasswordRequestForm = () => {
-  const navigate = useNavigate();
-  const { success, isLoading, requestPasswordReset } = useRequestReset();
-  const { register, handleSubmit } = useForm<passwordResetRequestFormData>();
+  const { success, isLoading, requestPasswordReset, setSuccess } =
+    useRequestReset();
+  const { register, handleSubmit, reset } =
+    useForm<passwordResetRequestFormData>();
   const onClose = () => {
-    return navigate(ROUTES.HOMEPAGE);
+    reset();
+    setSuccess(false);
   };
   return (
     <>
@@ -30,7 +29,6 @@ const ResetPasswordRequestForm = () => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Successfully Request Passord Reset</ModalHeader>
-          <ModalCloseButton />
           <ModalBody>
             <Text fontWeight="bold" mb="1rem">
               Please check your email for further instruction.
@@ -38,8 +36,8 @@ const ResetPasswordRequestForm = () => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" onClick={onClose}>
-              Return to homepage
+            <Button colorScheme="blue" onClick={onClose} variant="base">
+              Close
             </Button>
           </ModalFooter>
         </ModalContent>

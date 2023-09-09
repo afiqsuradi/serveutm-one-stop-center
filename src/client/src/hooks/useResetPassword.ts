@@ -20,9 +20,8 @@ const useResetPassword = (token: string) => {
           withCredentials: true,
         }
       );
-      if (respond.status === 200) {
+      if (respond.status === 202) {
         setSuccess(true);
-        setIsLoading(false);
       }
     } catch (resError) {
       if ((resError as AxiosError<ErrorData>).response) {
@@ -33,6 +32,8 @@ const useResetPassword = (token: string) => {
         // If backend crash / not found
         setError((resError as AxiosError<ErrorData>).message);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
