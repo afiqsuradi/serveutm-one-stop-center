@@ -1,5 +1,6 @@
 import {
   Badge,
+  Box,
   Card,
   CardBody,
   CardFooter,
@@ -56,11 +57,11 @@ const ProviderInfo = ({ username }: Props) => {
           <Flex>
             {data.skills.map((skill) => {
               return (
-                <>
+                <Box paddingX={"1"}>
                   <Tooltip label={skill.level} aria-label="Skill Level">
                     <Badge colorScheme="purple">{skill.name}</Badge>
                   </Tooltip>
-                </>
+                </Box>
               );
             })}
           </Flex>
@@ -68,7 +69,7 @@ const ProviderInfo = ({ username }: Props) => {
         <Divider marginY={5} />
       </CardBody>
       <CardFooter>
-        <Link href="#" isExternal>
+        <Link href={data.PersonalWebsite || "#"} isExternal>
           <HStack>
             <Text>Personal Wesite</Text>
             <AiOutlineLink display="inline" mx="2px" />
