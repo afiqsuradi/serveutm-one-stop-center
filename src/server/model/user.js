@@ -15,17 +15,32 @@ const userSchema = mongoose.Schema({
   username: {
     type: String,
     unique: true,
-    minlength: 5,
-    maxlength: 20,
+    validate: {
+      validator: async function (value) {
+        const existingUser = await this.constructor.findOne({
+          username: value,
+        });
+        return !existingUser; // Return true if username is unique
+      },
+      message: "Username already exists. Please choose a different username.",
+    },
   },
+
   email: {
     type: String,
-    required: true,
     unique: true,
     trim: true,
     match: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
     minlength: 5,
     maxlength: 255,
+    validate: {
+      validator: async function (value) {
+        const existingUser = await this.constructor.findOne({ email: value });
+        return !existingUser; // Return true if email is unique
+      },
+      message:
+        "Email address is already registered. Please use a different email.",
+    },
   },
   password: {
     type: String,

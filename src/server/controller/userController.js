@@ -20,11 +20,6 @@ userController.validateAndCreateUser = async (req, res) => {
       return res.status(400).json({ message: `"${error.issues.message}"` });
     }
 
-    const existingUser = await User.findOne({ email: data.email });
-    if (existingUser) {
-      return res.status(400).json({ message: "User already registered" });
-    }
-
     //generate access token
     const accessToken = await generateAccessToken(data);
     //generate refresh token
@@ -51,6 +46,19 @@ userController.validateAndCreateUser = async (req, res) => {
       isVerified: newUser.isVerified,
     });
   } catch (error) {
+    // Check if it's a Mongoose validation error with custom message
+    if (error.name === "ValidationError" && error.errors) {
+      const validationErrors = {};
+      let message = ``;
+      // Loop through the validation errors and extract custom messages
+      for (const key in error.errors) {
+        if (error.errors[key].message) {
+          message += error.errors[key].message + `\n`;
+        }
+      }
+
+      return res.status(400).json({ message });
+    }
     return res.status(500).json({ message: `"${error.message}"` });
   }
 };

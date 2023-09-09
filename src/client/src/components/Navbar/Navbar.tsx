@@ -58,15 +58,15 @@ const Navbar = () => {
           </>
         )}
       </Disclosure>
-      {Auth.isVerified ? (
-        ""
-      ) : (
+      {Auth.username.length > 0 && !Auth.isVerified ? (
         <Alert status="warning" variant="left-accent">
           <AlertIcon />
           <Tooltip label="Some features may not be accessible!" bg="orange.300">
             Seems your account is not verified, verify now
           </Tooltip>
         </Alert>
+      ) : (
+        ""
       )}
     </>
   );
