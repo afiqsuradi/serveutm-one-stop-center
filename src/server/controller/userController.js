@@ -87,7 +87,7 @@ userController.uploadProfileImage = async (req, res) => {
   const imagePath = `${req.file.destination + req.file.filename}`;
   const imageLink = `${req.protocol}://${req.get("host")}/${imagePath}`;
   user.profileImage = imagePath;
-  const result = await user.save();
+  const result = await user.save({ validateModifiedOnly: true });
   if (!result) return res.sendStatus(500);
   return res.status(200).json({ profileImage: imageLink });
 };
@@ -100,11 +100,28 @@ userController.updateUser = async (req, res) => {
       .json({ message: "Name, username and email required!" });
   const { username } = req.user;
   if (!username) return res.sendStatus(400);
-  const user = await User.findOne({ username });
-  (user.name = name), (user.username = newUsername), (user.email = email);
-  const result = await user.save();
-  if (!result) res.status(500).json({ message: "Something went wrong!" });
-  return res.sendStatus(201);
+  try {
+    const user = await User.findOne({ username });
+    (user.name = name), (user.username = newUsername), (user.email = email);
+    const result = await user.save({ validateModifiedOnly: true });
+    if (!result) res.status(500).json({ message: "Something went wrong!" });
+    return res.sendStatus(201);
+  } catch (error) {
+    // Check if it's a Mongoose validation error with custom message
+    if (error.name === "ValidationError" && error.errors) {
+      const validationErrors = {};
+      let message = ``;
+      // Loop through the validation errors and extract custom messages
+      for (const key in error.errors) {
+        if (error.errors[key].message) {
+          message += error.errors[key].message + `\n`;
+        }
+      }
+
+      return res.status(400).json({ message });
+    }
+    return res.status(500).json({ message: `"${error.message}"` });
+  }
 };
 userController.updateUserPassword = async (req, res) => {
   const { currentPassword, newPassword } = req.body;
@@ -123,7 +140,7 @@ userController.updateUserPassword = async (req, res) => {
         newPassword,
         Number(process.env.SALT_ROUND)
       );
-      const saveResult = await user.save();
+      const saveResult = await user.save({ validateModifiedOnly: true });
       if (!saveResult)
         res.status(500).json({ message: "Something went wrong!" });
       return res.sendStatus(201);

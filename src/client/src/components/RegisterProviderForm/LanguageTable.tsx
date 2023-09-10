@@ -15,15 +15,11 @@ import {
 import { Dispatch, useEffect, useRef, useState } from "react";
 import { MdEdit, MdDelete } from "react-icons/md";
 import wikipediaLanguages from "../../constants/languages";
-import {
-  Language,
-  UserProfile,
-  languageLevel,
-} from "../../hooks/Provider/useRegisterProvider";
+import { UserProfile, languageLevel } from "../../interface/ProviderInfo";
 import {
   ProviderInfoAction,
   ProviderInfoActionTypes,
-} from "../../hooks/Provider/useProviderReducer";
+} from "../../interface/ProviderInfoReducer";
 
 interface Props {
   ProviderInfo: UserProfile;

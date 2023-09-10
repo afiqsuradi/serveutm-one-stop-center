@@ -3,7 +3,6 @@ import apiClient, { ErrorData } from "../services/apiClient";
 import { useAuth } from "./useAuth";
 import { RegisterFormStruct } from "../types/register";
 import { AuthType } from "../context/authProvider";
-import defaultProfile from "../assets/default.png";
 import { AxiosError } from "axios";
 import { useToast } from "@chakra-ui/react";
 

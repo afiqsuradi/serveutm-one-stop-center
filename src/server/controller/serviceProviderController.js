@@ -68,7 +68,7 @@ serviceProviderController.updateSellerInfo = async (req, res) => {
   profile.skills = skills;
   profile.PersonalWebsite = PersonalWebsite;
   try {
-    const result = await profile.save();
+    const result = await profile.save({ validateModifiedOnly: true });
 
     if (!result)
       return res.status(500).json({ message: "Something went wrong" });

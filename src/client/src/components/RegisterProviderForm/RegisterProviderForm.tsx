@@ -14,15 +14,14 @@ import LanguageTable from "./LanguageTable";
 import SuccessOverlay from "./SuccessOverlay";
 import useRegisterProvider from "../../hooks/Provider/useRegisterProvider";
 import z from "zod";
-import useProviderReducer, {
-  ProviderInfoActionTypes,
-} from "../../hooks/Provider/useProviderReducer";
+import { useSeller } from "../../hooks/useSeller";
+import { ProviderInfoActionTypes } from "../../interface/ProviderInfoReducer";
 
 const RegisterProviderForm = () => {
   const { success, error, register, setError, loading, setLoading } =
     useRegisterProvider();
   const toast = useToast();
-  const { providerInfo, providerInfoDispatch } = useProviderReducer();
+  const { ProviderInfo, ProviderInfoDispatch } = useSeller();
   const descriptionEl = useRef<HTMLTextAreaElement>(null);
   const personalWebsiteEl = useRef<HTMLInputElement>(null);
 
@@ -34,16 +33,16 @@ const RegisterProviderForm = () => {
       throw new Error("Description must be 30-600 words long");
     }
     // Validate skills and language
-    const invalidSkill = providerInfo.skills.find(
+    const invalidSkill = ProviderInfo.skills.find(
       (skill) => skill.name.length === 0
     );
-    const invalidLanguage = providerInfo.language.find(
+    const invalidLanguage = ProviderInfo.language.find(
       (lang) => lang.name.length === 0
     );
     if (invalidSkill || invalidLanguage) {
       throw new Error("Atleast 1 skill and language required");
     }
-    return await register(providerInfo);
+    return await register(ProviderInfo);
   };
   useEffect(() => {
     if (error?.title && error.description) {
@@ -65,15 +64,18 @@ const RegisterProviderForm = () => {
         gap={20}
         maxW={"full"}
       >
-        <FormLabel fontSize="xl">
-          Description
-          <Text color="red.500" display="inline" marginX={1}>
-            *
-          </Text>
-        </FormLabel>
+        <Box>
+          <FormLabel fontSize="xl" flex={1} margin={0}>
+            Description
+            <Text color="red.500" display="inline" marginX={1}>
+              *
+            </Text>
+          </FormLabel>
+          <Text color="GrayText">Required</Text>
+        </Box>
         <Textarea
           onBlur={(event) => {
-            providerInfoDispatch({
+            ProviderInfoDispatch({
               type: ProviderInfoActionTypes.SETDESCRIPTION,
               payload: event.currentTarget.value,
             });
@@ -95,20 +97,23 @@ const RegisterProviderForm = () => {
           <Text color="GrayText">Required</Text>
         </Box>
         <SkillTable
-          ProviderInfo={providerInfo}
-          ProviderInfoDispatch={providerInfoDispatch}
+          ProviderInfo={ProviderInfo}
+          ProviderInfoDispatch={ProviderInfoDispatch}
         />
-        <FormLabel fontSize="xl">
-          Languages
-          <Text color="red.500" display="inline" marginX={1}>
-            *
-          </Text>
-        </FormLabel>
+        <Box>
+          <FormLabel fontSize="xl" flex={1} margin={0}>
+            Languages
+            <Text color="red.500" display="inline" marginX={1}>
+              *
+            </Text>
+          </FormLabel>
+          <Text color="GrayText">Required</Text>
+        </Box>
         <LanguageTable
-          ProviderInfo={providerInfo}
-          ProviderInfoDispatch={providerInfoDispatch}
+          ProviderInfo={ProviderInfo}
+          ProviderInfoDispatch={ProviderInfoDispatch}
         />
-        <FormLabel>Personal Website</FormLabel>
+        <FormLabel fontSize="xl">Personal Website</FormLabel>
         <Input
           onBlur={(event) => {
             // Validate url
@@ -126,7 +131,7 @@ const RegisterProviderForm = () => {
                   description: "Invalid link provided",
                 });
               }
-              providerInfoDispatch({
+              ProviderInfoDispatch({
                 type: ProviderInfoActionTypes.SETWEBSITE,
                 payload: urlValidation.data,
               });

@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/apiClient";
 import { useAuth } from "./useAuth";
-import {
-  UserProfile,
-  defaultProfileValue,
-} from "./Provider/useRegisterProvider";
+import { UserProfile, defaultProfileValue } from "../interface/ProviderInfo";
 
 const useUserProfile = (username: string) => {
   const { Auth } = useAuth();
@@ -30,7 +27,7 @@ const useUserProfile = (username: string) => {
     return () => {
       controller.abort();
     };
-  }, [Auth.accessToken, username]);
+  }, [Auth.accessToken]);
   return { data, loading };
 };
 
