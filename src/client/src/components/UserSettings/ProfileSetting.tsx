@@ -86,7 +86,7 @@ const ProfileSetting = ({ isOpen, setIsOpen, info }: Props) => {
     setValue("name", info?.name || "");
     setValue("email", info?.email || "");
     setValue("username", info?.username || "");
-  }, []);
+  }, [info]);
 
   return (
     <Box className="flex items-center">
