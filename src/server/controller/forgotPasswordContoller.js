@@ -35,7 +35,7 @@ forgotPasswordController.resetPass = async (req, res) => {
   if (!resetToken) return res.sendStatus(400);
   const user = await User.findOne({ _id: resetToken.owner });
   user.password = await bcrypt.hash(password, Number(process.env.SALT_ROUND));
-  const result = await user.save();
+  const result = await user.save({ validateModifiedOnly: true });
   const deleteResult = await PasswordResetToken.findByIdAndDelete(
     resetToken._id
   );
