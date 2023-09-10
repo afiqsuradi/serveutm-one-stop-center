@@ -1,4 +1,6 @@
-# MERN Stack Readme
+# Readme
+
+Welcome to ServeUTM repository where the source code of our webapp located.
 
 ## Table of Contents
 
@@ -63,7 +65,3 @@
 5. Add the certificate to the `certificate` folder
 
 6. Add the certificate location to `./src/client/vite.config.ts`
-
-```
-
-```
