@@ -11,8 +11,8 @@ export interface NavLinksType {
 
 export const navigation: NavLinksType[] = [
   { name: "Dashboard", to: ROUTES.HOMEPAGE },
-  { name: "About Us", to: ROUTES.ABOUT_US },
-  { name: "Contact Us", to: ROUTES.CONTACT_US },
+  { name: "About", to: ROUTES.ABOUT_US },
+  { name: "Contact", to: ROUTES.CONTACT_US },
 ];
 
 export function classNames(...classes: string[]) {

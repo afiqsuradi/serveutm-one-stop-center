@@ -1,12 +1,14 @@
 import {
   Box,
   Button,
+  Flex,
   FormControl,
   FormLabel,
   HStack,
   Input,
   Stack,
   useToast,
+  Text,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import {
@@ -14,7 +16,7 @@ import {
   ProfileUpdateFormStructResolver,
 } from "../../types/profile";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRefresh } from "../../hooks/useRefresh";
 import { AxiosError } from "axios";
 import { UserInfo } from "../../hooks/useUser";
@@ -30,7 +32,12 @@ const ProfileSetting = ({ isOpen, setIsOpen, info }: Props) => {
   const privateApiClient = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
   const toast = useToast();
-  const { register, handleSubmit } = useForm<ProfileUpdateFormStruct>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm<ProfileUpdateFormStruct>({
     resolver: ProfileUpdateFormStructResolver,
   });
   const updateUserInfo = async (data: ProfileUpdateFormStruct) => {
@@ -55,19 +62,32 @@ const ProfileSetting = ({ isOpen, setIsOpen, info }: Props) => {
     } catch (error) {
       if ((error as AxiosError<ErrorData>).response) {
         toast({
-          title: "Failed to change password",
+          title: "Failed to update user data",
           description: `${
             (error as AxiosError<ErrorData>).response?.data.message as string
           }`,
           status: "error",
           isClosable: true,
         });
+      } else {
+        toast({
+          title: "Failed to update user data",
+          description: `${(error as AxiosError).message}`,
+          status: "error",
+          isClosable: true,
+        });
       }
-      console.error(error);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setValue("name", info?.name || "");
+    setValue("email", info?.email || "");
+    setValue("username", info?.username || "");
+  }, []);
+
   return (
     <Box className="flex items-center">
       <form
@@ -79,7 +99,12 @@ const ProfileSetting = ({ isOpen, setIsOpen, info }: Props) => {
       >
         <Stack spacing={4}>
           <FormControl>
-            <FormLabel>Full Name</FormLabel>
+            <Flex justify={"space-between"} align={"center"}>
+              <FormLabel>Full Name</FormLabel>
+              <Text color={"red.400"}>
+                {errors.name && errors.name.message}
+              </Text>
+            </Flex>
             <Input
               {...register("name")}
               type="text"
@@ -90,7 +115,12 @@ const ProfileSetting = ({ isOpen, setIsOpen, info }: Props) => {
           </FormControl>
 
           <FormControl>
-            <FormLabel>Username</FormLabel>
+            <Flex justify={"space-between"} align={"center"}>
+              <FormLabel>Username</FormLabel>
+              <Text color={"red.400"}>
+                {errors.username && errors.username.message}
+              </Text>
+            </Flex>
             <Input
               {...register("username")}
               type="text"
@@ -101,7 +131,12 @@ const ProfileSetting = ({ isOpen, setIsOpen, info }: Props) => {
           </FormControl>
 
           <FormControl>
-            <FormLabel>Email</FormLabel>
+            <Flex justify={"space-between"} align={"center"}>
+              <FormLabel>Email</FormLabel>
+              <Text color={"red.400"}>
+                {errors.email && errors.email.message}
+              </Text>
+            </Flex>
             <Input
               {...register("email")}
               type="email"
