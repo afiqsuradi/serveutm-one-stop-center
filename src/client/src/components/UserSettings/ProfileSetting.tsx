@@ -17,8 +17,8 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useState } from "react";
 import { useRefresh } from "../../hooks/useRefresh";
 import { AxiosError } from "axios";
-import { ErrorData } from "../../hooks/useLogin";
 import { UserInfo } from "../../hooks/useUser";
+import { ErrorData } from "../../services/apiClient";
 interface Props {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;

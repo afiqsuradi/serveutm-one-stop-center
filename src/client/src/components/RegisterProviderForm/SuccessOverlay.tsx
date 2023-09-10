@@ -10,22 +10,25 @@ import {
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../constants/path";
+import { useRefresh } from "../../hooks/useRefresh";
 
 interface Props {
   isOpen: boolean;
 }
 
 const SuccessOverlay = ({ isOpen }: Props) => {
+  const refresh = useRefresh();
   const navigate = useNavigate();
   const cancelRef = useRef<HTMLButtonElement>(null);
-  const onClose = () => {
+  const onClose = async () => {
+    await refresh();
     navigate(ROUTES.USER_PROFILE);
   };
   return (
     <AlertDialog
       isOpen={isOpen}
       leastDestructiveRef={cancelRef}
-      onClose={onClose}
+      onClose={() => void onClose()}
     >
       <AlertDialogOverlay>
         <AlertDialogContent>
@@ -38,7 +41,11 @@ const SuccessOverlay = ({ isOpen }: Props) => {
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={onClose} colorScheme="green">
+            <Button
+              ref={cancelRef}
+              onClick={() => void onClose()}
+              colorScheme="green"
+            >
               Confirm
             </Button>
           </AlertDialogFooter>

@@ -6,115 +6,91 @@ import {
   Grid,
   Input,
   Textarea,
-  useToast,
 } from "@chakra-ui/react";
 import SkillTable from "../RegisterProviderForm/SkillTable";
-import { useEffect, useRef, useState } from "react";
-import useUserProfile, {
-  Skill,
-  Language,
-  UserProfile,
-} from "../../hooks/useUserProfile";
+import { useEffect, useRef } from "react";
+import useUserProfile from "../../hooks/useUserProfile";
 import LanguageTable from "../RegisterProviderForm/LanguageTable";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { AxiosError } from "axios";
-import { ErrorData } from "../../hooks/useLogin";
+import { useSeller } from "../../hooks/useSeller";
+import { ProviderInfoActionTypes } from "../../interface/ProviderInfoReducer";
+import z from "zod";
+import useUpdateProvider from "../../hooks/Provider/useUpdateProvider";
 
 interface Props {
   username: string;
 }
 
 const ServiceProfileSetting = ({ username }: Props) => {
-  const privateApiClient = useAxiosPrivate();
-  const toast = useToast();
+  const { ProviderInfo, ProviderInfoDispatch } = useSeller();
+  const { update, isLoading, setIsLoading, setNotification } =
+    useUpdateProvider();
   const { data } = useUserProfile(username);
-  const [profile, setProfile] = useState<UserProfile>(data);
-  const [skills, setSkills] = useState<Skill[]>(data.skills);
-  const [language, setLanguages] = useState<Language[]>(data.language);
   const descriptionEl = useRef<HTMLTextAreaElement>(null);
   const personalWebsiteEl = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setProfile({ ...profile, skills, language });
-  }, [skills, language]);
-
-  useEffect(() => {
-    setProfile(data);
-    setSkills(data.skills);
-    setLanguages(data.language);
-    if (data.description && descriptionEl.current) {
-      descriptionEl.current.value = data.description;
-    }
-    if (data.PersonalWebsite && personalWebsiteEl.current) {
-      personalWebsiteEl.current.value = data.PersonalWebsite;
+    if (data) {
+      ProviderInfoDispatch({
+        type: ProviderInfoActionTypes.SETINITIAL,
+        payload: data,
+      });
     }
   }, [data]);
 
-  const updateSellerInfo = () => {
-    console.log("send req", profile);
-    privateApiClient
-      .put("/api/service-provider", JSON.stringify(profile), {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      })
-      .then(() => {
-        toast({
-          title: "Profile Updated.",
-          description: "Your profile has been successfully updated.",
-          position: "top",
-          status: "success",
-          duration: 9000,
-          isClosable: true,
-        });
-      })
-      .catch((error) => {
-        if ((error as AxiosError<ErrorData>).response) {
-          toast({
-            title: "Something went wrong",
-            description: (error as AxiosError<ErrorData>).response?.data
-              .message as string,
-            status: "error",
-            isClosable: true,
-          });
-        }
-      });
+  const preUpdateSellerInfo = async () => {
+    setIsLoading(true);
+    const desc = descriptionEl.current;
+    // Validate Description
+    if (!desc || desc?.value.length <= 30 || desc.value.length > 600) {
+      throw new Error("Description must be 30-600 words long");
+    }
+    // Validate skills and language
+    const invalidSkill = ProviderInfo.skills.find(
+      (skill) => skill.name.length === 0
+    );
+    const invalidLanguage = ProviderInfo.language.find(
+      (lang) => lang.name.length === 0
+    );
+    if (invalidSkill || invalidLanguage) {
+      throw new Error("Atleast 1 skill and language required");
+    }
+    return await update(ProviderInfo);
   };
 
   return (
     <Box className="flex items-center">
       <form className="min-w-full">
         <Grid
-          templateColumns={{
-            sm: "1fr",
-            md: "1fr 2fr",
-          }}
-          templateRows={{ md: "1fr", sm: "repeat(2, 1fr)" }}
-          gap={8}
+          templateColumns={{ base: "1fr", sm: "1fr 2fr" }}
+          gap={20}
+          maxW={"full"}
         >
-          <FormLabel fontSize="xl" flex={1}>
-            Description
-            <Text color="red.500" display="inline" marginX={1}>
-              *
-            </Text>
-          </FormLabel>
+          <Box>
+            <FormLabel fontSize="xl" flex={1} margin={0}>
+              Description
+              <Text color="red.500" display="inline" marginX={1}>
+                *
+              </Text>
+            </FormLabel>
+            <Text color="GrayText">Required</Text>
+          </Box>
           <Textarea
-            ref={descriptionEl}
-            onBlur={() => {
-              if (descriptionEl.current) {
-                setProfile({
-                  ...profile,
-                  description: descriptionEl.current.value,
-                });
-              }
+            onBlur={(event) => {
+              ProviderInfoDispatch({
+                type: ProviderInfoActionTypes.SETDESCRIPTION,
+                payload: event.currentTarget.value,
+              });
             }}
-            flex={2}
+            defaultValue={ProviderInfo.description}
+            ref={descriptionEl}
+            maxWidth={"full"}
             name="description"
             maxLength={600}
             resize="vertical"
             placeholder="Share a bit about your work experience, cool projects you've completed, and your area of expertise."
           />
           <Box>
-            <FormLabel fontSize="l" flex={1} margin={0}>
+            <FormLabel fontSize="xl" flex={1} margin={0}>
               Skills
               <Text color="red.500" display="inline" marginX={1}>
                 *
@@ -122,26 +98,48 @@ const ServiceProfileSetting = ({ username }: Props) => {
             </FormLabel>
             <Text color="GrayText">Required</Text>
           </Box>
-          <SkillTable skills={profile.skills} setSkills={setSkills} />
-          <FormLabel fontSize="l" flex={1}>
-            Languages
-            <Text color="red.500" display="inline" marginX={1}>
-              *
-            </Text>
-          </FormLabel>
-          <LanguageTable
-            languages={profile.language}
-            setLanguages={setLanguages}
+          <SkillTable
+            ProviderInfo={ProviderInfo}
+            ProviderInfoDispatch={ProviderInfoDispatch}
           />
-          <FormLabel fontSize="l" flex={1}>
-            Personal Website
-          </FormLabel>
+          <Box>
+            <FormLabel fontSize="xl" flex={1} margin={0}>
+              Languages
+              <Text color="red.500" display="inline" marginX={1}>
+                *
+              </Text>
+            </FormLabel>
+            <Text color="GrayText">Required</Text>
+          </Box>
+          <LanguageTable
+            ProviderInfo={ProviderInfo}
+            ProviderInfoDispatch={ProviderInfoDispatch}
+          />
+          <FormLabel fontSize="xl">Personal Website</FormLabel>
           <Input
-            onBlur={() => {
-              setProfile({
-                ...profile,
-                PersonalWebsite: personalWebsiteEl.current?.value,
-              });
+            defaultValue={ProviderInfo.PersonalWebsite || ""}
+            onBlur={(event) => {
+              // Validate url
+              if (
+                event.currentTarget.value &&
+                event.currentTarget.value.length > 0
+              ) {
+                const urlSchema = z.string().url();
+                const urlValidation = urlSchema.safeParse(
+                  event.currentTarget.value
+                );
+                if (!urlValidation.success) {
+                  return setNotification({
+                    title: "Failed to register user",
+                    status: "error",
+                    description: "Invalid link provided",
+                  });
+                }
+                ProviderInfoDispatch({
+                  type: ProviderInfoActionTypes.SETWEBSITE,
+                  payload: urlValidation.data,
+                });
+              }
             }}
             ref={personalWebsiteEl}
             type="url"
@@ -150,15 +148,23 @@ const ServiceProfileSetting = ({ username }: Props) => {
             placeholder="https://www.afiq.com"
           />
           <Button
-            gridColumnStart={2}
+            gridColumnStart={{ sm: 2, base: 1 }}
             variant="base"
             maxW="10em"
             marginLeft="auto"
+            isLoading={isLoading}
             onClick={() => {
-              updateSellerInfo();
+              Promise.resolve(preUpdateSellerInfo()).catch((error: Error) => {
+                setIsLoading(false);
+                setNotification({
+                  title: "Failed to register user",
+                  status: "error",
+                  description: error.message,
+                });
+              });
             }}
           >
-            Update
+            Register
           </Button>
         </Grid>
       </form>

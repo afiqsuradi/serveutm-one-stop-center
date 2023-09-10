@@ -26,7 +26,7 @@ const useUser = (username: string) => {
         const date = new Date(res.data.dateJoined);
         res.data.dateJoined = new Intl.DateTimeFormat("en-MY", {
           year: "numeric",
-          month: "long",
+          month: "2-digit",
           day: "2-digit",
         }).format(date);
         setData(res.data);

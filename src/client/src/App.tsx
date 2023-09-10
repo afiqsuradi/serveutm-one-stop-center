@@ -16,6 +16,7 @@ import ResetPasswordRequest from "./pages/ResetPasswordRequest";
 import UserSetting from "./pages/UserSetting";
 import UserProfile from "./pages/UserProfile";
 import RegisterProvider from "./pages/RegisterProvider";
+import RequireVerify from "./components/Verify/RequireVerify";
 
 function App() {
   return (
@@ -45,10 +46,12 @@ function App() {
             <Route path={ROUTES.VERIFY} element={<Verify />} />
           </Route>
           <Route element={<RequireAuth allowedRole={["user"]} />}>
-            <Route
-              path={ROUTES.PROVIDER_REGISTER}
-              element={<RegisterProvider />}
-            />
+            <Route element={<RequireVerify />}>
+              <Route
+                path={ROUTES.PROVIDER_REGISTER}
+                element={<RegisterProvider />}
+              />
+            </Route>
           </Route>
         </Route>
         <Route path="*" element={<Missing />} />

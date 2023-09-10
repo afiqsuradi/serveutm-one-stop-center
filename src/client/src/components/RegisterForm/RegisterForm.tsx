@@ -5,27 +5,49 @@ import {
 } from "../../types/register";
 import useRegister from "../../hooks/useRegister";
 import ErrorLabel from "./ErrorLabel";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+} from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "../../constants/path";
 
 const RegisterForm = () => {
-  const { registerUser, error, isLoading } = useRegister();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterFormStruct>({ resolver: RegisterFormStructResolver });
-
+  const { registerUser, isLoading, success } = useRegister();
+  const onClose = () => {
+    navigate(ROUTES.HOMEPAGE);
+  };
   return (
     <>
-      {error ? (
-        <div
-          className="mb-4 rounded-lg bg-red-100 px-6 py-5 text-base text-red-700"
-          role="alert"
-        >
-          {error}
-        </div>
-      ) : (
-        ""
-      )}
+      <Modal blockScrollOnMount={false} isOpen={success} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Account Successfully Created</ModalHeader>
+          <ModalBody>
+            <Text fontWeight="bold" mb="1rem">
+              Please check your email for email verification.
+            </Text>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" onClick={onClose} variant="base">
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <form
         className="space-y-6"
         action="#"
@@ -153,13 +175,15 @@ const RegisterForm = () => {
         </div>
 
         <div>
-          <button
-            disabled={!isLoading}
+          <Button
+            variant="base"
+            isLoading={isLoading}
+            loadingText="Registering User..."
             type="submit"
             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-base font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Register
-          </button>
+          </Button>
         </div>
       </form>
     </>

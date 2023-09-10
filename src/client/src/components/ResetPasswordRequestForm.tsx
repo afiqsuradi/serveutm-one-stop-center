@@ -1,62 +1,47 @@
 import { useForm } from "react-hook-form";
-import apiClient from "../services/apiClient";
-import { useState } from "react";
-import { ErrorData } from "../hooks/useLogin";
-import { AxiosError } from "axios";
-interface formData {
-  email: string;
-}
+import useRequestReset, {
+  passwordResetRequestFormData,
+} from "../hooks/useRequestReset";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  ModalFooter,
+} from "@chakra-ui/react";
+
 const ResetPasswordRequestForm = () => {
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
-  const [isLoading, setLoading] = useState(true);
-  const { register, handleSubmit } = useForm<formData>();
-
-  const requestPasswordReset = (data: formData) => {
-    apiClient
-      .post("/api/forgot-password", JSON.stringify(data), {
-        headers: { "Content-Type": "application/json" },
-        params: {
-          baseUrl: window.location.origin,
-        },
-        withCredentials: true,
-      })
-      .then((res) => {
-        if (res.status === 201) {
-          setError("");
-          setSuccess(true);
-        }
-      })
-      .catch((err) => {
-        setSuccess(false);
-        setError(
-          (err as AxiosError<ErrorData>).response?.data.message as string
-        );
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+  const { success, isLoading, requestPasswordReset, setSuccess } =
+    useRequestReset();
+  const { register, handleSubmit, reset } =
+    useForm<passwordResetRequestFormData>();
+  const onClose = () => {
+    reset();
+    setSuccess(false);
   };
-
   return (
     <>
-      {!(error.length === 0) && !isLoading ? (
-        <div
-          className="mb-4 rounded-lg bg-red-100 px-6 py-5 text-base text-red-700"
-          role="alert"
-        >
-          {error}
-        </div>
-      ) : success && !isLoading ? (
-        <div
-          className="mb-4 rounded-lg bg-green-100 px-6 py-5 text-base text-green-700"
-          role="alert"
-        >
-          Kindly check your email for further instruction
-        </div>
-      ) : (
-        ""
-      )}
+      {/* todo: create modal once done reset */}
+      <Modal blockScrollOnMount={false} isOpen={success} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Successfully Request Passord Reset</ModalHeader>
+          <ModalBody>
+            <Text fontWeight="bold" mb="1rem">
+              Please check your email for further instruction.
+            </Text>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" onClick={onClose} variant="base">
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <form
         className="space-y-6"
         action="#"
@@ -85,12 +70,15 @@ const ResetPasswordRequestForm = () => {
           </div>
         </div>
         <div>
-          <button
+          <Button
+            variant="base"
+            isLoading={isLoading}
+            loadingText="Requesting.."
             type="submit"
             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-base font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Request Reset
-          </button>
+          </Button>
         </div>
       </form>
     </>

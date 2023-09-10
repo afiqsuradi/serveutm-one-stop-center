@@ -10,37 +10,79 @@ import {
   Th,
   Thead,
   Tr,
+  useToast,
 } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { Dispatch, useEffect, useRef, useState } from "react";
 import { MdEdit, MdDelete } from "react-icons/md";
 import wikipediaLanguages from "../../constants/languages";
-import { Language, languageLevel } from "../../hooks/useUserProfile";
+import { UserProfile, languageLevel } from "../../interface/ProviderInfo";
+import {
+  ProviderInfoAction,
+  ProviderInfoActionTypes,
+} from "../../interface/ProviderInfoReducer";
 
 interface Props {
-  languages: Language[];
-  setLanguages: React.Dispatch<React.SetStateAction<Language[]>>;
+  ProviderInfo: UserProfile;
+  ProviderInfoDispatch: Dispatch<ProviderInfoAction>;
 }
 
-const LanguageTable = ({ languages, setLanguages }: Props) => {
+const LanguageTable = ({ ProviderInfo, ProviderInfoDispatch }: Props) => {
+  const [open, setOpen] = useState(false);
+  const toast = useToast();
+  const [error, setError] = useState("");
   const langName = useRef<HTMLSelectElement>(null);
   const levelName = useRef<HTMLSelectElement>(null);
 
   const addNewLanguage = () => {
     if (langName.current?.value && levelName.current?.value) {
-      const name = langName.current?.value;
+      const name = langName.current?.value || "";
       const level = levelName.current?.value;
-      setLanguages(
-        (prevLangs: Language[]) => [...prevLangs, { name, level }] as Language[]
-      );
+      const exist = ProviderInfo.language.find((lang) => lang.name === name);
+      if (!exist) {
+        const newLevel =
+          languageLevel.find((lev) => lev === level) || languageLevel[0];
+
+        //Find dupe
+        const dupe = ProviderInfo.language.find((lang) => lang.name === name);
+        if (dupe === undefined) {
+          //fix language input
+          const newLang = ProviderInfo.language.filter(
+            (lang) => lang.name.length > 0
+          );
+          newLang.push({ name, level: newLevel });
+          ProviderInfoDispatch({
+            type: ProviderInfoActionTypes.SETLANGUAGES,
+            payload: newLang,
+          });
+        } else {
+          return setError("Language already added");
+        }
+      }
     }
   };
-  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (!(error.length === 0)) {
+      toast({
+        title: "Invalid Skill Name",
+        description: `${error}`,
+        status: "error",
+        isClosable: true,
+      });
+      setError("");
+    }
+  }, [error]);
   return (
-    <Box>
+    <Box overflowX="scroll" whiteSpace="nowrap">
       {!open ? (
         ""
       ) : (
-        <Box display="flex" justifyContent="space-between" gap={3} paddingY="3">
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          gap={3}
+          paddingY="3"
+          maxW={"full"}
+        >
           <Select ref={langName}>
             {wikipediaLanguages.map((language) => {
               return (
@@ -61,17 +103,28 @@ const LanguageTable = ({ languages, setLanguages }: Props) => {
           </Select>
         </Box>
       )}
-      <TableContainer flex={2}>
+      <TableContainer>
         <Table variant="striped" size="lg" border="1px solid gray">
           <Thead>
             <Tr display="flex" alignItems="center">
-              <Th flex={1}>Language</Th>
-              <Th flex={1}>Level</Th>
-              <Th display="flex" justifyContent="space-around" flex={1}>
+              <Th flex={1} p={{ base: "0.4em", sm: "1.5rem" }}>
+                Language
+              </Th>
+              <Th flex={1} p={{ base: "0.4em", sm: "1.5rem" }}>
+                Level
+              </Th>
+              <Th
+                display="flex"
+                justifyContent="space-around"
+                flexDirection={{ base: "column", sm: "row" }}
+                flex={1}
+                p={{ sm: "0.4em", base: "1rem" }}
+              >
                 {!open ? (
                   <Button
                     variant="base"
-                    minW="80%"
+                    minW="10em"
+                    marginRight="auto"
                     onClick={() => {
                       setOpen(!open);
                     }}
@@ -104,12 +157,24 @@ const LanguageTable = ({ languages, setLanguages }: Props) => {
             </Tr>
           </Thead>
           <Tbody>
-            {languages.map((language) => {
+            {ProviderInfo.language.map((language) => {
+              if (!(language.name.length > 0)) return "";
               return (
                 <Tr display="flex" alignItems="center">
-                  <Td flex={1}>{language.name}</Td>
-                  <Td flex={1}>{language.level}</Td>
-                  <Td flex={1} display="flex" justifyContent="center" gap="4em">
+                  <Td flex={1} p={{ base: "0.4em", sm: "1.5rem" }}>
+                    {language.name}
+                  </Td>
+                  <Td flex={1} p={{ base: "0.4em", sm: "1.5rem" }}>
+                    {language.level}
+                  </Td>
+                  <Td
+                    p={{ base: "0.4em", sm: "1.5rem" }}
+                    flex={1}
+                    display="flex"
+                    justifyContent="center"
+                    flexDirection={{ base: "column", sm: "row" }}
+                    gap={{ base: "0.5em", sm: "4em" }}
+                  >
                     <IconButton
                       variant="base"
                       aria-label="Edit"
@@ -128,10 +193,14 @@ const LanguageTable = ({ languages, setLanguages }: Props) => {
                       variant="danger"
                       aria-label="Delete"
                       onClick={() => {
-                        setLanguages((prevLangs: Language[]) => {
-                          return prevLangs.filter(
-                            (langData) => !(langData.name === language.name)
-                          );
+                        const newLanguage = ProviderInfo.language.filter(
+                          (lang) => {
+                            return lang.name !== language.name;
+                          }
+                        );
+                        ProviderInfoDispatch({
+                          type: ProviderInfoActionTypes.SETLANGUAGES,
+                          payload: newLanguage,
                         });
                       }}
                       icon={<MdDelete />}

@@ -1,26 +1,30 @@
-import { Navigate, useLocation } from "react-router-dom";
-import ROUTES from "../constants/path";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import useValidResetToken from "../hooks/useValidResetToken";
 import { useForm } from "react-hook-form";
-import ErrorLabel from "./RegisterForm/ErrorLabel";
-import apiClient from "../services/apiClient";
-import { useState } from "react";
-import { AxiosError } from "axios";
-import { ErrorData } from "../hooks/useLogin";
 import {
   PasswordResetFormStruct,
   PasswordResetFormStructResolver,
 } from "../types/passwordReset";
+import useResetPassword from "../hooks/useResetPassword";
+import ErrorLabel from "./RegisterForm/ErrorLabel";
+import ROUTES from "../constants/path";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+} from "@chakra-ui/react";
 
 const ResetPasswordForm = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [resetSuccess, setResetSuccess] = useState(false);
-  const [error, setError] = useState("");
+  const navigate = useNavigate();
   const location = useLocation();
-  const token = new URLSearchParams(location.search).get("token");
-  const { success, isLoading: isLoadingVerify } = useValidResetToken(
-    token ? token : ""
-  );
+  const token = new URLSearchParams(location.search).get("token") || "";
+  const { valid } = useValidResetToken(token);
+  const { success, isLoading, resetPassword } = useResetPassword(token);
   const {
     register,
     handleSubmit,
@@ -28,53 +32,39 @@ const ResetPasswordForm = () => {
   } = useForm<PasswordResetFormStruct>({
     resolver: PasswordResetFormStructResolver,
   });
-  if (!isLoadingVerify && !success)
-    return <Navigate to={ROUTES.HOMEPAGE} replace />;
+  if (valid !== null && !valid) {
+    return <Navigate to={ROUTES.HOMEPAGE} />;
+  }
 
-  const resetPassword = (data: PasswordResetFormStruct) => {
-    apiClient
-      .post("/api/forgot-password/reset", JSON.stringify({ ...data, token }), {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      })
-      .then((res) => {
-        if (res.status === 202) {
-          setResetSuccess(true);
-        }
-      })
-      .catch((err) => {
-        setResetSuccess(false);
-        setError((err as AxiosError<ErrorData>).message);
-      })
-      .finally(() => setIsLoading(false));
+  const onClose = () => {
+    navigate(ROUTES.LOGIN);
   };
   return (
     <>
-      {!isLoading && resetSuccess ? (
-        <div
-          className="mb-4 rounded-lg bg-green-100 px-6 py-5 text-base text-green-700"
-          role="alert"
-        >
-          Successfully reset password
-        </div>
-      ) : !isLoading && !(error.length === 0) ? (
-        <div
-          className="mb-4 rounded-lg bg-red-100 px-6 py-5 text-base text-red-700"
-          role="alert"
-        >
-          {error}
-        </div>
-      ) : (
-        ""
-      )}
+      <Modal blockScrollOnMount={false} isOpen={success} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Update Successfull</ModalHeader>
+          <ModalBody>
+            <Text fontWeight="bold" mb="1rem">
+              You may now login with your new password
+            </Text>
+          </ModalBody>
 
+          <ModalFooter>
+            <Button colorScheme="blue" onClick={onClose}>
+              Login
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <form
         className="space-y-6"
         action="#"
         method="POST"
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSubmit={handleSubmit((data) => {
-          resetPassword(data);
+        onSubmit={handleSubmit(async (data) => {
+          await resetPassword(data);
         })}
       >
         <div>
@@ -127,12 +117,14 @@ const ResetPasswordForm = () => {
         </div>
 
         <div>
-          <button
+          <Button
+            isLoading={isLoading}
+            loadingText="Resetting..."
             type="submit"
             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-base font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Reset
-          </button>
+          </Button>
         </div>
       </form>
     </>

@@ -9,76 +9,41 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import SkillTable from "./SkillTable";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import LanguageTable from "./LanguageTable";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { AxiosError } from "axios";
-import { ErrorData } from "../../hooks/useLogin";
 import SuccessOverlay from "./SuccessOverlay";
-import { Skill, Language } from "../../hooks/useUserProfile";
-
-interface ProviderFormError {
-  title: string;
-  description: string;
-}
+import useRegisterProvider from "../../hooks/Provider/useRegisterProvider";
+import z from "zod";
+import { useSeller } from "../../hooks/useSeller";
+import { ProviderInfoActionTypes } from "../../interface/ProviderInfoReducer";
 
 const RegisterProviderForm = () => {
-  const privateApiClient = useAxiosPrivate();
+  const { success, error, register, setError, loading, setLoading } =
+    useRegisterProvider();
   const toast = useToast();
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState<ProviderFormError>();
-  const [skills, setSkills] = useState<Skill[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [languages, setLanguages] = useState<Language[]>([]);
+  const { ProviderInfo, ProviderInfoDispatch } = useSeller();
   const descriptionEl = useRef<HTMLTextAreaElement>(null);
   const personalWebsiteEl = useRef<HTMLInputElement>(null);
 
-  const registerProvider = () => {
+  const preRegisterProvider = async () => {
     setLoading(true);
     const desc = descriptionEl.current;
-    const web = personalWebsiteEl.current;
-    if (!desc || desc?.value.length <= 30 || desc.value.length > 600)
-      return setError({
-        title: "Failed to register user",
-        description: "Description must be 30-600 words long",
-      });
-    if (skills.length === 0 || languages.length === 0) {
-      return setError({
-        title: "Failed to register user",
-        description: "Atleast 1 skill and language required",
-      });
+    // Validate Description
+    if (!desc || desc?.value.length <= 30 || desc.value.length > 600) {
+      throw new Error("Description must be 30-600 words long");
     }
-
-    privateApiClient
-      .post(
-        "/api/service-provider/register",
-        JSON.stringify({
-          language: languages,
-          skills: skills,
-          description: desc.value,
-          PersonalWebsite: web?.value,
-        }),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      )
-      .then(() => setSuccess(true))
-      .catch((error) => {
-        if ((error as AxiosError<ErrorData>).response) {
-          return setError({
-            title: "Something went wrong",
-            description: (error as AxiosError<ErrorData>).response?.data
-              .message as string,
-          });
-        }
-        return setError({
-          title: "Network Error",
-          description: "Couldn't connect to the server",
-        });
-      });
+    // Validate skills and language
+    const invalidSkill = ProviderInfo.skills.find(
+      (skill) => skill.name.length === 0
+    );
+    const invalidLanguage = ProviderInfo.language.find(
+      (lang) => lang.name.length === 0
+    );
+    if (invalidSkill || invalidLanguage) {
+      throw new Error("Atleast 1 skill and language required");
+    }
+    return await register(ProviderInfo);
   };
-
   useEffect(() => {
     if (error?.title && error.description) {
       toast({
@@ -89,28 +54,34 @@ const RegisterProviderForm = () => {
       });
       setError({ title: "", description: "" });
     }
-  }, [error, toast]);
+  }, [error]);
 
   return (
     <>
       <SuccessOverlay isOpen={success} />
       <Grid
-        templateColumns={{
-          sm: "1fr",
-          md: "1fr 2fr",
-        }}
-        templateRows={{ md: "1fr", sm: "repeat(2, 1fr)" }}
-        gap={8}
+        templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)" }}
+        gap={20}
+        maxW={"full"}
       >
-        <FormLabel fontSize="xl" flex={1}>
-          Description
-          <Text color="red.500" display="inline" marginX={1}>
-            *
-          </Text>
-        </FormLabel>
+        <Box>
+          <FormLabel fontSize="xl" flex={1} margin={0}>
+            Description
+            <Text color="red.500" display="inline" marginX={1}>
+              *
+            </Text>
+          </FormLabel>
+          <Text color="GrayText">Required</Text>
+        </Box>
         <Textarea
+          onBlur={(event) => {
+            ProviderInfoDispatch({
+              type: ProviderInfoActionTypes.SETDESCRIPTION,
+              payload: event.currentTarget.value,
+            });
+          }}
           ref={descriptionEl}
-          flex={2}
+          maxWidth={"full"}
           name="description"
           maxLength={600}
           resize="vertical"
@@ -125,16 +96,47 @@ const RegisterProviderForm = () => {
           </FormLabel>
           <Text color="GrayText">Required</Text>
         </Box>
-        <SkillTable skills={skills} setSkills={setSkills} />
-        <FormLabel fontSize="xl" flex={1}>
-          Languages
-          <Text color="red.500" display="inline" marginX={1}>
-            *
-          </Text>
-        </FormLabel>
-        <LanguageTable languages={languages} setLanguages={setLanguages} />
-        <FormLabel>Personal Website</FormLabel>
+        <SkillTable
+          ProviderInfo={ProviderInfo}
+          ProviderInfoDispatch={ProviderInfoDispatch}
+        />
+        <Box>
+          <FormLabel fontSize="xl" flex={1} margin={0}>
+            Languages
+            <Text color="red.500" display="inline" marginX={1}>
+              *
+            </Text>
+          </FormLabel>
+          <Text color="GrayText">Required</Text>
+        </Box>
+        <LanguageTable
+          ProviderInfo={ProviderInfo}
+          ProviderInfoDispatch={ProviderInfoDispatch}
+        />
+        <FormLabel fontSize="xl">Personal Website</FormLabel>
         <Input
+          onBlur={(event) => {
+            // Validate url
+            if (
+              event.currentTarget.value &&
+              event.currentTarget.value.length > 0
+            ) {
+              const urlSchema = z.string().url();
+              const urlValidation = urlSchema.safeParse(
+                event.currentTarget.value
+              );
+              if (!urlValidation.success) {
+                return setError({
+                  title: "Failed to register user",
+                  description: "Invalid link provided",
+                });
+              }
+              ProviderInfoDispatch({
+                type: ProviderInfoActionTypes.SETWEBSITE,
+                payload: urlValidation.data,
+              });
+            }
+          }}
           ref={personalWebsiteEl}
           type="url"
           id="PersonalWebsite"
@@ -142,13 +144,19 @@ const RegisterProviderForm = () => {
           placeholder="https://www.afiq.com"
         />
         <Button
-          disabled={!loading}
-          gridColumnStart={2}
+          gridColumnStart={{ sm: 2, base: 1 }}
           variant="base"
           maxW="10em"
           marginLeft="auto"
+          isLoading={loading}
           onClick={() => {
-            registerProvider();
+            Promise.resolve(preRegisterProvider()).catch((error: Error) => {
+              setLoading(false);
+              setError({
+                title: "Failed to register user",
+                description: error.message,
+              });
+            });
           }}
         >
           Register

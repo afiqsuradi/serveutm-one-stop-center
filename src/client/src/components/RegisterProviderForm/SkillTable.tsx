@@ -13,16 +13,20 @@ import {
   Tr,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, useEffect, useRef, useState } from "react";
 import { MdEdit, MdDelete } from "react-icons/md";
-import { Skill, skillLevel } from "../../hooks/useUserProfile";
+import { UserProfile, skillLevel } from "../../interface/ProviderInfo";
+import {
+  ProviderInfoAction,
+  ProviderInfoActionTypes,
+} from "../../interface/ProviderInfoReducer";
 
 interface Props {
-  skills: Skill[];
-  setSkills: React.Dispatch<React.SetStateAction<Skill[]>>;
+  ProviderInfo: UserProfile;
+  ProviderInfoDispatch: Dispatch<ProviderInfoAction>;
 }
 
-const SkillTable = ({ skills, setSkills }: Props) => {
+const SkillTable = ({ ProviderInfo, ProviderInfoDispatch }: Props) => {
   const [error, setError] = useState("");
   const toast = useToast();
   const skillName = useRef<HTMLInputElement>(null);
@@ -31,12 +35,23 @@ const SkillTable = ({ skills, setSkills }: Props) => {
   const addNewSkill = () => {
     if (skillName.current?.value && levelName.current?.value) {
       const name = skillName.current?.value;
-      const level = levelName.current?.value;
+      const level =
+        skillLevel.find((lev) => lev === levelName.current?.value) ||
+        skillLevel[0];
       if (!(name.length >= 4 && name.length <= 30))
         return setError("Skill name should be only 4 to 32 characters");
-      setSkills(
-        (prevSkills: Skill[]) => [...prevSkills, { name, level }] as Skill[]
-      );
+      // Find duplicate
+      const dupe = ProviderInfo.skills.find((skill) => skill.name === name);
+      if (dupe === undefined) {
+        const skill = ProviderInfo.skills.filter((sk) => sk.name.length > 0);
+        skill.push({ name, level });
+        ProviderInfoDispatch({
+          type: ProviderInfoActionTypes.SETSKILL,
+          payload: skill,
+        });
+      } else {
+        return setError("Skill name already added");
+      }
     }
   };
   useEffect(() => {
@@ -52,30 +67,42 @@ const SkillTable = ({ skills, setSkills }: Props) => {
   }, [error]);
   const [open, setOpen] = useState(false);
   return (
-    <Box>
+    <Box overflowX="scroll" whiteSpace="nowrap">
       {!open ? (
         ""
       ) : (
-        <Box display="flex" justifyContent="space-between" gap={3} paddingY="3">
-          <Input placeholder="Skill Name" ref={skillName} />
-          <Select ref={levelName}>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          gap={3}
+          paddingY="3"
+          maxW={"full"}
+        >
+          <Input placeholder="Skill Name" ref={skillName} flex={1} />
+          <Select ref={levelName} flex={1}>
             {skillLevel.map((level) => {
               return <option value={level}>{level}</option>;
             })}
           </Select>
         </Box>
       )}
-      <TableContainer flex={2}>
+      <TableContainer>
         <Table variant="striped" size="lg" border="1px solid gray">
           <Thead>
             <Tr display="flex" alignItems="center">
               <Th flex={1}>Skill</Th>
               <Th flex={1}>Level</Th>
-              <Th flex={1} display="flex" justifyContent="space-around">
+              <Th
+                flex={1}
+                display="flex"
+                flexDirection={{ base: "column", sm: "row" }}
+                justifyContent="space-around"
+              >
                 {!open ? (
                   <Button
+                    marginRight="auto"
                     variant="base"
-                    minW="80%"
+                    minW="10em"
                     onClick={() => {
                       setOpen(!open);
                     }}
@@ -108,12 +135,19 @@ const SkillTable = ({ skills, setSkills }: Props) => {
             </Tr>
           </Thead>
           <Tbody>
-            {skills.map((skill) => {
+            {ProviderInfo.skills.map((skill) => {
+              if (!(skill.name.length > 0)) return "";
               return (
                 <Tr display="flex" alignItems="center">
                   <Td flex={1}>{skill.name}</Td>
                   <Td flex={1}>{skill.level}</Td>
-                  <Td flex={1} display="flex" justifyContent="center" gap="4em">
+                  <Td
+                    flex={1}
+                    display="flex"
+                    justifyContent="center"
+                    flexDirection={{ base: "column", sm: "row" }}
+                    gap={{ base: "0.5em", sm: "4em" }}
+                  >
                     <IconButton
                       variant="base"
                       aria-label="Edit"
@@ -132,10 +166,14 @@ const SkillTable = ({ skills, setSkills }: Props) => {
                       variant="danger"
                       aria-label="Delete"
                       onClick={() => {
-                        setSkills((prevSkills: Skill[]) => {
-                          return prevSkills.filter(
-                            (skillData) => !(skillData.name === skill.name)
-                          );
+                        const newSkill = ProviderInfo.skills.filter(
+                          (skills) => {
+                            return skills.name !== skill.name;
+                          }
+                        );
+                        ProviderInfoDispatch({
+                          type: ProviderInfoActionTypes.SETSKILL,
+                          payload: newSkill,
                         });
                       }}
                       icon={<MdDelete />}

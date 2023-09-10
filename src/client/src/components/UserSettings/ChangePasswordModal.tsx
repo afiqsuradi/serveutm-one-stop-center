@@ -20,7 +20,7 @@ import {
 } from "../../types/changePassword";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { AxiosError } from "axios";
-import { ErrorData } from "../../hooks/useLogin";
+import { ErrorData } from "../../services/apiClient";
 
 interface Props {
   isOpen: boolean;

@@ -1,30 +1,26 @@
 import { useEffect, useState } from "react";
 import apiClient, { ErrorData } from "../services/apiClient";
-import { useAuth } from "./useAuth";
-import { RegisterFormStruct } from "../types/register";
-import { AuthType } from "../context/authProvider";
 import { AxiosError } from "axios";
+import { PasswordResetFormStruct } from "../types/passwordReset";
 import { useToast } from "@chakra-ui/react";
 
-const useRegister = () => {
-  const [error, setError] = useState("");
+const useResetPassword = (token: string) => {
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const { setAuth } = useAuth();
-  const registerUser = async (data: RegisterFormStruct) => {
+  const [error, setError] = useState("");
+  const resetPassword = async (data: PasswordResetFormStruct) => {
     setIsLoading(true);
     try {
-      const result = await apiClient.post<AuthType>(
-        "/api/user",
-        JSON.stringify(data),
+      const respond = await apiClient.post(
+        "/api/forgot-password/reset",
+        JSON.stringify({ ...data, token }),
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
       );
-      if (result.status === 200) {
-        setAuth(result.data);
+      if (respond.status === 202) {
         setSuccess(true);
       }
     } catch (resError) {
@@ -36,7 +32,6 @@ const useRegister = () => {
         // If backend crash / not found
         setError((resError as AxiosError<ErrorData>).message);
       }
-      setSuccess(false);
     } finally {
       setIsLoading(false);
     }
@@ -56,7 +51,7 @@ const useRegister = () => {
     setError("");
   }, [error]);
 
-  return { registerUser, isLoading, success };
+  return { success, isLoading, resetPassword };
 };
 
-export default useRegister;
+export default useResetPassword;

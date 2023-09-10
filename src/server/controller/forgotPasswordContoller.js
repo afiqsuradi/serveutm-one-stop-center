@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { User } = require("../model/user");
 const bcrypt = require("bcrypt");
 const { generatePasswordResetToken } = require("./helper/token");
@@ -21,7 +22,7 @@ forgotPasswordController.sendMail = async (req, res) => {
   const newToken = await generatePasswordResetToken(user._id);
   // Send OTP through email
 
-  const userUrl = req.query.baseUrl;
+  const userUrl = process.env.ORIGIN_URL;
   sendPasswordResetMail(email, userUrl, newToken.token);
   // Send 201 res to user
   return res.sendStatus(201);
