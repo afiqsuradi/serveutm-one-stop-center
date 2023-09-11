@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { transportMail } = require("../../utils/mail");
 const verifyMail = require("./template/verifyMail");
+const resetPasswordMail = require("./template/resetPasswordMail");
 
 async function sendVerifyMail(email, token) {
   return await transportMail.sendMail({
@@ -15,7 +16,7 @@ async function sendPasswordResetMail(email, token) {
     from: "no-reply@serveutm.online",
     to: email,
     subject: "One-time code for password reset",
-    html: `<a href="${process.env.ORIGIN_URL}/password-reset/confirm?token=${token}">Reset Password</a>`,
+    html: resetPasswordMail(token),
   });
 }
 module.exports = { sendVerifyMail, sendPasswordResetMail };
