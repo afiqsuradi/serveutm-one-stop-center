@@ -1,16 +1,19 @@
 import {
   Accordion,
-  AccordionButton,
-  AccordionIcon,
   AccordionItem,
+  AccordionButton,
   AccordionPanel,
+  AccordionIcon,
   Box,
   Container,
   Heading,
+  Icon,
   Text,
 } from "@chakra-ui/react";
+import { IconType } from "react-icons";
+import { BiSolidSad } from "react-icons/bi";
 
-const UserOrderHistory = () => {
+const SellerCompletedOrder = () => {
   return (
     <Container
       paddingX={{ lg: "10%", base: "0" }}
@@ -20,12 +23,14 @@ const UserOrderHistory = () => {
     >
       <Accordion backgroundColor={"gray.700"} borderRadius={"lg"} allowMultiple>
         <AccordionItem>
-          <AccordionButton>
-            <Box as="span" flex="1" textAlign="left">
-              <Heading paddingBottom={3}>Orders History</Heading>
-            </Box>
-            <AccordionIcon />
-          </AccordionButton>
+          <h2>
+            <AccordionButton>
+              <Box as="span" flex="1" textAlign="left">
+                <Heading paddingBottom={3}>Completed Orders</Heading>
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
           <AccordionPanel pb={4}>
             <Box
               border="1px"
@@ -39,7 +44,8 @@ const UserOrderHistory = () => {
               padding={"2rem"}
               gap={"1rem"}
             >
-              <Text fontSize={"xl"}>You haven't place an order</Text>
+              <Icon as={BiSolidSad as IconType} boxSize={16} />
+              <Text fontSize={"xl"}>You have no completed orders</Text>
             </Box>
           </AccordionPanel>
         </AccordionItem>
@@ -48,4 +54,4 @@ const UserOrderHistory = () => {
   );
 };
 
-export default UserOrderHistory;
+export default SellerCompletedOrder;

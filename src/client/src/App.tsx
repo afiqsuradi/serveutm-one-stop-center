@@ -17,7 +17,7 @@ import UserSetting from "./pages/UserSetting";
 import UserProfile from "./pages/UserProfile";
 import RegisterProvider from "./pages/RegisterProvider";
 import RequireVerify from "./components/Verify/RequireVerify";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 function App() {
   return (
@@ -55,6 +55,8 @@ function App() {
             </Route>
           </Route>
         </Route>
+
+        <Route path={ROUTES.NOTFOUND} element={<Missing />} />
         <Route path="*" element={<Missing />} />
       </Route>
     </Routes>

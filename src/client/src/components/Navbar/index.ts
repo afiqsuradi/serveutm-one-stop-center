@@ -12,7 +12,7 @@ export interface NavLinksType {
 
 export const navigation: NavLinksType[] = [
   { name: "Home", to: ROUTES.HOMEPAGE, role: "all" },
-  { name: "Dashboard", to: ROUTES.DASHBOARD, role: "user" },
+  { name: "Dashboard", to: ROUTES.DASHBOARD, role: "all" },
   { name: "About", to: ROUTES.ABOUT_US, role: "all" },
   { name: "Contact", to: ROUTES.CONTACT_US, role: "all" },
 ];
