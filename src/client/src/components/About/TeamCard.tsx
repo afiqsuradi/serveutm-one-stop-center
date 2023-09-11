@@ -13,7 +13,7 @@ import aliff from "../../assets/aliff.jpg";
 import danish from "../../assets/danish.jpg";
 import hazeem from "../../assets/hazeem.jpg";
 import irfan from "../../assets/irfan.png";
-import naza from "../../assets/naza.png";
+import naza from "../../assets/naza.jpg";
 const teams = [
   {
     image: afiq,
@@ -43,7 +43,7 @@ const teams = [
   {
     image: danish,
     name: "Danish Danial",
-    role: "Documentation",
+    role: "Programmer",
   },
 ];
 
