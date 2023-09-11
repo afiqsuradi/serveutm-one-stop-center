@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* src/index.css */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Other styles or customizations */
+.custom-font {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 4rem;
+}
+
+.segment {
+    padding: 50px 0px;
+}
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+img {
+    width: 10rem;
+    height: 15rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+li {
+    flex: 1; /* Distribute available space equally */
+    margin: 5px; /* Equal margin on all sides of each li */
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-sizing: border-box; /* Ensure padding is included in width */
+    border-radius: 5px;
+    width: 15rem;
+    font-size: 0.7em;
+}
+
