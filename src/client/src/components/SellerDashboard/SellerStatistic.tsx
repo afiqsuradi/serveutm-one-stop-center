@@ -42,7 +42,7 @@ const SellerStatistic = () => {
               <Divider />
             </Box>
             <Heading as={"h1"} fontSize={"3rem"}>
-              RM 23.40
+              RM 00.00
             </Heading>
           </CardBody>
         </Card>
