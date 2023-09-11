@@ -3,12 +3,9 @@ import {
   Container,
   Flex,
   Heading,
-  Wrap,
-  WrapItem,
   Text,
   VStack,
   Button,
-  HStack,
   IconButton,
   FormControl,
   FormLabel,
@@ -17,14 +14,8 @@ import {
   Input,
   Textarea,
 } from "@chakra-ui/react";
-import {
-  MdPhone,
-  MdEmail,
-  MdLocationOn,
-  MdFacebook,
-  MdOutlineEmail,
-} from "react-icons/md";
-import { BsGithub, BsDiscord, BsPerson } from "react-icons/bs";
+import { MdPhone, MdEmail, MdLocationOn, MdOutlineEmail } from "react-icons/md";
+import { BsGithub, BsPerson } from "react-icons/bs";
 
 const ContactUs = () => {
   return (
