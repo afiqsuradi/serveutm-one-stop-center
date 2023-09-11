@@ -1,6 +1,9 @@
 import { Button, Grid } from "@chakra-ui/react";
+import useResendVerifyEmail from "../../hooks/useResendVerifyEmail";
+import { AxiosError } from "axios";
 
 const VerifyFailed = () => {
+  const { requestToken, setNotification } = useResendVerifyEmail();
   return (
     <Grid display={"grid"} minH="full" placeItems="center">
       <div className="text-center">
@@ -13,6 +16,20 @@ const VerifyFailed = () => {
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
           <Button
+            onClick={() => {
+              requestToken().catch((error) => {
+                setNotification({
+                  title: "Failed to resend token",
+                  message:
+                    (
+                      error as AxiosError<{
+                        message: string;
+                      }>
+                    ).response?.data.message || (error as AxiosError).message,
+                  status: "error",
+                });
+              });
+            }}
             variant="base"
             className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >

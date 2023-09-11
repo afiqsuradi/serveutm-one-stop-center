@@ -23,7 +23,7 @@ forgotPasswordController.sendMail = async (req, res) => {
   // Send OTP through email
 
   const userUrl = process.env.ORIGIN_URL;
-  sendPasswordResetMail(email, userUrl, newToken.token);
+  sendPasswordResetMail(email, newToken.token);
   // Send 201 res to user
   return res.sendStatus(201);
 };
