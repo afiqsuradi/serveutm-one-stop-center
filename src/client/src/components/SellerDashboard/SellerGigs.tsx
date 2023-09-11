@@ -7,15 +7,9 @@ import {
   Box,
   Container,
   Heading,
-  Icon,
-  Text,
   Card,
   CardBody,
 } from "@chakra-ui/react";
-import { IconType } from "react-icons";
-import { BsFillCartFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
-import ROUTES from "../../constants/path";
 import { AiFillPlusCircle } from "react-icons/ai";
 
 const SellerGigs = () => {
