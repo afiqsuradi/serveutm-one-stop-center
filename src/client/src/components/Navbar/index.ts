@@ -6,13 +6,15 @@ export default Navbar;
 export interface NavLinksType {
   name: string;
   to: string;
+  role: "user" | "service_provider" | "admin" | "all";
   currentLocation?: string;
 }
 
 export const navigation: NavLinksType[] = [
-  { name: "Dashboard", to: ROUTES.HOMEPAGE },
-  { name: "About", to: ROUTES.ABOUT_US },
-  { name: "Contact", to: ROUTES.CONTACT_US },
+  { name: "Home", to: ROUTES.HOMEPAGE, role: "all" },
+  { name: "Dashboard", to: ROUTES.DASHBOARD, role: "user" },
+  { name: "About", to: ROUTES.ABOUT_US, role: "all" },
+  { name: "Contact", to: ROUTES.CONTACT_US, role: "all" },
 ];
 
 export function classNames(...classes: string[]) {

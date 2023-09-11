@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { NavLinksType, classNames, navigation } from ".";
+import { useAuth } from "../../hooks/useAuth";
 
 const NavLink = ({ name, to }: NavLinksType) => {
   return (
@@ -18,17 +19,22 @@ const NavLink = ({ name, to }: NavLinksType) => {
 };
 
 const NavLinks = () => {
+  const { Auth } = useAuth();
   const location = useLocation();
   return (
     <div className="hidden sm:ml-6 sm:block">
       <div className="flex space-x-4">
-        {navigation.map((item) => (
-          <NavLink
-            key={item.name}
-            {...item}
-            currentLocation={location.pathname}
-          />
-        ))}
+        {navigation.map((item) => {
+          if (item.role === "all" || item.role === Auth.role) {
+            return (
+              <NavLink
+                key={item.name}
+                {...item}
+                currentLocation={location.pathname}
+              />
+            );
+          }
+        })}
       </div>
     </div>
   );

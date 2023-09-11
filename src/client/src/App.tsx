@@ -17,6 +17,7 @@ import UserSetting from "./pages/UserSetting";
 import UserProfile from "./pages/UserProfile";
 import RegisterProvider from "./pages/RegisterProvider";
 import RequireVerify from "./components/Verify/RequireVerify";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -34,13 +35,13 @@ function App() {
         />
         <Route element={<PersistLogin />}>
           <Route path={ROUTES.REGISTER_SUCCESS} element={<RegisterSuccess />} />
-
           <Route path={ROUTES.HOMEPAGE} element={<Homepage />} />
           <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
           <Route path={ROUTES.CONTACT_US} element={<ContactUs />} />
           <Route
             element={<RequireAuth allowedRole={["user", "service_provider"]} />}
           >
+            <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
             <Route path={ROUTES.USER_PROFILE} element={<UserProfile />} />
             <Route path={ROUTES.USER_SETTING} element={<UserSetting />} />
             <Route path={ROUTES.VERIFY} element={<Verify />} />
