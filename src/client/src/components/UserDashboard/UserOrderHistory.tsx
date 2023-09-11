@@ -6,13 +6,8 @@ import {
   Container,
   Divider,
   Heading,
-  Icon,
   Text,
 } from "@chakra-ui/react";
-import { IconType } from "react-icons";
-import { BsFillCartFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
-import ROUTES from "../../constants/path";
 
 const UserOrderHistory = () => {
   return (
