@@ -1,10 +1,11 @@
 import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
   Box,
-  Card,
-  CardBody,
-  CardHeader,
   Container,
-  Divider,
   Heading,
   Icon,
   Text,
@@ -22,32 +23,41 @@ const UserOngoingOrders = () => {
       minW={"full"}
       paddingY={"2rem"}
     >
-      <Card>
-        <CardHeader>
-          <Heading paddingBottom={3}>Ongoing Orders</Heading>
-          <Divider />
-        </CardHeader>
-        <CardBody>
-          <Box
-            border="1px"
-            borderStyle={"dashed"}
-            borderWidth={"medium"}
-            borderColor="green.300"
-            display={"flex"}
-            justifyContent={"center"}
-            alignItems={"center"}
-            flexDirection={"column"}
-            padding={"2rem"}
-            gap={"1rem"}
-          >
-            <Icon as={BsFillCartFill as IconType} boxSize={16} />
-            <Text fontSize={"xl"}>There are no ongoing orders</Text>
-            <Link to={ROUTES.HOMEPAGE} className="bg-[#9e47e5] p-3 rounded-lg">
-              Order Now
-            </Link>
-          </Box>
-        </CardBody>
-      </Card>
+      <Accordion backgroundColor={"gray.700"} borderRadius={"lg"} allowMultiple>
+        <AccordionItem>
+          <h2>
+            <AccordionButton>
+              <Box as="span" flex="1" textAlign="left">
+                <Heading paddingBottom={3}>Ongoing Orders</Heading>
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4}>
+            <Box
+              border="1px"
+              borderStyle={"dashed"}
+              borderWidth={"medium"}
+              borderColor="green.300"
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              flexDirection={"column"}
+              padding={"2rem"}
+              gap={"1rem"}
+            >
+              <Icon as={BsFillCartFill as IconType} boxSize={16} />
+              <Text fontSize={"xl"}>There are no ongoing orders</Text>
+              <Link
+                to={ROUTES.HOMEPAGE}
+                className="bg-[#9e47e5] p-3 rounded-lg"
+              >
+                Order Now
+              </Link>
+            </Box>
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
     </Container>
   );
 };

@@ -1,4 +1,9 @@
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
   Card,
   CardBody,
@@ -17,28 +22,32 @@ const UserOrderHistory = () => {
       minW={"full"}
       paddingY={"2rem"}
     >
-      <Card>
-        <CardHeader>
-          <Heading paddingBottom={3}>Orders History</Heading>
-          <Divider />
-        </CardHeader>
-        <CardBody>
-          <Box
-            border="1px"
-            borderStyle={"dashed"}
-            borderWidth={"medium"}
-            borderColor="green.300"
-            display={"flex"}
-            justifyContent={"center"}
-            alignItems={"center"}
-            flexDirection={"column"}
-            padding={"2rem"}
-            gap={"1rem"}
-          >
-            <Text fontSize={"xl"}>You haven't place an order</Text>
-          </Box>
-        </CardBody>
-      </Card>
+      <Accordion backgroundColor={"gray.700"} borderRadius={"lg"} allowMultiple>
+        <AccordionItem>
+          <AccordionButton>
+            <Box as="span" flex="1" textAlign="left">
+              <Heading paddingBottom={3}>Orders History</Heading>
+            </Box>
+            <AccordionIcon />
+          </AccordionButton>
+          <AccordionPanel pb={4}>
+            <Box
+              border="1px"
+              borderStyle={"dashed"}
+              borderWidth={"medium"}
+              borderColor="green.300"
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              flexDirection={"column"}
+              padding={"2rem"}
+              gap={"1rem"}
+            >
+              <Text fontSize={"xl"}>You haven't place an order</Text>
+            </Box>
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
     </Container>
   );
 };
