@@ -33,7 +33,6 @@ function App() {
         />
         <Route element={<PersistLogin />}>
           <Route path={ROUTES.REGISTER_SUCCESS} element={<RegisterSuccess />} />
-
           <Route path={ROUTES.HOMEPAGE} element={<Homepage />} />
           <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
           <Route path={ROUTES.CONTACT_US} element={<ContactUs />} />
