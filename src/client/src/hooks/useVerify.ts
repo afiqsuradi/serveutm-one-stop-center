@@ -16,7 +16,7 @@ const useVerify = (token: string) => {
     const signal = controller.signal;
     privateApiClient
       .post<VerifyResponse>(
-        "/api/verify-email",
+        "/api/verify/confirm-email",
         JSON.stringify({ token: token }),
         {
           headers: { "Content-Type": "application/json" },

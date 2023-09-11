@@ -7,7 +7,6 @@ const { generateVerificationToken } = require("./helper/token");
 const { generateAccessToken, generateRefreshToken } = require("./helper/token");
 const { sendVerifyMail } = require("./helper/mail");
 const bcrypt = require("bcrypt");
-require("dotenv").config();
 const _ = require("lodash");
 
 const userController = {};
@@ -35,7 +34,7 @@ userController.validateAndCreateUser = async (req, res) => {
     const newUser = await createUserInDatabase(data);
     const token = await generateVerificationToken(newUser._id);
 
-    sendVerifyMail(newUser.email, userUrl, token.token);
+    sendVerifyMail(newUser.email, token.token);
     return res.status(200).json({
       accessToken,
       profileImage: `${req.protocol}://${req.get("host")}/${

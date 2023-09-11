@@ -11,5 +11,7 @@ const ROUTES = {
   USER_SETTING: "/settings",
   USER_PROFILE: "/profile",
   PROVIDER_REGISTER: "/seller_onboarding",
+  DASHBOARD: "/dashboard",
+  NOTFOUND: "/404",
 };
 export default ROUTES;

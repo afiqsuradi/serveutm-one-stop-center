@@ -5,7 +5,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import NavLinks from "./NavLinks";
 import MobileNav from "./MobileNav";
 import UserMenu from "./UserMenu";
-import { Alert, AlertIcon, Tooltip } from "@chakra-ui/react";
+import UnverifiedWarn from "./UnverifiedWarn";
 
 const Navbar = () => {
   const { Auth } = useAuth();
@@ -28,7 +28,7 @@ const Navbar = () => {
                     )}
                   </Disclosure.Button>
                 </div>
-                <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div className="flex flex-1 items-center justify-center text-center sm:items-stretch sm:justify-start">
                   {/* <div className="flex flex-shrink-0 items-center">
                   <img
                     className="h-8 w-auto"
@@ -58,16 +58,7 @@ const Navbar = () => {
           </>
         )}
       </Disclosure>
-      {Auth.username.length > 0 && !Auth.isVerified ? (
-        <Alert status="warning" variant="left-accent">
-          <AlertIcon />
-          <Tooltip label="Some features may not be accessible!" bg="orange.300">
-            Seems your account is not verified, verify now
-          </Tooltip>
-        </Alert>
-      ) : (
-        ""
-      )}
+      {Auth.username.length > 0 && !Auth.isVerified ? <UnverifiedWarn /> : ""}
     </>
   );
 };
