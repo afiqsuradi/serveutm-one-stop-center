@@ -3,6 +3,7 @@ import {
   CardBody,
   CardHeader,
   Flex,
+  Grid,
   Tab,
   TabList,
   TabPanel,
@@ -23,16 +24,7 @@ const UserSetting = () => {
   const { data } = useUser(Auth.username);
   return (
     <>
-      <Flex
-        minHeight="80%"
-        paddingX="6"
-        paddingY="10"
-        gap="6"
-        justifyContent="center"
-        alignContent="center"
-        flexDirection={{ base: "column", md: "row" }}
-        flexWrap={{ base: "wrap", md: "nowrap" }}
-      >
+      <Grid templateColumns={"1fr 2fr"} paddingX={"5rem"} paddingY={"5rem"}>
         <AvatarSetting info={data} />
         <Card
           flex={2}
@@ -69,7 +61,7 @@ const UserSetting = () => {
             </CardBody>
           </Tabs>
         </Card>
-      </Flex>
+      </Grid>
       <ChangePasswordModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
   );
