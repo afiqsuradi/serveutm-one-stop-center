@@ -1,5 +1,3 @@
-import styles from "./TeamCard/style.module.css";
-
 const Introduction = () => {
   return (
     <>
