@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal; 
+    font-weight: 400;
+    src: url('https://fonts.gstatic.com/s/poppins/v20/pxiEyp8kv8JHgFVrFJA.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Borel';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/borel/v2/6qLOKZsftAPisgsh.ttf) format('truetype');
+}
