@@ -31,8 +31,11 @@ const NavLinks = () => {
           ServeUTM
         </Link>
         {navigation.map((item) => {
-          const res = item.role.reduce((_acc, curr) => {
-            return curr === "all" || curr === Auth.role;
+          const res = item.role.reduce((acc, curr) => {
+            if (!acc) {
+              return (acc = curr === "all" || curr === Auth.role);
+            }
+            return acc;
           }, false);
           if (res) {
             return (
