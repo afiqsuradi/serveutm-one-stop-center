@@ -15,3 +15,17 @@
     font-display: swap;
     src: url(https://fonts.gstatic.com/s/borel/v2/6qLOKZsftAPisgsh.ttf) format('truetype');
 }
+@font-face {
+    font-family: 'Satisfy';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/satisfy/v21/rP2Hp2yn6lkG50LoOZQ.ttf) format('truetype');
+}
+@font-face {
+    font-family: 'Splash';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/splash/v6/KtksAL2RZoDkbU6hpA.ttf) format('truetype');
+}

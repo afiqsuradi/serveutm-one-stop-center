@@ -7,7 +7,8 @@ const theme = extendTheme({
   config,
   fonts: {
     poppins: "Poppins",
-    borel: "Borel"
+    borel: "Borel",
+    satisfy: "Satisfy"
   },
   components: {
     Button: {
