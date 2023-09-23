@@ -31,7 +31,6 @@ const AvatarSetting = ({ info }: Props) => {
     try {
       const formData = new FormData();
       formData.append("image", event.target.files[0]);
-      console.log(formData);
       await privateApiClient
         .post<ProfileUploadData>("api/profile-image/upload", formData, {
           headers: { "Content-Type": "multipart/form-data" },

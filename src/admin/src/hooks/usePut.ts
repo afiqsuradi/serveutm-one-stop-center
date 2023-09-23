@@ -4,23 +4,21 @@ import useAuthService from "./useAuthService";
 import { ErrorData } from "../services/apiClient";
 import { toast } from "react-toastify";
 
-const usePost = <I, T>(endpoint: string, config?: AxiosRequestConfig) => {
+const usePut = <I, T>(endpoint: string, config?: AxiosRequestConfig) => {
   const [response, setResponse] = useState<T>();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const apiClient = useAuthService();
 
-  const post = async (data: I) => {
+  const put = async (data: I) => {
     let success = false;
     setIsLoading(true);
     try {
-      const res = await apiClient.post<T>(endpoint, data, {
+      const res = await apiClient.put<T>(endpoint, data, {
         ...config,
       });
-      if (res.status >= 200 && res.status <= 299) {
-        success = true;
-        setResponse(res.data);
-      }
+      success = true;
+      setResponse(res.data);
     } catch (error) {
       success = false;
       if ((error as AxiosError<ErrorData>).response) {
@@ -50,7 +48,7 @@ const usePost = <I, T>(endpoint: string, config?: AxiosRequestConfig) => {
     };
   }, [error]);
 
-  return { isLoading, post, error, setError };
+  return { isLoading, put, error, setError };
 };
 
-export default usePost;
+export default usePut;

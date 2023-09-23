@@ -40,7 +40,7 @@ const LoginForm = () => {
           </label>
           <div className="text-sm">
             <a
-              href="#"
+              href="https://localhost:5173/password-reset"
               className="font-semibold text-indigo-600 hover:text-indigo-500"
             >
               Forgot password?

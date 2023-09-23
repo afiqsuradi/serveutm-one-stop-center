@@ -148,7 +148,6 @@ const ProfileSetting = ({ isOpen, setIsOpen, info }: Props) => {
           <HStack justifyContent="space-around" pt="8">
             <Button
               disabled={loading}
-              minW="10rem"
               backgroundColor="#9e47e5"
               _hover={{
                 backgroundColor: "#7037d9",
@@ -158,7 +157,6 @@ const ProfileSetting = ({ isOpen, setIsOpen, info }: Props) => {
               Update Info
             </Button>
             <Button
-              minW="10rem"
               variant="danger"
               onClick={() => {
                 setIsOpen(!isOpen);

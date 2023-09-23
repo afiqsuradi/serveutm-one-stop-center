@@ -78,10 +78,17 @@ userController.getUserByUsername = async (req, res) => {
   return res.status(200).send(userData);
 };
 
-userController.uploadProfileImage = async (req, res) => {
-  const { username } = req.user;
-  if (!username) return res.sendStatus(400);
-  const user = await User.findOne({ username });
+const uploadError = (err) => {
+  if (err) return res.status(422).json({ message: err.message });
+};
+
+userController.uploadProfileImage = async (req, res, uploadError) => {
+  const target = req.params.user ? req.params.user : req.user.username;
+  // If its another user then check if its admin
+  if (req.params.user && !(req.user.role === "admin"))
+    return res.status(403).json({ message: "Access Denied." });
+  if (!target) return res.sendStatus(400);
+  const user = await User.findOne({ username: target });
   if (!user) return res.status(404).json({ message: "User not found" });
   const imagePath = `${req.file.destination + req.file.filename}`;
   const imageLink = `${req.protocol}://${req.get("host")}/${imagePath}`;
@@ -97,11 +104,16 @@ userController.updateUser = async (req, res) => {
     return res
       .status(400)
       .json({ message: "Name, username and email required!" });
-  const { username } = req.user;
-  if (!username) return res.sendStatus(400);
+  const target = req.params.user ? req.params.user : req.user.username;
+  // If its another user then check if its admin
+  if (req.params.user && !(req.user.role === "admin"))
+    return res.status(403).json({ message: "Access Denied." });
+  if (!target) return res.sendStatus(400);
   try {
-    const user = await User.findOne({ username });
-    (user.name = name), (user.username = newUsername), (user.email = email);
+    const user = await User.findOne({ username: target });
+    user.name = name;
+    user.username = newUsername;
+    user.email = email;
     const result = await user.save({ validateModifiedOnly: true });
     if (!result) res.status(500).json({ message: "Something went wrong!" });
     return res.sendStatus(201);

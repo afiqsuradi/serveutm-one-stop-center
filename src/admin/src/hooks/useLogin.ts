@@ -2,8 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./useAuth";
 import usePost from "./usePost";
 import { AuthType } from "../context/authProvider";
-import { useEffect } from "react";
-import { toast } from "react-toastify";
 
 export interface LoginFormData {
   username: string;
@@ -13,11 +11,11 @@ export interface LoginFormData {
 const useLogin = () => {
   const { setAuth } = useAuth();
   const navigate = useNavigate();
-  const { post, isLoading, error, setError } = usePost<LoginFormData, AuthType>(
-    "/api/auth"
-  );
+  const { post, isLoading, setError } = usePost<string, AuthType>("/api/auth", {
+    headers: { "Content-Type": "application/json" },
+  });
   const login = async (data: LoginFormData) => {
-    const { response, success } = await post(data);
+    const { response, success } = await post(JSON.stringify(data));
     if (success) {
       if (response?.role === "admin") {
         setAuth(response);
@@ -27,19 +25,6 @@ const useLogin = () => {
       }
     }
   };
-
-  useEffect(() => {
-    if (!(error.length === 0))
-      toast.error(error, {
-        position: "top-center",
-        autoClose: 5000,
-        progress: undefined,
-        theme: "colored",
-      });
-    return () => {
-      setError("");
-    };
-  }, [error]);
 
   return { isLoading, login };
 };

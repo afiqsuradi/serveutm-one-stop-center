@@ -24,7 +24,11 @@ const UserSetting = () => {
   const { data } = useUser(Auth.username);
   return (
     <>
-      <Grid templateColumns={"1fr 2fr"} paddingX={"5rem"} paddingY={"5rem"}>
+      <Grid
+        templateColumns={{ sm: "1fr 2fr", base: "1fr" }}
+        paddingX={"5rem"}
+        paddingY={"5rem"}
+      >
         <AvatarSetting info={data} />
         <Card
           flex={2}

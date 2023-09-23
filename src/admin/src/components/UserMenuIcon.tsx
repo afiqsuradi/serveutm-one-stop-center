@@ -1,8 +1,12 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import useLogout from "../hooks/useLogout";
+import { useAuth } from "../hooks/useAuth";
+import { Link } from "react-router-dom";
+import routes from "../constants/routes";
 
 const UserMenuIcon = () => {
+  const { Auth } = useAuth();
   const logout = useLogout();
   const signOut = async () => {
     await logout();
@@ -13,7 +17,7 @@ const UserMenuIcon = () => {
         <Menu.Button>
           <div className="avatar">
             <div className="w-8 rounded-full">
-              <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+              <img src={Auth.profileImage} />
             </div>
           </div>
         </Menu.Button>
@@ -31,13 +35,14 @@ const UserMenuIcon = () => {
           <Menu.Item>
             {({ active }) => {
               return (
-                <a
+                <Link
+                  to={routes.PROFILE}
                   className={`${
                     active ? "bg-gray-200 dark:bg-slate-900" : ""
                   } block px-4 py-2 text-sm text-gray-950 dark:text-slate-200`}
                 >
                   Profile
-                </a>
+                </Link>
               );
             }}
           </Menu.Item>
