@@ -9,7 +9,7 @@ const Layout = () => {
     <>
       <div className="flex h-screen overflow-hidden">
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        <main className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+        <main className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden bg-slate-200 dark:bg-slate-900">
           <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
           <Outlet />
         </main>
