@@ -78,11 +78,48 @@ userController.getUserByUsername = async (req, res) => {
   return res.status(200).send(userData);
 };
 
-const uploadError = (err) => {
-  if (err) return res.status(422).json({ message: err.message });
+userController.getUsers = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    // Filter criteria
+    const filter = {};
+    if (req.query.textInput && req.query.type) {
+      filter[req.query.type] = new RegExp(`.*${req.query.textInput}.*`);
+    }
+    if (req.query.role && req.query.role !== "Role") {
+      filter.role = req.query.role;
+    }
+
+    // Count total documents
+    const count = await User.countDocuments(filter);
+
+    // Find paginated documents
+    const users = await User.find(
+      filter,
+      "name username email role profileImage"
+    )
+      .skip(skip)
+      .limit(limit);
+
+    users.forEach((user) => {
+      user.profileImage = `${req.protocol}://${req.get("host")}/${
+        user.profileImage
+      }`;
+    });
+
+    res.json({
+      count,
+      users,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
-userController.uploadProfileImage = async (req, res, uploadError) => {
+userController.uploadProfileImage = async (req, res) => {
   const target = req.params.user ? req.params.user : req.user.username;
   // If its another user then check if its admin
   if (req.params.user && !(req.user.role === "admin"))
