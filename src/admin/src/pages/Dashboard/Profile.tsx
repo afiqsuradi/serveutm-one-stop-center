@@ -1,5 +1,5 @@
-import { useAuth } from "../hooks/useAuth";
-import ProfileCard from "../components/ProfileCard";
+import { useAuth } from "../../hooks/useAuth";
+import ProfileCard from "../../components/ProfileCard";
 const Profile = () => {
   const { Auth } = useAuth();
   return (

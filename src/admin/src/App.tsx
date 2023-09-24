@@ -4,8 +4,9 @@ import Login from "./pages/Login";
 import RequireAuth from "./components/RequireAuth";
 import PersistLogin from "./components/PersistLogin";
 import routes from "./constants/routes";
-import Profile from "./pages/Profile";
+import Profile from "./pages/Dashboard/Profile";
 import ProfileSetting from "./pages/Settings/ProfileSetting";
+import Users from "./pages/Dashboard/Users";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route path={routes.PROFILE} element={<Profile />} />
             <Route path={routes.PROFILE_SETTING} element={<ProfileSetting />} />
+            <Route path={routes.USERS} element={<Users />} />
           </Route>
         </Route>
       </Route>
