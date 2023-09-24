@@ -13,8 +13,8 @@ const useChangePassword = (target?: string) => {
   });
 
   const updatePassword = async (data: PasswordChangeFormStruct) => {
-    const { success } = await put(JSON.stringify(data));
-    if (success) {
+    const response = await put(JSON.stringify(data));
+    if (response) {
       await refresh();
       toast.success("Data successfully updated", {
         position: "top-center",

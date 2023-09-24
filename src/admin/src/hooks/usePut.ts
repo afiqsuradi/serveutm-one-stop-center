@@ -5,22 +5,17 @@ import { ErrorData } from "../services/apiClient";
 import { toast } from "react-toastify";
 
 const usePut = <I, T>(endpoint: string, config?: AxiosRequestConfig) => {
-  const [response, setResponse] = useState<T>();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const apiClient = useAuthService();
 
   const put = async (data: I) => {
-    let success = false;
     setIsLoading(true);
     try {
-      const res = await apiClient.put<T>(endpoint, data, {
+      return await apiClient.put<T>(endpoint, data, {
         ...config,
       });
-      success = true;
-      setResponse(res.data);
     } catch (error) {
-      success = false;
       if ((error as AxiosError<ErrorData>).response) {
         setError(
           (error as AxiosError<ErrorData>).response?.data.message as string
@@ -32,7 +27,6 @@ const usePut = <I, T>(endpoint: string, config?: AxiosRequestConfig) => {
     } finally {
       setIsLoading(false);
     }
-    return { response, success };
   };
 
   useEffect(() => {

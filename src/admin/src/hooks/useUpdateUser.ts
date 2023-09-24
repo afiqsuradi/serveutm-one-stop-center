@@ -14,8 +14,8 @@ const useUpdateUser = (target: string) => {
   });
 
   const updateUser = async (data: ProfileUpdateFormStruct) => {
-    const { success } = await put(JSON.stringify(data));
-    if (success) {
+    const response = await put(JSON.stringify(data));
+    if (response) {
       await refresh();
       toast.success("Data successfully updated", {
         position: "top-center",
