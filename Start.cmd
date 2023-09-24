@@ -1,7 +1,7 @@
 @echo off
 
 echo Starting Database...
-start "Database" cmd /k mongod
+start "Database" cmd /k C: ^& mongod
 
 echo Starting server...
 start "Server" cmd /k cd ./src/server ^& node ./index.js
