@@ -15,8 +15,8 @@ const useUploadImage = (username?: string) => {
   const uploadProfile = async (data: FileList) => {
     const formData = new FormData();
     formData.append("image", data[0]);
-    const { success } = await post(formData);
-    if (success) {
+    const response = await post(formData);
+    if (response) {
       await refresh();
       toast.success("Data successfully updated", {
         position: "top-center",

@@ -15,10 +15,10 @@ const useLogin = () => {
     headers: { "Content-Type": "application/json" },
   });
   const login = async (data: LoginFormData) => {
-    const { response, success } = await post(JSON.stringify(data));
-    if (success) {
-      if (response?.role === "admin") {
-        setAuth(response);
+    const response = await post(JSON.stringify(data));
+    if (response) {
+      if (response?.data.role === "admin") {
+        setAuth(response?.data);
         navigate("/");
       } else {
         setError("Forbidden Access.");
