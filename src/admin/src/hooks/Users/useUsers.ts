@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import useData from "../useData";
+import { useAuth } from "../useAuth";
 
 export type User = {
   profileImage: string;
@@ -23,6 +24,7 @@ export type UsersFilterType = {
 };
 
 const useUsers = (filters: UsersFilterType) => {
+  const { Auth } = useAuth();
   const query = Object.entries(filters)
     .filter(([_, value]) => value)
     .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
@@ -30,7 +32,7 @@ const useUsers = (filters: UsersFilterType) => {
   const { isLoading, response, setError } = useData<Users>(
     `/api/user?${query}`,
     {},
-    [filters]
+    [filters, Auth.accessToken]
   );
   return { data: response, isLoading, setError };
 };
