@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import useData from "../useData";
 import { useAuth } from "../useAuth";
 

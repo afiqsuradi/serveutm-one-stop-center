@@ -14,7 +14,7 @@ interface Props {
 }
 
 const ChangePasswordModal = ({ isOpen, setIsOpen, target }: Props) => {
-  const { isLoading, updatePassword } = useChangePassword();
+  const { isLoading, updatePassword } = useChangePassword(target);
   const {
     register,
     handleSubmit,

@@ -7,6 +7,7 @@ interface Props {
 const ThemeContext = createContext({
   currentTheme: "light",
   changeCurrentTheme: (newTheme: string) => {
+    console.info(newTheme);
     return;
   },
 });

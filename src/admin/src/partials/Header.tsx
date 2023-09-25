@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import ThemeToggle from "../components/ThemeToggle";
 import UserMenuIcon from "../components/UserMenuIcon";
@@ -9,8 +9,6 @@ interface Props {
 }
 
 function Header({ sidebarOpen, setSidebarOpen }: Props) {
-  const [searchModalOpen, setSearchModalOpen] = useState(false);
-
   return (
     <header className="sticky top-0 bg-white dark:bg-[#182235] border-b border-slate-200 dark:border-slate-700 z-30">
       <div className="px-4 sm:px-6 lg:px-8">
