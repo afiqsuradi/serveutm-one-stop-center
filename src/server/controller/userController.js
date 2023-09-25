@@ -78,10 +78,54 @@ userController.getUserByUsername = async (req, res) => {
   return res.status(200).send(userData);
 };
 
+userController.getUsers = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    // Filter criteria
+    const filter = {};
+    if (req.query.textInput && req.query.type) {
+      filter[req.query.type] = new RegExp(`.*${req.query.textInput}.*`);
+    }
+    if (req.query.role && req.query.role !== "Role") {
+      filter.role = req.query.role;
+    }
+
+    // Count total documents
+    const count = await User.countDocuments(filter);
+
+    // Find paginated documents
+    const users = await User.find(
+      filter,
+      "name username email role profileImage"
+    )
+      .skip(skip)
+      .limit(limit);
+
+    users.forEach((user) => {
+      user.profileImage = `${req.protocol}://${req.get("host")}/${
+        user.profileImage
+      }`;
+    });
+
+    res.json({
+      count,
+      users,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 userController.uploadProfileImage = async (req, res) => {
-  const { username } = req.user;
-  if (!username) return res.sendStatus(400);
-  const user = await User.findOne({ username });
+  const target = req.params.user ? req.params.user : req.user.username;
+  // If its another user then check if its admin
+  if (req.params.user && !(req.user.role === "admin"))
+    return res.status(403).json({ message: "Access Denied." });
+  if (!target) return res.sendStatus(400);
+  const user = await User.findOne({ username: target });
   if (!user) return res.status(404).json({ message: "User not found" });
   const imagePath = `${req.file.destination + req.file.filename}`;
   const imageLink = `${req.protocol}://${req.get("host")}/${imagePath}`;
@@ -97,11 +141,16 @@ userController.updateUser = async (req, res) => {
     return res
       .status(400)
       .json({ message: "Name, username and email required!" });
-  const { username } = req.user;
-  if (!username) return res.sendStatus(400);
+  const target = req.params.user ? req.params.user : req.user.username;
+  // If its another user then check if its admin
+  if (req.params.user && !(req.user.role === "admin"))
+    return res.status(403).json({ message: "Access Denied." });
+  if (!target) return res.sendStatus(400);
   try {
-    const user = await User.findOne({ username });
-    (user.name = name), (user.username = newUsername), (user.email = email);
+    const user = await User.findOne({ username: target });
+    user.name = name;
+    user.username = newUsername;
+    user.email = email;
     const result = await user.save({ validateModifiedOnly: true });
     if (!result) res.status(500).json({ message: "Something went wrong!" });
     return res.sendStatus(201);
@@ -147,6 +196,28 @@ userController.updateUserPassword = async (req, res) => {
     //if not then f off
     return res.status(401).json({ message: "Invalid Password!" });
   });
+};
+
+userController.deleteUser = async (req, res) => {
+  try {
+    // Validate user role
+    if (req.user.role !== "admin") {
+      return res.status(401).send({ message: "Unauthorized" });
+    }
+
+    // Find user by username
+    const user = await User.findOne({ username: req.params.username });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Delete user
+    await user.deleteOne();
+    res.status(200).send({ message: "User not found" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
 module.exports.userController = userController;

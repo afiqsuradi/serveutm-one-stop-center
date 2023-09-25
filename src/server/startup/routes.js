@@ -1,14 +1,16 @@
 require("dotenv").config();
 const express = require("express");
+const corsOptions = require("../config/corsOptions");
 const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 module.exports = function (app) {
   app.use("/images", express.static("images"));
-  app.use(cors({ origin: process.env.ORIGIN_URL, credentials: true }));
+  app.use(cors(corsOptions));
   app.use(helmet());
   app.use(cookieParser());
   app.use(express.json());
+  app.use("/api/inquiry", require("../routes/inquiry"));
   app.use("/api/user", require("../routes/user"));
   app.use("/api/auth", require("../routes/auth"));
   app.use("/api/refresh", require("../routes/refresh"));

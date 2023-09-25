@@ -1,4 +1,4 @@
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useValidResetToken from "../hooks/useValidResetToken";
 import { useForm } from "react-hook-form";
 import {
@@ -23,7 +23,7 @@ const ResetPasswordForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const token = new URLSearchParams(location.search).get("token") || "";
-  const { valid } = useValidResetToken(token);
+  useValidResetToken(token);
   const { success, isLoading, resetPassword } = useResetPassword(token);
   const {
     register,
@@ -32,9 +32,6 @@ const ResetPasswordForm = () => {
   } = useForm<PasswordResetFormStruct>({
     resolver: PasswordResetFormStructResolver,
   });
-  if (valid !== null && !valid) {
-    return <Navigate to={ROUTES.HOMEPAGE} />;
-  }
 
   const onClose = () => {
     navigate(ROUTES.LOGIN);

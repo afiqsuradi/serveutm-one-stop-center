@@ -164,7 +164,7 @@ const ServiceProfileSetting = ({ username }: Props) => {
               });
             }}
           >
-            Register
+            Update
           </Button>
         </Grid>
       </form>

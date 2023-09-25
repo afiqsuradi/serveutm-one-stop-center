@@ -2,10 +2,7 @@ import {
   Avatar,
   Box,
   Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
+  Grid,
   Heading,
   Input,
   Text,
@@ -34,7 +31,6 @@ const AvatarSetting = ({ info }: Props) => {
     try {
       const formData = new FormData();
       formData.append("image", event.target.files[0]);
-      console.log(formData);
       await privateApiClient
         .post<ProfileUploadData>("api/profile-image/upload", formData, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -50,60 +46,59 @@ const AvatarSetting = ({ info }: Props) => {
     }
   };
   return (
-    <Card
-      flex={1}
-      justifyContent="center"
-      alignItems="center"
-      maxWidth="fit-content"
-      paddingX="10"
-      className="max-h-[32em]"
+    <Grid
+      textAlign={"center"}
+      maxW={"max-content"}
+      backgroundColor={"gray.700"}
+      paddingY={"2"}
+      paddingX={"8"}
+      className="rounded-lg"
+      gap={"1rem"}
+      marginX={"auto"}
+      minWidth={"20rem"}
     >
-      <CardHeader>
-        {" "}
+      <Box>
         <Heading as="h1" size="lg" noOfLines={1} paddingY="3">
           {info?.name}
         </Heading>
         <Heading as="h2" size="md" noOfLines={1} textAlign="center">
           @{Auth.username}
         </Heading>
-      </CardHeader>
-      <CardBody textAlign="center" marginY="auto" className="flex items-center">
-        <VStack gap={6} w="full" justify="center" align="center">
-          <Avatar size="2xl" name="PFP" src={Auth.profileImage} />
-          <Button
-            backgroundColor="#9e47e5"
-            _hover={{
-              backgroundColor: "#7037d9",
-            }}
-            type="button"
-            onClick={() => {
-              if (imageInput.current) {
-                imageInput.current.click();
-              }
-            }}
-          >
-            Select Image
-          </Button>
-          <Input
-            ref={imageInput}
-            id="image"
-            name="image"
-            type="file"
-            accept="image/*"
-            hidden
-            onChange={(event) => void uploadProfileImage(event)}
-          />
-          <Box border="2px" borderStyle="dotted" p={4} maxW="200px">
-            <Text>
-              Upload a new avatar. Larger image will be resized automatically.
-            </Text>
-          </Box>
-        </VStack>
-      </CardBody>
-      <CardFooter paddingTop="0">
-        <Text>Member since {info?.dateJoined}</Text>
-      </CardFooter>
-    </Card>
+      </Box>
+      <VStack spacing={"1rem"}>
+        <Avatar size="2xl" name="PFP" src={Auth.profileImage} />
+        <Button
+          backgroundColor="#9e47e5"
+          _hover={{
+            backgroundColor: "#7037d9",
+          }}
+          type="button"
+          onClick={() => {
+            if (imageInput.current) {
+              imageInput.current.click();
+            }
+          }}
+        >
+          Select Image
+        </Button>
+        <Input
+          ref={imageInput}
+          id="image"
+          name="image"
+          type="file"
+          accept="image/*"
+          hidden
+          onChange={(event) => void uploadProfileImage(event)}
+        />
+
+        <Box border="2px" borderStyle="dotted" p={4} maxW="200px">
+          <Text>
+            Upload a new avatar. Larger image will be resized automatically.
+          </Text>
+        </Box>
+      </VStack>
+      <Text>Member since {info?.dateJoined}</Text>
+    </Grid>
   );
 };
 
