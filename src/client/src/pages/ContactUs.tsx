@@ -4,18 +4,12 @@ import {
   Flex,
   Heading,
   Text,
-  VStack,
   Button,
   IconButton,
-  FormControl,
-  FormLabel,
-  InputGroup,
-  InputLeftElement,
-  Input,
-  Textarea,
 } from "@chakra-ui/react";
-import { MdPhone, MdEmail, MdLocationOn, MdOutlineEmail } from "react-icons/md";
-import { BsGithub, BsPerson } from "react-icons/bs";
+import { MdPhone, MdEmail, MdLocationOn } from "react-icons/md";
+import { BsGithub } from "react-icons/bs";
+import InquiryForm from "../components/InquiryForm";
 
 const ContactUs = () => {
   return (
@@ -90,46 +84,7 @@ const ContactUs = () => {
               </Box>
               <Box bg="white" borderRadius="lg">
                 <Box m={8} color="#0B0E3F">
-                  <VStack spacing={5}>
-                    <FormControl id="name">
-                      <FormLabel>Your Name</FormLabel>
-                      <InputGroup borderColor="#E0E1E7">
-                        <InputLeftElement pointerEvents="none">
-                          <BsPerson color="gray.800" />
-                        </InputLeftElement>
-                        <Input type="text" size="md" />
-                      </InputGroup>
-                    </FormControl>
-                    <FormControl id="name">
-                      <FormLabel>Mail</FormLabel>
-                      <InputGroup borderColor="#E0E1E7">
-                        <InputLeftElement pointerEvents="none">
-                          <MdOutlineEmail color="gray.800" />
-                        </InputLeftElement>
-                        <Input type="text" size="md" />
-                      </InputGroup>
-                    </FormControl>
-                    <FormControl id="name">
-                      <FormLabel>Message</FormLabel>
-                      <Textarea
-                        borderColor="gray.300"
-                        _hover={{
-                          borderRadius: "gray.300",
-                        }}
-                        placeholder="message"
-                      />
-                    </FormControl>
-                    <FormControl id="name" float="right">
-                      <Button
-                        variant="solid"
-                        bg="#0D74FF"
-                        color="white"
-                        _hover={{}}
-                      >
-                        Send Message
-                      </Button>
-                    </FormControl>
-                  </VStack>
+                  <InquiryForm />
                 </Box>
               </Box>
             </Flex>

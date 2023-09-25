@@ -1,4 +1,4 @@
-const Inquiry = require("../model/inquiry");
+const { Inquiry } = require("../model/inquiry");
 
 const inquiryController = {};
 

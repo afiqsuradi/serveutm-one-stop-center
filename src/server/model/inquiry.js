@@ -17,10 +17,10 @@ const inquirySchema = mongoose.Schema({
   message: {
     type: String,
     required: true,
-    minlength: 5,
+    minlength: 10,
     maxlength: 255,
   },
 });
-const Inquiry = mongoose.model("User", inquirySchema, "User");
+const Inquiry = mongoose.model("Inquiries", inquirySchema, "Inquiries");
 
 exports.Inquiry = Inquiry;
