@@ -10,6 +10,7 @@ module.exports = function (app) {
   app.use(helmet());
   app.use(cookieParser());
   app.use(express.json());
+  app.use("/api/inquiry", require("../routes/inquiry"));
   app.use("/api/user", require("../routes/user"));
   app.use("/api/auth", require("../routes/auth"));
   app.use("/api/refresh", require("../routes/refresh"));
