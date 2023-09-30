@@ -1,8 +1,8 @@
 import { useState } from "react";
-import UserSearchBar from "../../components/Users/UserSearchBar";
-import UsersTable from "../../components/Users/UsersTable";
-import useUsers, { UsersFilterType } from "../../hooks/Users/useUsers";
-import UserTablePagination from "../../components/Users/UserTablePagination";
+import UserSearchBar from "../../../components/Users/UserSearchBar";
+import UsersTable from "../../../components/Users/UsersTable";
+import useUsers, { UsersFilterType } from "../../../hooks/Users/useUsers";
+import UserTablePagination from "../../../components/Users/UserTablePagination";
 
 const Users = () => {
   const [filters, setFilters] = useState<UsersFilterType>({ limit: 5 });

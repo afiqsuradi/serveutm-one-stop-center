@@ -6,7 +6,8 @@ import PersistLogin from "./components/PersistLogin";
 import routes from "./constants/routes";
 import Profile from "./pages/Dashboard/Profile";
 import ProfileSetting from "./pages/Settings/ProfileSetting";
-import Users from "./pages/Dashboard/Users";
+import Users from "./pages/Dashboard/Users/Users";
+import EditUser from "./pages/Dashboard/Users/EditUser";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path={routes.PROFILE} element={<Profile />} />
             <Route path={routes.PROFILE_SETTING} element={<ProfileSetting />} />
             <Route path={routes.USERS} element={<Users />} />
+            <Route path={routes.EDIT_USER} element={<EditUser />} />
           </Route>
         </Route>
       </Route>

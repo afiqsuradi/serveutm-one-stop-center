@@ -102,15 +102,19 @@ const ProfileInfoSettings = ({ username }: { username: string }) => {
                   "Update"
                 )}
               </button>
-              <button
-                type="button"
-                className="btn btn-secondary flex-1"
-                onClick={() => {
-                  setIsOpen(true);
-                }}
-              >
-                Change Password
-              </button>
+              {username === Auth.username ? (
+                <button
+                  type="button"
+                  className="btn btn-secondary flex-1"
+                  onClick={() => {
+                    setIsOpen(true);
+                  }}
+                >
+                  Change Password
+                </button>
+              ) : (
+                ""
+              )}
             </div>
           </form>
         </div>

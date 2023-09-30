@@ -1,6 +1,7 @@
 import { User } from "../../hooks/Users/useUsers";
 import useDeleteUser from "../../hooks/Users/useDeleteUser";
 import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   Users: User[];
@@ -8,6 +9,7 @@ interface Props {
 
 const UsersTable = ({ Users }: Props) => {
   const { Auth } = useAuth();
+  const navigate = useNavigate();
   const { deleteUser } = useDeleteUser();
   return (
     <div className="overflow-x-scroll">
@@ -57,7 +59,14 @@ const UsersTable = ({ Users }: Props) => {
                   )}
                 </td>
                 <th>
-                  <button className="btn btn-primary btn-sm m-1">Edit</button>
+                  <button
+                    className="btn btn-primary btn-sm m-1"
+                    onClick={() => {
+                      navigate(`/dashboard/users/${user.username}`);
+                    }}
+                  >
+                    Edit
+                  </button>
                   <button
                     className="btn bg-red-700 hover:bg-red-800 btn-sm m-1 text-white"
                     onClick={() => {

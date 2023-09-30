@@ -6,7 +6,7 @@ import { useAuth } from "../../hooks/useAuth";
 const ProfilePhoto = ({ username }: { username: string }) => {
   const { Auth } = useAuth();
   const imageInput = useRef<HTMLInputElement>(null);
-  const { uploadProfile } = useUploadImage();
+  const { uploadProfile } = useUploadImage(username);
   const { response } = useProfile(username, [Auth.accessToken]);
   return (
     <div className="card card-side shadow-xl bg-white text-black dark:bg-[#1D283A] dark:text-white flex-wrap md:flex-nowrap justify-center min-w-full">

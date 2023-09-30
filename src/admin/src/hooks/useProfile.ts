@@ -6,6 +6,7 @@ export interface UserInfo {
   username: string;
   email: string;
   dateJoined: string;
+  dateJoinedFormatted?: string;
 }
 
 const useProfile = (username: string, deps?: any[]) => {
@@ -16,7 +17,7 @@ const useProfile = (username: string, deps?: any[]) => {
   );
   if (success && response) {
     const date = new Date(response.dateJoined);
-    response.dateJoined = new Intl.DateTimeFormat("en-MY", {
+    response.dateJoinedFormatted = new Intl.DateTimeFormat("en-MY", {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
