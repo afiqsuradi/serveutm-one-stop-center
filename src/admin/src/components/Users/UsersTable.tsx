@@ -1,4 +1,3 @@
-import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { User } from "../../hooks/Users/useUsers";
 import useDeleteUser from "../../hooks/Users/useDeleteUser";
 import { useAuth } from "../../hooks/useAuth";
@@ -58,16 +57,14 @@ const UsersTable = ({ Users }: Props) => {
                   )}
                 </td>
                 <th>
-                  <button className="btn btn-primary btn-sm m-1">
-                    <AiFillEdit />
-                  </button>
+                  <button className="btn btn-primary btn-sm m-1">Edit</button>
                   <button
                     className="btn bg-red-700 hover:bg-red-800 btn-sm m-1 text-white"
                     onClick={() => {
                       void deleteUser(user.username);
                     }}
                   >
-                    <AiFillDelete />
+                    Delete
                   </button>
                 </th>
               </tr>
