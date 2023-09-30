@@ -62,7 +62,7 @@ const UsersTable = ({ Users }: Props) => {
                   <button
                     className="btn btn-primary btn-sm m-1"
                     onClick={() => {
-                      navigate(`/dashboard/users/${user.username}`);
+                      navigate(`/dashboard/users/setting/${user.username}`);
                     }}
                   >
                     Edit

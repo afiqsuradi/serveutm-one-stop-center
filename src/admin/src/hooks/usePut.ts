@@ -12,7 +12,6 @@ const usePut = <I, T>(endpoint: string, config?: AxiosRequestConfig) => {
   const put = async (data: I) => {
     setIsLoading(true);
     try {
-      console.log(config);
       return await apiClient.put<T>(endpoint, data, { ...config });
     } catch (error) {
       if ((error as AxiosError<ErrorData>).response) {

@@ -70,7 +70,13 @@ userController.getUserByUsername = async (req, res) => {
     return res
       .status(400)
       .json({ message: `User with username ${username} not found` });
-  const userData = _.pick(user, ["name", "username", "email", "profileImage"]);
+  const userData = _.pick(user, [
+    "name",
+    "username",
+    "email",
+    "profileImage",
+    "role",
+  ]);
   (userData.profileImage = `${req.protocol}://${req.get("host")}/${
     userData.profileImage
   }`),

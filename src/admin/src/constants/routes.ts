@@ -4,5 +4,5 @@ export default {
   PROFILE: "/profile",
   PROFILE_SETTING: "/settings/account",
   USERS: "/dashboard/users",
-  EDIT_USER: "/dashboard/users/:username",
+  EDIT_USER: "/dashboard/users/setting/:username",
 };
