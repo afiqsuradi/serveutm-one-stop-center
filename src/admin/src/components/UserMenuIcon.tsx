@@ -48,13 +48,14 @@ const UserMenuIcon = () => {
           </Menu.Item>
           <Menu.Item>
             {({ active }) => (
-              <a
+              <Link
+                to={routes.PROFILE_SETTING}
                 className={`${
                   active ? "bg-gray-200 dark:bg-slate-900" : ""
                 } block px-4 py-2 text-sm text-gray-950 dark:text-slate-200`}
               >
                 Settings
-              </a>
+              </Link>
             )}
           </Menu.Item>
           <Menu.Item>
