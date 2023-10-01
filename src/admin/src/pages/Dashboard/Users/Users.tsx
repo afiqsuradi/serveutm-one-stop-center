@@ -9,7 +9,7 @@ const Users = () => {
   const { data, setError } = useUsers(filters);
   if (!data) return;
   return (
-    <div className="card bg-white text-black dark:bg-[#1D283A] dark:text-white md:w-[90%] mx-auto my-8">
+    <div className="card bg-white max-w-full text-black dark:bg-[#1D283A] dark:text-white md:w-[90%] mx-auto my-8">
       <div className="card-body">
         <h2 className="card-title max-w-fit">List of users</h2>
         <UserSearchBar setFilters={setFilters} setError={setError} />
