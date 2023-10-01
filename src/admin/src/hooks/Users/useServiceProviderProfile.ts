@@ -23,11 +23,16 @@ export interface ServiceProviderInfo {
   PersonalWebsite?: string;
 }
 
-const useServiceProviderProfile = (username: string, deps?: any[]) => {
+const useServiceProviderProfile = (
+  username: string,
+  deps?: any[],
+  showErr?: boolean
+) => {
   const { isLoading, response, success } = useData<ServiceProviderInfo>(
     `api/service-provider/${username}`,
     {},
-    deps
+    deps,
+    showErr
   );
   return { isLoading, response, success };
 };

@@ -18,13 +18,10 @@ const schema = z
       .string()
       .min(5, "Password should be at least 5 characters")
       .max(20, "Password should not exceed 20 characters")
-      .regex(
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,20}$/,
-        {
-          message:
-            "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character",
-        }
-      ),
+      .regex(/^(?:(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*)$/, {
+        message:
+          "Password must contain at least 1 uppercase, 1 lowercase, 1 number",
+      }),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {

@@ -12,7 +12,7 @@ const EditServiceProviderSettings = ({ username }: { username: string }) => {
   const [error, setError] = useState("");
   const { updateServiceProvider } = useUpdateServiceProvider(username);
   const [isLoading, setIsLoading] = useState(false);
-  const { response, success } = useServiceProviderProfile(username);
+  const { response, success } = useServiceProviderProfile(username, [], false);
   const [skills, setSkills] = useState<SkillType[]>();
   const [languages, setLanguages] = useState<LanguageType[]>();
   const [description, setDescription] = useState<string>();
