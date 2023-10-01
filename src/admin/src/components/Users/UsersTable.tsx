@@ -1,7 +1,7 @@
-import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { User } from "../../hooks/Users/useUsers";
 import useDeleteUser from "../../hooks/Users/useDeleteUser";
 import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   Users: User[];
@@ -9,16 +9,17 @@ interface Props {
 
 const UsersTable = ({ Users }: Props) => {
   const { Auth } = useAuth();
+  const navigate = useNavigate();
   const { deleteUser } = useDeleteUser();
   return (
-    <div className="overflow-x-scroll">
+    <div className="overflow-x-auto">
       <table className="table ">
         {/* head */}
         <thead>
           <tr>
             <th>Name</th>
             <th>Email</th>
-            <th>Role Color</th>
+            <th>Role</th>
             <th></th>
           </tr>
         </thead>
@@ -58,16 +59,21 @@ const UsersTable = ({ Users }: Props) => {
                   )}
                 </td>
                 <th>
-                  <button className="btn btn-primary btn-sm m-1">
-                    <AiFillEdit />
+                  <button
+                    className="btn btn-primary   m-1 w-20"
+                    onClick={() => {
+                      navigate(`/dashboard/users/setting/${user.username}`);
+                    }}
+                  >
+                    Edit
                   </button>
                   <button
-                    className="btn bg-red-700 hover:bg-red-800 btn-sm m-1 text-white"
+                    className="btn bg-red-700 hover:bg-red-800  text-white  m-1 w-20"
                     onClick={() => {
                       void deleteUser(user.username);
                     }}
                   >
-                    <AiFillDelete />
+                    Delete
                   </button>
                 </th>
               </tr>

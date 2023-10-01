@@ -45,9 +45,12 @@ serviceProviderController.getSellerByUsername = async (req, res) => {
 };
 
 serviceProviderController.updateSellerInfo = async (req, res) => {
-  const username = req.user.username;
-  if (!username) return res.sendStatus(400);
-  const user = await User.findOne({ username });
+  const target = req.query.user ? req.query.user : req.user.username;
+  // If its another user then check if its admin
+  if (req.params.user && !(req.user.role === "admin"))
+    return res.status(403).json({ message: "Access Denied." });
+  if (!target) return res.sendStatus(400);
+  const user = await User.findOne({ username: target });
   if (!user)
     return res
       .status(400)

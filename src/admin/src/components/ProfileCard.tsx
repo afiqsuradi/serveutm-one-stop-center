@@ -11,8 +11,9 @@ const ProfileCard = ({
   deps?: any[];
 }) => {
   const { response } = useProfile(username, deps);
+
   return (
-    <div className="card w-96 bg-white dark:bg-[#1D283A] shadow-xl text-black dark:text-white max-h-[24rem] justify-self-center">
+    <div className="card w-96 bg-white dark:bg-[#1D283A] shadow-xl text-black dark:text-white max-h-[24rem] mx-auto">
       <figure className="relative">
         {role === "admin" ? (
           <div className="absolute right-2 top-2 badge badge-primary">
@@ -40,7 +41,7 @@ const ProfileCard = ({
               <BiSolidUser />
               <p className="text-start">Member since</p>
             </div>
-            <p>{response?.dateJoined}</p>
+            <p>{response?.dateJoinedFormatted}</p>
           </div>
         </div>
       </div>

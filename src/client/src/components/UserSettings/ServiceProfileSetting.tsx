@@ -51,7 +51,12 @@ const ServiceProfileSetting = ({ username }: Props) => {
     const invalidLanguage = ProviderInfo.language.find(
       (lang) => lang.name.length === 0
     );
-    if (invalidSkill || invalidLanguage) {
+    if (
+      invalidSkill ||
+      invalidLanguage ||
+      ProviderInfo.skills.length === 0 ||
+      ProviderInfo.language.length === 0
+    ) {
       throw new Error("Atleast 1 skill and language required");
     }
     return await update(ProviderInfo);

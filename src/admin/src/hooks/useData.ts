@@ -25,7 +25,9 @@ const useData = <T>(
         })
         .then((response) => {
           setResponse(response.data);
-          setSuccess(true);
+          if (response.status === 200) {
+            setSuccess(true);
+          }
         })
         .catch((error: Error) => {
           if (!(error as AxiosError).message.includes("canceled")) {

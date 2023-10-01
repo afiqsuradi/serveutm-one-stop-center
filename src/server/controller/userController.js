@@ -70,7 +70,13 @@ userController.getUserByUsername = async (req, res) => {
     return res
       .status(400)
       .json({ message: `User with username ${username} not found` });
-  const userData = _.pick(user, ["name", "username", "email", "profileImage"]);
+  const userData = _.pick(user, [
+    "name",
+    "username",
+    "email",
+    "profileImage",
+    "role",
+  ]);
   (userData.profileImage = `${req.protocol}://${req.get("host")}/${
     userData.profileImage
   }`),
@@ -120,9 +126,9 @@ userController.getUsers = async (req, res) => {
 };
 
 userController.uploadProfileImage = async (req, res) => {
-  const target = req.params.user ? req.params.user : req.user.username;
+  const target = req.query.user ? req.query.user : req.user.username;
   // If its another user then check if its admin
-  if (req.params.user && !(req.user.role === "admin"))
+  if (req.query.user && !(req.user.role === "admin"))
     return res.status(403).json({ message: "Access Denied." });
   if (!target) return res.sendStatus(400);
   const user = await User.findOne({ username: target });
@@ -141,7 +147,7 @@ userController.updateUser = async (req, res) => {
     return res
       .status(400)
       .json({ message: "Name, username and email required!" });
-  const target = req.params.user ? req.params.user : req.user.username;
+  const target = req.query.user ? req.query.user : req.user.username;
   // If its another user then check if its admin
   if (req.params.user && !(req.user.role === "admin"))
     return res.status(403).json({ message: "Access Denied." });
