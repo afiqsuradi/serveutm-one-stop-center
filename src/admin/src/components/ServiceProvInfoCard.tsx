@@ -7,7 +7,11 @@ const ServiceProvInfoCard = ({
   username: string;
   deps?: any[];
 }) => {
-  const { response, success } = useServiceProviderProfile(username, deps);
+  const { response, success } = useServiceProviderProfile(
+    username,
+    deps,
+    false
+  );
   if (!success) return "";
   return (
     <div className="card card-side bg-white dark:bg-[#1D283A] shadow-xl text-black dark:text-white my-8 max-w-[24rem]">

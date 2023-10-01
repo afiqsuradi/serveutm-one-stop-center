@@ -7,8 +7,10 @@ import { toast } from "react-toastify";
 const useData = <T>(
   endpoint: string,
   config?: AxiosRequestConfig,
-  dependency?: any[]
+  dependency?: any[],
+  showErr?: boolean
 ) => {
+  const showError = showErr === undefined ? true : showErr;
   const [response, setResponse] = useState<T>();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
@@ -52,13 +54,15 @@ const useData = <T>(
   );
 
   useEffect(() => {
-    if (!(error.length === 0))
-      toast.error(error, {
-        position: "top-center",
-        autoClose: 5000,
-        progress: undefined,
-        theme: "colored",
-      });
+    if (showError) {
+      if (!(error.length === 0))
+        toast.error(error, {
+          position: "top-center",
+          autoClose: 5000,
+          progress: undefined,
+          theme: "colored",
+        });
+    }
     return () => {
       setError("");
     };
