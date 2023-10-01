@@ -13,7 +13,7 @@ timeout /t 5
 echo Starting client... 
 start "Client" cmd /k cd ./src/client ^& code ./ ^& npm run dev
 
-timeout /t 5
+timeout /t 15
 
 echo Starting admin...
 start "Admin" cmd /k cd ./src/admin ^& code ./ ^& npm run dev

@@ -12,14 +12,14 @@ const UsersTable = ({ Users }: Props) => {
   const navigate = useNavigate();
   const { deleteUser } = useDeleteUser();
   return (
-    <div className="overflow-x-scroll">
+    <div className="overflow-x-auto">
       <table className="table ">
         {/* head */}
         <thead>
           <tr>
             <th>Name</th>
             <th>Email</th>
-            <th>Role Color</th>
+            <th>Role</th>
             <th></th>
           </tr>
         </thead>
@@ -60,7 +60,7 @@ const UsersTable = ({ Users }: Props) => {
                 </td>
                 <th>
                   <button
-                    className="btn btn-primary btn-sm m-1"
+                    className="btn btn-primary   m-1 w-20"
                     onClick={() => {
                       navigate(`/dashboard/users/setting/${user.username}`);
                     }}
@@ -68,7 +68,7 @@ const UsersTable = ({ Users }: Props) => {
                     Edit
                   </button>
                   <button
-                    className="btn bg-red-700 hover:bg-red-800 btn-sm m-1 text-white"
+                    className="btn bg-red-700 hover:bg-red-800  text-white  m-1 w-20"
                     onClick={() => {
                       void deleteUser(user.username);
                     }}
