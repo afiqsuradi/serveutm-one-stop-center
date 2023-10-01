@@ -4,6 +4,9 @@ const inquiryController = {};
 
 inquiryController.getInquiries = async (req, res) => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const skip = (page - 1) * limit;
     // Filter criteria
     const filter = {};
     if (req.query.textInput && req.query.type) {
@@ -53,6 +56,28 @@ inquiryController.addInquiry = async (req, res) => {
     res.status(500).json({
       message: err.message,
     });
+  }
+};
+
+inquiryController.deleteInquiry = async (req, res) => {
+  try {
+    // Validate user role
+    if (req.user.role !== "admin") {
+      return res.status(401).send({ message: "Unauthorized" });
+    }
+
+    // Find user by username
+    const inquiry = await Inquiry.findOne({ _id: req.params.id });
+
+    if (!inquiry) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Delete user
+    await inquiry.deleteOne();
+    res.status(200).send({ message: "User not found" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 
