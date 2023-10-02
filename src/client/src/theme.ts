@@ -8,11 +8,18 @@ const theme = extendTheme({
   fonts: {
     poppins: "Poppins",
     borel: "Borel",
-    satisfy: "Satisfy"
+    satisfy: "Satisfy",
   },
   components: {
     Button: {
       variants: {
+        lessDanger: {
+          bg: "#ED5980",
+          color: "#fff",
+          _hover: {
+            bg: "#C65AED",
+          },
+        },
         danger: {
           bg: "#bb2d3b",
           color: "#fff",

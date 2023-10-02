@@ -73,6 +73,7 @@ const AvatarSetting = ({ info }: Props) => {
             backgroundColor: "#7037d9",
           }}
           type="button"
+          className="w-[12rem]"
           onClick={() => {
             if (imageInput.current) {
               imageInput.current.click();

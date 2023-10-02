@@ -144,10 +144,21 @@ const ChangePasswordModal = ({ isOpen, setIsOpen }: Props) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} type="submit">
+            <Button
+              colorScheme="blue"
+              mr={3}
+              type="submit"
+              className="w-[6rem]"
+            >
               Save
             </Button>
-            <Button onClick={() => setIsOpen(!isOpen)}>Cancel</Button>
+            <Button
+              className="w-[6rem]"
+              variant="lessDanger"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              Cancel
+            </Button>
           </ModalFooter>
         </form>
       </ModalContent>

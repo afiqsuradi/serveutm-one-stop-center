@@ -95,7 +95,10 @@ const ProfileInfoSettings = ({ username }: { username: string }) => {
               />
             </div>
             <div className="flex flex-row justify-between gap-4 flex-wrap sm:flex-nowrap">
-              <button className="btn btn-primary flex-1" type="submit">
+              <button
+                className="btn btn-primary flex-1 max-w-[12rem]"
+                type="submit"
+              >
                 {isLoading ? (
                   <span className="loading loading-spinner loading-sm"></span>
                 ) : (
@@ -105,7 +108,7 @@ const ProfileInfoSettings = ({ username }: { username: string }) => {
               {username === Auth.username ? (
                 <button
                   type="button"
-                  className="btn btn-secondary flex-1"
+                  className="btn btn-secondary flex-1 max-w-[12rem]"
                   onClick={() => {
                     setIsOpen(true);
                   }}
