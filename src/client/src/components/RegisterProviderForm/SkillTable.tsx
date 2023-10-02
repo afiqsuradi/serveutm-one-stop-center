@@ -93,7 +93,7 @@ const SkillTable = ({ ProviderInfo, ProviderInfoDispatch }: Props) => {
               <Th flex={1}>Skill</Th>
               <Th flex={1}>Level</Th>
               <Th
-                flex={1}
+                flex={2}
                 display="flex"
                 flexDirection={{ base: "column", sm: "row" }}
                 justifyContent="space-around"
@@ -142,13 +142,14 @@ const SkillTable = ({ ProviderInfo, ProviderInfoDispatch }: Props) => {
                   <Td flex={1}>{skill.name}</Td>
                   <Td flex={1}>{skill.level}</Td>
                   <Td
-                    flex={1}
+                    flex={2}
                     display="flex"
                     justifyContent="center"
                     flexDirection={{ base: "column", sm: "row" }}
-                    gap={{ base: "0.5em", sm: "4em" }}
+                    gap={{ base: "0.1em", sm: "0.4em" }}
                   >
-                    <IconButton
+                    <Button
+                      className="w-[5rem]"
                       variant="base"
                       aria-label="Edit"
                       onClick={() => {
@@ -160,10 +161,12 @@ const SkillTable = ({ ProviderInfo, ProviderInfoDispatch }: Props) => {
                           levelNameEl.value = skill.level;
                         }
                       }}
-                      icon={<MdEdit />}
-                    />
-                    <IconButton
-                      variant="danger"
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      className="w-[5rem]"
+                      variant="lessDanger"
                       aria-label="Delete"
                       onClick={() => {
                         const newSkill = ProviderInfo.skills.filter(
@@ -176,8 +179,9 @@ const SkillTable = ({ ProviderInfo, ProviderInfoDispatch }: Props) => {
                           payload: newSkill,
                         });
                       }}
-                      icon={<MdDelete />}
-                    />
+                    >
+                      Delete
+                    </Button>
                   </Td>
                 </Tr>
               );

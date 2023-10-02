@@ -117,7 +117,7 @@ const LanguageTable = ({ ProviderInfo, ProviderInfoDispatch }: Props) => {
                 display="flex"
                 justifyContent="space-around"
                 flexDirection={{ base: "column", sm: "row" }}
-                flex={1}
+                flex={2}
                 p={{ sm: "0.4em", base: "1rem" }}
               >
                 {!open ? (
@@ -169,13 +169,14 @@ const LanguageTable = ({ ProviderInfo, ProviderInfoDispatch }: Props) => {
                   </Td>
                   <Td
                     p={{ base: "0.4em", sm: "1.5rem" }}
-                    flex={1}
+                    flex={2}
                     display="flex"
                     justifyContent="center"
                     flexDirection={{ base: "column", sm: "row" }}
-                    gap={{ base: "0.5em", sm: "4em" }}
+                    gap={{ base: "0.1em", sm: "0.4em" }}
                   >
-                    <IconButton
+                    <Button
+                      className="w-[5rem]"
                       variant="base"
                       aria-label="Edit"
                       onClick={() => {
@@ -187,10 +188,12 @@ const LanguageTable = ({ ProviderInfo, ProviderInfoDispatch }: Props) => {
                           levelNameEl.value = language.level;
                         }
                       }}
-                      icon={<MdEdit />}
-                    />
-                    <IconButton
-                      variant="danger"
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      className="w-[5rem]"
+                      variant="lessDanger"
                       aria-label="Delete"
                       onClick={() => {
                         const newLanguage = ProviderInfo.language.filter(
@@ -203,8 +206,9 @@ const LanguageTable = ({ ProviderInfo, ProviderInfoDispatch }: Props) => {
                           payload: newLanguage,
                         });
                       }}
-                      icon={<MdDelete />}
-                    />
+                    >
+                      Delete
+                    </Button>
                   </Td>
                 </Tr>
               );
