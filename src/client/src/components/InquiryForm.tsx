@@ -52,7 +52,7 @@ const InquiryForm = () => {
             ""
           )}
         </FormControl>
-        <FormControl id="name">
+        <FormControl id="email">
           <FormLabel>Mail</FormLabel>
           <InputGroup borderColor="#E0E1E7">
             <InputLeftElement pointerEvents="none">
@@ -68,7 +68,7 @@ const InquiryForm = () => {
             ""
           )}
         </FormControl>
-        <FormControl id="name">
+        <FormControl id="message">
           <FormLabel>Message</FormLabel>
           <Textarea
             {...register("message")}
@@ -80,14 +80,14 @@ const InquiryForm = () => {
             required
             minLength={10}
           />
+          {errors.message ? (
+            <FormHelperText textColor={"red"}>
+              {errors.message.message}
+            </FormHelperText>
+          ) : (
+            ""
+          )}
         </FormControl>
-        {errors.message ? (
-          <FormHelperText textColor={"red"}>
-            {errors.message.message}
-          </FormHelperText>
-        ) : (
-          ""
-        )}
         <FormControl id="name" float="right">
           <Button
             variant="solid"
