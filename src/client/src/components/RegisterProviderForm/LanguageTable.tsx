@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  IconButton,
   Select,
   Table,
   TableContainer,
@@ -13,7 +12,6 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { Dispatch, useEffect, useRef, useState } from "react";
-import { MdEdit, MdDelete } from "react-icons/md";
 import wikipediaLanguages from "../../constants/languages";
 import { UserProfile, languageLevel } from "../../interface/ProviderInfo";
 import {
