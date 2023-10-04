@@ -35,8 +35,10 @@ const PackageForm = ({ isOpen, onClose, setServiceData }: Props) => {
   const addNewPrice = (data: PricingPackageType) => {
     setServiceData((prev) => {
       let newPackage: PricingPackageType[] = [];
-      if (prev?.pricePackage) {
+      if (prev?.pricePackage && prev.pricePackage[0].title.length !== 0) {
         newPackage = [...prev.pricePackage, data];
+      } else {
+        newPackage = [data];
       }
       return {
         ...prev,
