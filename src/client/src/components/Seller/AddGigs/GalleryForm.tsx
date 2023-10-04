@@ -1,5 +1,11 @@
+import AddGigWrapper from "../AddGigWrapper";
+
 const GalleryForm = () => {
-  return <div>GalleryForm</div>;
+  return (
+    <AddGigWrapper title="Gallery">
+      <div>test</div>
+    </AddGigWrapper>
+  );
 };
 
 export default GalleryForm;

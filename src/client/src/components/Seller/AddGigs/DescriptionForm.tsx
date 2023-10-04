@@ -1,5 +1,11 @@
+import AddGigWrapper from "../AddGigWrapper";
+
 const DescriptionForm = () => {
-  return <div>DescriptionForm</div>;
+  return (
+    <AddGigWrapper title="Description & Faq">
+      <div>test</div>
+    </AddGigWrapper>
+  );
 };
 
 export default DescriptionForm;

@@ -50,38 +50,40 @@ const OverviewForm = ({ serviceData, setServiceData }: Props) => {
           <span className="text-red-300"></span>
         </div>
         <FormLabel>Price Package</FormLabel>
-        <div className="grid md:grid-cols-3 gap-4 sm:grid-cols-2">
-          {serviceData?.pricePackage.map((pricePackage) => {
-            if (pricePackage.title.length === 0) return;
-            return (
-              <div>
-                <Accordion
-                  defaultIndex={[0]}
-                  allowMultiple
-                  className="border-2 rounded-lg max-w-[20rem]"
-                >
-                  <AccordionItem>
-                    <h2>
-                      <AccordionButton>
-                        <Box as="span" flex="1" textAlign="left">
-                          {pricePackage.title}
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                    </h2>
-                    <AccordionPanel pb={4}>
-                      {pricePackage.description}
-                      <Divider className="my-2" />
-                      RM {pricePackage.price}
-                    </AccordionPanel>
-                  </AccordionItem>
-                </Accordion>
-              </div>
-            );
-          })}
-          <Button variant="base" className="my-4" onClick={onOpen}>
+        <div className="mb-4">
+          <Button variant="base" className="mb-4" onClick={onOpen}>
             Add New
           </Button>
+          <div className="grid md:grid-cols-3 gap-4 sm:grid-cols-2">
+            {serviceData?.pricePackage.map((pricePackage) => {
+              if (pricePackage.title.length === 0) return;
+              return (
+                <div>
+                  <Accordion
+                    defaultIndex={[0]}
+                    allowMultiple
+                    className="border-2 rounded-lg max-w-[20rem]"
+                  >
+                    <AccordionItem>
+                      <h2>
+                        <AccordionButton>
+                          <Box as="span" flex="1" textAlign="left">
+                            {pricePackage.title}
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </h2>
+                      <AccordionPanel pb={4}>
+                        {pricePackage.description}
+                        <Divider className="my-2" />
+                        RM {pricePackage.price}
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </Accordion>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </AddGigWrapper>
     </>
