@@ -9,26 +9,24 @@ const Footer = () => {
     <footer className=" rounded-lg shadow bg-gray-900 m-4">
       <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
         <div className="flex items-center justify-start flex-col md:flex-row md:justify-between">
-          <div className="self-start md:self-center">
+          <div className="self-start md:self-center w-[14rem]">
             <Image src={logoAlpha} />
           </div>
-          <ul className="list-none text-lg flex justify-between text-center pt-6 md:min-w-[30rem] md:text-xl self-start md:pt-0 min-w-full">
+          <ul className="list-none text-sm flex justify-between text-center pt-6 md:min-w-[30rem] md:text-base self-start md:pt-0 min-w-full md:self-center">
             <li
-              className="border-none m-0 p-0 hover:underline hover:cursor-pointer max-w-fit"
+              className="hover:underline hover:cursor-pointer"
               onClick={() => {
                 navigate(ROUTES.ABOUT_US);
               }}
             >
               About
             </li>
-            <li className="border-none m-0 p-0 hover:underline hover:cursor-pointer max-w-fit">
+            <li className="hover:underline hover:cursor-pointer">
               Privacy Policy
             </li>
-            <li className="border-none m-0 p-0 hover:underline hover:cursor-pointer max-w-fit">
-              Licensing
-            </li>
+            <li className="hover:underline hover:cursor-pointer">Licensing</li>
             <li
-              className="border-none m-0 p-0 hover:underline hover:cursor-pointer max-w-fit"
+              className="hover:underline hover:cursor-pointer"
               onClick={() => {
                 navigate(ROUTES.CONTACT_US);
               }}
