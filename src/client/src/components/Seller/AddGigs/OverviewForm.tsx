@@ -14,7 +14,8 @@ import {
 } from "@chakra-ui/react";
 import AddGigWrapper from "../AddGigWrapper";
 import PackageForm from "./PackageForm";
-import { ServiceType } from "../../../pages/Seller/AddGig";
+import { PricingPackageType, ServiceType } from "../../../pages/Seller/AddGig";
+import { useState } from "react";
 
 interface Props {
   serviceData: ServiceType | undefined;
@@ -23,12 +24,35 @@ interface Props {
 
 const OverviewForm = ({ serviceData, setServiceData }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [pricePackage, setPricePackage] = useState<
+    PricingPackageType | undefined
+  >();
+
+  const closePricePackageModal = () => {
+    onClose();
+    setPricePackage(undefined);
+  };
+
+  const editPricePackageModal = (data: PricingPackageType) => {
+    setPricePackage(data);
+    setServiceData((prev) => {
+      return {
+        ...prev,
+        pricePackage: prev.pricePackage.filter(
+          (pack) => pack.title !== data.title
+        ),
+      };
+    });
+    onOpen();
+  };
+
   return (
     <>
       <PackageForm
         setServiceData={setServiceData}
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={closePricePackageModal}
+        initialData={pricePackage}
       />
       <AddGigWrapper title="Overview">
         <FormLabel>Gig title</FormLabel>
@@ -51,7 +75,7 @@ const OverviewForm = ({ serviceData, setServiceData }: Props) => {
         </div>
         <FormLabel>Price Package</FormLabel>
         <div className="mb-4">
-          <Button variant="base" className="mb-4" onClick={onOpen}>
+          <Button variant="base" className="mb-4 w-[6rem]`" onClick={onOpen}>
             Add New
           </Button>
           <div className="grid md:grid-cols-3 gap-4 sm:grid-cols-2">
@@ -77,6 +101,21 @@ const OverviewForm = ({ serviceData, setServiceData }: Props) => {
                         {pricePackage.description}
                         <Divider className="my-2" />
                         RM {pricePackage.price}
+                        <Divider className="my-2" />
+                        <div className="flex justify-between">
+                          <Button
+                            variant="base"
+                            className="w-[6rem]"
+                            onClick={() => {
+                              editPricePackageModal(pricePackage);
+                            }}
+                          >
+                            Edit
+                          </Button>
+                          <Button variant="lessDanger" className="w-[6rem]">
+                            Delete
+                          </Button>
+                        </div>
                       </AccordionPanel>
                     </AccordionItem>
                   </Accordion>
