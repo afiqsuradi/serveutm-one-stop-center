@@ -166,20 +166,20 @@ const PackageForm = ({
 
             <ModalFooter>
               <Button
-                variant="lessDanger"
-                mr={3}
-                onClick={onClose}
-                className="w-[5rem]"
-              >
-                Close
-              </Button>
-              <Button
                 type="submit"
                 variant={"base"}
                 mr={3}
                 className="w-[5rem]"
               >
                 Save
+              </Button>
+              <Button
+                variant="lessDanger"
+                mr={3}
+                onClick={onClose}
+                className="w-[5rem]"
+              >
+                Close
               </Button>
             </ModalFooter>
           </ModalContent>
