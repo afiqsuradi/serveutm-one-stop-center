@@ -6,7 +6,7 @@ const AddGigsBreadcrump = ({ currentIndex }: { currentIndex: number }) => {
     <Breadcrumb
       spacing="8px"
       separator={<BiSolidChevronRight className="text-gray-500" />}
-      className="md:max-w-[95%] mx-auto py-4"
+      className="md:max-w-[95%] mx-auto py-4 overflow-x-auto"
     >
       {processes.map((process, i) => (
         <BreadcrumbItem

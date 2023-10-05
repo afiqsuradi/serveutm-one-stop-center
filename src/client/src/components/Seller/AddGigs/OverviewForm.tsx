@@ -1,9 +1,4 @@
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
   Box,
   Button,
   Card,
@@ -22,7 +17,7 @@ import {
 import AddGigWrapper from "../AddGigWrapper";
 import PackageForm from "./PackageForm";
 import { PricingPackageType, ServiceType } from "../../../pages/Seller/AddGig";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 interface Props {
   serviceData: ServiceType | undefined;
@@ -30,7 +25,9 @@ interface Props {
 }
 
 const OverviewForm = ({ serviceData, setServiceData }: Props) => {
+  const title = useRef<HTMLInputElement>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [titleCount, setTitleCount] = useState(0);
   const [pricePackage, setPricePackage] = useState<
     PricingPackageType | undefined
   >();
@@ -62,6 +59,22 @@ const OverviewForm = ({ serviceData, setServiceData }: Props) => {
     });
   };
 
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target && event.target.value) {
+      setTitleCount(() => {
+        return event.target.value.length;
+      });
+    }
+  };
+
+  const handleTitleBlur = () => {
+    if (title.current) {
+      const newTitle = title.current.value;
+      setServiceData((prev) => {
+        return { ...prev, title: newTitle };
+      });
+    }
+  };
   return (
     <>
       <PackageForm
@@ -73,16 +86,31 @@ const OverviewForm = ({ serviceData, setServiceData }: Props) => {
       <AddGigWrapper title="Overview">
         <FormLabel>Gig title</FormLabel>
         <div className="relative">
-          <Input placeholder="" className="pl-[2rem] indent-9" />
+          <Input
+            defaultValue={serviceData ? serviceData.title : ""}
+            ref={title}
+            placeholder=""
+            className="pl-[2rem] indent-9"
+            onChange={handleTitleChange}
+            onBlur={handleTitleBlur}
+          />
           <span className="absolute top-2 left-4 text-gray-300">I will</span>
           <div className="grid grid-cols-[3fr_1fr] text-xs text-gray-400 my-1">
             <span className="text-red-300"></span>
-            <span className="place-self-end">0/70</span>
+            <span className="place-self-end">{titleCount}/70</span>
           </div>
         </div>
         <FormLabel>Category</FormLabel>
         <div className="max-w-[12rem]">
-          <Select placeholder="Select option">
+          <Select
+            defaultValue={serviceData ? serviceData.category : ""}
+            placeholder="Select option"
+            onChange={(event) => {
+              setServiceData((prev) => {
+                return { ...prev, category: event.target.value };
+              });
+            }}
+          >
             <option value="option1">Option 1</option>
             <option value="option2">Option 2</option>
             <option value="option3">Option 3</option>

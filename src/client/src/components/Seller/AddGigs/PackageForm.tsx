@@ -69,6 +69,8 @@ const PackageForm = ({
     setServiceData((prev) => {
       const newPackage = validateNewPackage(prev, data);
       if (newPackage) {
+        onClose();
+        reset();
         return {
           ...prev,
           pricePackage: newPackage,
@@ -76,8 +78,6 @@ const PackageForm = ({
       }
       return prev;
     });
-    onClose();
-    reset();
   };
 
   useEffect(() => {
