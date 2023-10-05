@@ -143,7 +143,7 @@ const PackageForm = ({
                 ) : (
                   <FormHelperText>
                     Tell about your package in detail (
-                    {description ? description.length : 0}/50)
+                    {description ? description.length : 0}/120)
                   </FormHelperText>
                 )}
               </FormControl>
