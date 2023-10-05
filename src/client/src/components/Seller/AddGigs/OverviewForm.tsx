@@ -6,11 +6,18 @@ import {
   AccordionPanel,
   Box,
   Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
   Divider,
+  Text,
   FormLabel,
+  Heading,
   Input,
   Select,
   useDisclosure,
+  Stack,
 } from "@chakra-ui/react";
 import AddGigWrapper from "../AddGigWrapper";
 import PackageForm from "./PackageForm";
@@ -44,6 +51,15 @@ const OverviewForm = ({ serviceData, setServiceData }: Props) => {
       };
     });
     onOpen();
+  };
+
+  const deletePricePackage = (title: string) => {
+    setServiceData((prev) => {
+      return {
+        ...prev,
+        pricePackage: prev.pricePackage.filter((pack) => pack.title !== title),
+      };
+    });
   };
 
   return (
@@ -82,44 +98,41 @@ const OverviewForm = ({ serviceData, setServiceData }: Props) => {
             {serviceData?.pricePackage.map((pricePackage) => {
               if (pricePackage.title.length === 0) return;
               return (
-                <div>
-                  <Accordion
-                    defaultIndex={[0]}
-                    allowMultiple
-                    className="border-2 rounded-lg max-w-[20rem]"
-                  >
-                    <AccordionItem>
-                      <h2>
-                        <AccordionButton>
-                          <Box as="span" flex="1" textAlign="left">
-                            {pricePackage.title}
-                          </Box>
-                          <AccordionIcon />
-                        </AccordionButton>
-                      </h2>
-                      <AccordionPanel pb={4}>
-                        {pricePackage.description}
-                        <Divider className="my-2" />
-                        RM {pricePackage.price}
-                        <Divider className="my-2" />
-                        <div className="flex justify-between">
-                          <Button
-                            variant="base"
-                            className="w-[6rem]"
-                            onClick={() => {
-                              editPricePackageModal(pricePackage);
-                            }}
-                          >
-                            Edit
-                          </Button>
-                          <Button variant="lessDanger" className="w-[6rem]">
-                            Delete
-                          </Button>
-                        </div>
-                      </AccordionPanel>
-                    </AccordionItem>
-                  </Accordion>
-                </div>
+                <Box key={pricePackage.title}>
+                  <Card className="min-h-full border-2" variant={"outline"}>
+                    <CardHeader>
+                      <Heading size="md">{pricePackage.title} </Heading>
+                    </CardHeader>
+                    <Divider orientation="horizontal" />
+                    <CardBody paddingBottom={2}>
+                      <Stack spacing={4}>
+                        <Text>{pricePackage.description}</Text>
+                        <Text fontSize={"xl"}>RM {pricePackage.price}</Text>
+                      </Stack>
+                    </CardBody>
+                    <Divider orientation="horizontal" />
+                    <CardFooter>
+                      <div className="flex justify-between gap-4">
+                        <Button
+                          variant="base"
+                          className="w-[6rem]"
+                          onClick={() => {
+                            editPricePackageModal(pricePackage);
+                          }}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="lessDanger"
+                          className="w-[6rem]"
+                          onClick={() => deletePricePackage(pricePackage.title)}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </CardFooter>
+                  </Card>
+                </Box>
               );
             })}
           </div>
