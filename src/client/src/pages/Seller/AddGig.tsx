@@ -12,15 +12,24 @@ export type PricingPackageType = {
   price: number;
 };
 
+export type FaqType = {
+  question: string;
+  answer: string;
+};
+
 export type ServiceType = {
   title: string;
+  description: string;
   category: string;
+  faq: FaqType[];
   pricePackage: PricingPackageType[];
 };
 
 const defaultServiceType = {
   title: "",
+  description: "",
   category: "",
+  faq: [{ question: "", answer: "" }],
   pricePackage: [{ title: "", description: "", price: 0 }],
 };
 
@@ -37,6 +46,16 @@ const validator = {
     if (invalidPackage.length > 0 || !(packages.length > 0))
       throw new Error("You should add atleast 1 price pack");
   },
+  description: (desc: string) => {
+    if (!(desc.length >= 100 && desc.length <= 500)) {
+      throw new Error("Description should be 100 - 500 characters.");
+    }
+  },
+  faq: (faq: ServiceType["faq"]) => {
+    if (!(faq.length > 0)) {
+      throw new Error("Atleast 1 faq is needed");
+    }
+  },
 };
 
 const validate = [
@@ -44,6 +63,10 @@ const validate = [
     validator.title(data.title);
     validator.category(data.category);
     validator.pricePackage(data.pricePackage);
+  },
+  (data: ServiceType) => {
+    validator.description(data.description);
+    validator.faq(data.faq);
   },
 ];
 
@@ -58,15 +81,18 @@ const AddGig = () => {
         serviceData={serviceData}
         setServiceData={setServiceData}
       />,
-      <DescriptionForm />,
+      <DescriptionForm
+        serviceData={serviceData}
+        setServiceData={setServiceData}
+      />,
       <GalleryForm />,
     ]);
 
   const onProgress = () => {
     try {
-      if (validate[currentStepIndex]) {
-        validate[currentStepIndex](serviceData);
-      }
+      // if (validate[currentStepIndex]) {
+      //   validate[currentStepIndex](serviceData);
+      // }
       next();
     } catch (error) {
       setError((error as Error).message);

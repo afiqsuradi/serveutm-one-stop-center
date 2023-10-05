@@ -101,7 +101,7 @@ const OverviewForm = ({ serviceData, setServiceData }: Props) => {
           </div>
         </div>
         <FormLabel>Category</FormLabel>
-        <div className="max-w-[12rem]">
+        <div>
           <Select
             defaultValue={serviceData ? serviceData.category : ""}
             placeholder="Select option"
@@ -119,7 +119,7 @@ const OverviewForm = ({ serviceData, setServiceData }: Props) => {
         </div>
         <FormLabel>Price Package</FormLabel>
         <div className="mb-4">
-          <Button variant="base" className="mb-4 w-[6rem]`" onClick={onOpen}>
+          <Button variant="base" className="mb-4 w-[6rem]" onClick={onOpen}>
             Add New
           </Button>
           <div className="grid md:grid-cols-3 gap-4 sm:grid-cols-2">
