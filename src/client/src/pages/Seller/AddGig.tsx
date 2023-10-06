@@ -6,6 +6,9 @@ import OverviewForm from "../../components/Seller/AddGigs/OverviewForm";
 import useMultiStepForm from "../../hooks/useMultiStepForm";
 import { Button, useToast } from "@chakra-ui/react";
 import PublishGigs from "../../components/Seller/AddGigs/PublishGigs";
+import useAddGigs from "../../hooks/Services/useAddGigs";
+import { AxiosError } from "axios";
+import { ErrorData } from "../../services/apiClient";
 
 export type PricingPackageType = {
   title: string;
@@ -91,15 +94,33 @@ const AddGig = () => {
     <GalleryForm serviceData={serviceData} setServiceData={setServiceData} />,
     <PublishGigs />,
   ]);
+  const { publish, isLoading, setLoading } = useAddGigs();
 
   const onProgress = () => {
     try {
-      // if (validate[currentStepIndex]) {
-      //   validate[currentStepIndex](serviceData);
-      // }
+      if (validate[currentStepIndex]) {
+        validate[currentStepIndex](serviceData);
+      }
       next();
     } catch (error) {
       setError((error as Error).message);
+    }
+  };
+
+  const onPublish = async () => {
+    try {
+      const res = await publish(serviceData);
+    } catch (error) {
+      if ((error as AxiosError<ErrorData>).response) {
+        setError(
+          (error as AxiosError<ErrorData>).response?.data.message as string
+        );
+      } else {
+        // If backend crash / not found
+        setError((error as AxiosError<ErrorData>).message);
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -133,7 +154,12 @@ const AddGig = () => {
             Continue
           </Button>
         ) : (
-          <Button variant="base" className="w-[6rem]">
+          <Button
+            variant="base"
+            className="w-[6rem]"
+            isLoading={isLoading}
+            onClick={() => void onPublish()}
+          >
             Publish
           </Button>
         )}
