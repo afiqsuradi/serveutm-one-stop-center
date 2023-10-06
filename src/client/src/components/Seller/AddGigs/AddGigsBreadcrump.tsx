@@ -1,6 +1,11 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 import { BiSolidChevronRight } from "react-icons/bi";
-const AddGigsBreadcrump = ({ currentIndex }: { currentIndex: number }) => {
+
+interface Props {
+  currentIndex: number;
+  goto: (index: number) => void;
+}
+const AddGigsBreadcrump = ({ currentIndex, goto }: Props) => {
   const processes = ["Overview", "Description & Faq", "Gallery", "Publish"];
   return (
     <Breadcrumb
@@ -20,7 +25,7 @@ const AddGigsBreadcrump = ({ currentIndex }: { currentIndex: number }) => {
           >
             {i + 1}
           </span>
-          <BreadcrumbLink href="#">{process}</BreadcrumbLink>
+          <BreadcrumbLink onClick={() => goto(i)}>{process}</BreadcrumbLink>
         </BreadcrumbItem>
       ))}
     </Breadcrumb>

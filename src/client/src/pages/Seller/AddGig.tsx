@@ -82,19 +82,15 @@ const AddGig = () => {
     useState<ServiceType>(defaultServiceType);
   const [error, setError] = useState("");
   const toast = useToast();
-  const { currentStepIndex, highestStepIndex, next, goto, prev, steps, step } =
-    useMultiStepForm([
-      <OverviewForm
-        serviceData={serviceData}
-        setServiceData={setServiceData}
-      />,
-      <DescriptionForm
-        serviceData={serviceData}
-        setServiceData={setServiceData}
-      />,
-      <GalleryForm serviceData={serviceData} setServiceData={setServiceData} />,
-      <PublishGigs />,
-    ]);
+  const { currentStepIndex, next, goto, prev, steps, step } = useMultiStepForm([
+    <OverviewForm serviceData={serviceData} setServiceData={setServiceData} />,
+    <DescriptionForm
+      serviceData={serviceData}
+      setServiceData={setServiceData}
+    />,
+    <GalleryForm serviceData={serviceData} setServiceData={setServiceData} />,
+    <PublishGigs />,
+  ]);
 
   const onProgress = () => {
     try {
@@ -122,7 +118,7 @@ const AddGig = () => {
   }, [error]);
   return (
     <div>
-      <AddGigsBreadcrump currentIndex={currentStepIndex} />
+      <AddGigsBreadcrump currentIndex={currentStepIndex} goto={goto} />
       {step}
       <div className="max-w-[85%] mx-auto my-4 flex gap-4 justify-end">
         {currentStepIndex === 0 ? (
