@@ -9,6 +9,7 @@ import PublishGigs from "../../components/Seller/AddGigs/PublishGigs";
 import useAddGigs from "../../hooks/Services/useAddGigs";
 import { AxiosError } from "axios";
 import { ErrorData } from "../../services/apiClient";
+import GigsAddSuccessOverlay from "../../components/Seller/AddGigs/GigsAddSuccessOverlay";
 
 export type PricingPackageType = {
   title: string;
@@ -95,6 +96,7 @@ const AddGig = () => {
     <PublishGigs />,
   ]);
   const { publish, isLoading, setLoading } = useAddGigs();
+  const [success, setSuccess] = useState(false);
 
   const onProgress = () => {
     try {
@@ -110,6 +112,9 @@ const AddGig = () => {
   const onPublish = async () => {
     try {
       const res = await publish(serviceData);
+      if (res?.status === 201) {
+        setSuccess(true);
+      }
     } catch (error) {
       if ((error as AxiosError<ErrorData>).response) {
         setError(
@@ -139,6 +144,7 @@ const AddGig = () => {
   }, [error]);
   return (
     <div>
+      <GigsAddSuccessOverlay isOpen={success} />
       <AddGigsBreadcrump currentIndex={currentStepIndex} goto={goto} />
       {step}
       <div className="max-w-[85%] mx-auto my-4 flex gap-4 justify-end">
