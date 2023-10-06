@@ -1,4 +1,4 @@
-import { Box, Input, Text } from "@chakra-ui/react";
+import { Box, Input, Text, useToast } from "@chakra-ui/react";
 import AddGigWrapper from "../AddGigWrapper";
 import { BsFillImageFill } from "react-icons/bs";
 import { ServiceType } from "../../../pages/Seller/AddGig";
@@ -32,6 +32,8 @@ const fillImagesPrev = (images: string[], newImages: string[]) => {
 };
 
 const GalleryForm = ({ serviceData, setServiceData }: Props) => {
+  const toast = useToast();
+  const [error, setError] = useState("");
   const [selectedImagesPrev, setSelectedImagesPrev] = useState<string[]>([
     "",
     "",
@@ -45,7 +47,8 @@ const GalleryForm = ({ serviceData, setServiceData }: Props) => {
       return img !== "";
     });
     if (!selectedFiles) return;
-    if (selectedFiles.length > 3 - occupiedLink.length) return;
+    if (selectedFiles.length > 3 - occupiedLink.length)
+      return setError("You can only upload up to 3 images");
     const imagesArray = createPreview(selectedFiles);
     const newSelectedImagesPrev = fillImagesPrev(
       selectedImagesPrev,
@@ -86,10 +89,29 @@ const GalleryForm = ({ serviceData, setServiceData }: Props) => {
     if (serviceData) {
       const data = serviceData.images.filter((img) => img.length > 0);
       if (data.length > 0) {
+        if (data.length !== 3) {
+          for (let index = data.length; index < 3; index++) {
+            data.push("");
+          }
+        }
         setSelectedImagesPrev(data);
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (error.length > 0) {
+      if (error) {
+        toast({
+          title: `${error}`,
+          status: "error",
+          position: "top",
+          isClosable: true,
+        });
+      }
+    }
+    setError("");
+  }, [error]);
 
   return (
     <AddGigWrapper title="Gallery">
