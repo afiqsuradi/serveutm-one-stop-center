@@ -23,6 +23,7 @@ export type ServiceType = {
   category: string;
   faq: FaqType[];
   pricePackage: PricingPackageType[];
+  images: string[];
 };
 
 const defaultServiceType = {
@@ -31,6 +32,7 @@ const defaultServiceType = {
   category: "",
   faq: [{ question: "", answer: "" }],
   pricePackage: [{ title: "", description: "", price: 0 }],
+  images: [],
 };
 
 const validator = {
@@ -55,6 +57,10 @@ const validator = {
     if (!(faq.length > 0)) {
       throw new Error("Atleast 1 faq is needed");
     }
+  },
+  images: (images: ServiceType["images"]) => {
+    if (images.length === 0) throw new Error("Please upload atleast 1 image");
+    if (images.length > 3) throw new Error("Maximum 3 images is allowed");
   },
 };
 
@@ -85,7 +91,7 @@ const AddGig = () => {
         serviceData={serviceData}
         setServiceData={setServiceData}
       />,
-      <GalleryForm />,
+      <GalleryForm serviceData={serviceData} setServiceData={setServiceData} />,
     ]);
 
   const onProgress = () => {
