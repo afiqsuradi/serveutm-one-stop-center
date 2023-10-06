@@ -39,6 +39,9 @@ const DescriptionForm = ({ serviceData, setServiceData }: Props) => {
 
   const closeFaq = () => {
     setAnswerCount(0);
+    setErrors((prev) => {
+      return { ...prev, answer: "", question: "" };
+    });
     setFaqIsOpen(false);
   };
 
@@ -119,7 +122,7 @@ const DescriptionForm = ({ serviceData, setServiceData }: Props) => {
   };
 
   const addNewFaq = () => {
-    if (!(errors.answer.length > 0 && errors.question.length > 0)) {
+    if (!(errors.answer.length > 0 || errors.question.length > 0)) {
       setServiceData((prev) => {
         const newFaq = validateNewFaq(prev.faq, faqData);
         console.log(newFaq);
@@ -130,6 +133,18 @@ const DescriptionForm = ({ serviceData, setServiceData }: Props) => {
       });
       setFaqData({ question: "", answer: "" });
       closeFaq();
+    }
+  };
+
+  const updateFaq = (title: string, question: string, answer: string) => {
+    if (serviceData) {
+      const newFaq = serviceData?.faq.filter(
+        (faqItem) => faqItem.question !== title
+      );
+      newFaq.push({ question, answer });
+      setServiceData((prev) => {
+        return { ...prev, faq: newFaq };
+      });
     }
   };
 
@@ -199,7 +214,7 @@ const DescriptionForm = ({ serviceData, setServiceData }: Props) => {
                 </span>
               </div>
             </div>
-            <div className="ml-auto">
+            <div className="ml-auto my-4">
               <Button
                 variant={"lessDanger"}
                 className=" w-[6rem] ml-auto mx-4"
@@ -225,7 +240,7 @@ const DescriptionForm = ({ serviceData, setServiceData }: Props) => {
             <Accordion
               allowMultiple
               allowToggle
-              className="border-2 rounded-md"
+              className="border-2 rounded-md mb-4"
             >
               <AccordionItem>
                 <h2>
@@ -239,16 +254,38 @@ const DescriptionForm = ({ serviceData, setServiceData }: Props) => {
                 <AccordionPanel pb={4}>
                   <Stack spacing={4}>
                     <Input
+                      id="question"
                       placeholder="Add a Question: i.e. Do you translate english well?"
                       defaultValue={faq.question}
                     />
                     <Textarea
+                      id="answer"
                       size="md"
                       resize={"none"}
                       placeholder="Add an Answer: i.e. Yes, I also translate from English to Malay"
                       defaultValue={faq.answer}
                     />
-                    <Button variant={"base"} className=" w-[6rem] ml-auto">
+                    <Button
+                      variant={"base"}
+                      className=" w-[6rem] ml-auto"
+                      onClick={(event) => {
+                        const answer =
+                          event.currentTarget.parentElement?.querySelector(
+                            "#answer"
+                          );
+                        const question =
+                          event.currentTarget.parentElement?.querySelector(
+                            "#question"
+                          );
+                        if (answer && question) {
+                          updateFaq(
+                            faq.question,
+                            (question as HTMLInputElement).value,
+                            (answer as HTMLTextAreaElement).value
+                          );
+                        }
+                      }}
+                    >
                       Update
                     </Button>
                   </Stack>
