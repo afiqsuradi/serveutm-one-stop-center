@@ -5,6 +5,7 @@ import GalleryForm from "../../components/Seller/AddGigs/GalleryForm";
 import OverviewForm from "../../components/Seller/AddGigs/OverviewForm";
 import useMultiStepForm from "../../hooks/useMultiStepForm";
 import { Button, useToast } from "@chakra-ui/react";
+import PublishGigs from "../../components/Seller/AddGigs/PublishGigs";
 
 export type PricingPackageType = {
   title: string;
@@ -92,6 +93,7 @@ const AddGig = () => {
         setServiceData={setServiceData}
       />,
       <GalleryForm serviceData={serviceData} setServiceData={setServiceData} />,
+      <PublishGigs />,
     ]);
 
   const onProgress = () => {
@@ -118,7 +120,6 @@ const AddGig = () => {
     }
     setError("");
   }, [error]);
-
   return (
     <div>
       <AddGigsBreadcrump currentIndex={currentStepIndex} />
@@ -131,9 +132,15 @@ const AddGig = () => {
             Back
           </Button>
         )}
-        <Button variant="base" className="w-[6rem]" onClick={onProgress}>
-          Continue
-        </Button>
+        {currentStepIndex !== steps.length - 1 ? (
+          <Button variant="base" className="w-[6rem]" onClick={onProgress}>
+            Continue
+          </Button>
+        ) : (
+          <Button variant="base" className="w-[6rem]">
+            Publish
+          </Button>
+        )}
       </div>
     </div>
   );
