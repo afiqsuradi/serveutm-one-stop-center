@@ -81,6 +81,10 @@ const GalleryForm = ({ serviceData, setServiceData }: Props) => {
         setServiceData((prev) => {
           return { ...prev, images: images };
         });
+      } else {
+        setServiceData((prev) => {
+          return { ...prev, images: [] };
+        });
       }
     }
   }, [selectedImagesPrev]);
