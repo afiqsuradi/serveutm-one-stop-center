@@ -31,7 +31,7 @@ const ProviderGigs = ({ servicesData }: Props) => {
           Add New
         </Tag>
       </CardHeader>
-      <CardBody minW="100%" className="grid grid-cols-1 md:grid-cols-4 gap-12">
+      <CardBody minW="100%" className="grid grid-cols-1 md:grid-cols-3 gap-12">
         {servicesData
           ? servicesData.map((service) => <ServiceCard serviceData={service} />)
           : ""}

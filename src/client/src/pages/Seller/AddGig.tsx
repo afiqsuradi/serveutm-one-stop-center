@@ -35,6 +35,7 @@ export type ServiceType = {
   faq: FaqType[];
   pricePackage: PricingPackageType[];
   images: string[];
+  isApproved?: boolean;
 };
 
 const defaultServiceType = {
