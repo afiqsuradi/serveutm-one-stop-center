@@ -32,7 +32,11 @@ serviceController.createService = async (req, res) => {
     }
 
     // Get Files
-
+    if (!req.files) {
+      return res
+        .status(500)
+        .json({ message: `Error while uploading images, please try again.` });
+    }
     uploadedImages = req.files.map((file) => file.filename);
 
     // Create service
