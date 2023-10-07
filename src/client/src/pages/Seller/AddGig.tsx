@@ -85,6 +85,9 @@ const validate = [
     validator.description(data.description);
     validator.faq(data.faq);
   },
+  (data: ServiceType) => {
+    validator.images(data.images);
+  },
 ];
 
 const AddGig = () => {
