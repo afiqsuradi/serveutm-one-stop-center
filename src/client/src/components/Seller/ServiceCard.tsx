@@ -106,7 +106,7 @@ const ServiceCard = ({ serviceData }: Props) => {
       <div className="flex flex-col justify-between gap-8 p-3 flex-1">
         <div>
           <Text fontSize={"lg"}>
-            {serviceData.title}
+            I will {serviceData.title}
             <span className="text-xs">
               <Badge colorScheme={serviceData.isApproved ? "green" : "purple"}>
                 {serviceData.isApproved ? "Approved" : "Pending Approval"}
