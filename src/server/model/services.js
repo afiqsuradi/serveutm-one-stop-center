@@ -18,6 +18,10 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  isApproved: {
+    default: false,
+    required: false,
+  },
   faq: [
     {
       question: {
