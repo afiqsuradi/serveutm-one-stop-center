@@ -67,10 +67,34 @@ const DescriptionForm = ({ serviceData, setServiceData }: Props) => {
   };
 
   const setAnswerLength = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (event.target.value.length < 30) {
+      setErrors({
+        ...errors,
+        answer: "Answer should be 30 - 300 words",
+      });
+    } else {
+      setErrors({
+        ...errors,
+        answer: "",
+      });
+    }
     setAnswerCount(event.target.value.length);
   };
 
   const updateDescLength = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (
+      !(event.target.value.length >= 100 && event.target.value.length <= 500)
+    ) {
+      setErrors({
+        ...errors,
+        description: "Description should be 100 - 500 characters.",
+      });
+    } else {
+      setErrors({
+        ...errors,
+        description: "",
+      });
+    }
     setDescriptionCount(() => event.target.value.length);
   };
 
@@ -86,6 +110,20 @@ const DescriptionForm = ({ serviceData, setServiceData }: Props) => {
         question: "",
       });
       setFaqData({ ...faqData, question: event.target.value });
+    }
+  };
+
+  const validateQuestion = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value.length < 10) {
+      setErrors({
+        ...errors,
+        question: "Question should contain atleast 10 words",
+      });
+    } else {
+      setErrors({
+        ...errors,
+        question: "",
+      });
     }
   };
 
@@ -138,6 +176,10 @@ const DescriptionForm = ({ serviceData, setServiceData }: Props) => {
 
   const updateFaq = (title: string, question: string, answer: string) => {
     if (serviceData) {
+      if (
+        !(answer.length >= 30 && answer.length <= 300 && question.length > 10)
+      )
+        return;
       const newFaq = serviceData?.faq.filter(
         (faqItem) => faqItem.question !== title
       );
@@ -145,6 +187,38 @@ const DescriptionForm = ({ serviceData, setServiceData }: Props) => {
       setServiceData((prev) => {
         return { ...prev, faq: newFaq };
       });
+    }
+  };
+
+  const validateAccordionQuestion = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const userInput = event.target.value;
+    if (userInput) {
+      const err = event.target.parentElement?.querySelector("#QuestionErr");
+      if (err) {
+        if (userInput.length < 10) {
+          err.textContent = "Question should contain atleast 10 words";
+        } else {
+          err.textContent = "";
+        }
+      }
+    }
+  };
+
+  const validateAccordionAnswer = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const userInput = event.target.value;
+    if (userInput) {
+      const err = event.target.parentElement?.querySelector("#AnswerErr");
+      if (err) {
+        if (!(userInput.length >= 30 && userInput.length <= 300)) {
+          err.textContent = "Answer should be 30 - 300 words";
+        } else {
+          err.textContent = "";
+        }
+      }
     }
   };
 
@@ -192,6 +266,7 @@ const DescriptionForm = ({ serviceData, setServiceData }: Props) => {
               <Input
                 placeholder="Add a Question: i.e. Do you translate english well?"
                 onBlur={setQuestion}
+                onChange={validateQuestion}
               />
               <span className="text-sm text-red-500">
                 {errors.question.length > 0 ? errors.question : ""}
@@ -253,18 +328,32 @@ const DescriptionForm = ({ serviceData, setServiceData }: Props) => {
                 </h2>
                 <AccordionPanel pb={4}>
                   <Stack spacing={4}>
-                    <Input
-                      id="question"
-                      placeholder="Add a Question: i.e. Do you translate english well?"
-                      defaultValue={faq.question}
-                    />
-                    <Textarea
-                      id="answer"
-                      size="md"
-                      resize={"none"}
-                      placeholder="Add an Answer: i.e. Yes, I also translate from English to Malay"
-                      defaultValue={faq.answer}
-                    />
+                    <div>
+                      <Input
+                        id="question"
+                        placeholder="Add a Question: i.e. Do you translate english well?"
+                        defaultValue={faq.question}
+                        onChange={validateAccordionQuestion}
+                      />
+                      <span
+                        className="text-sm text-red-500"
+                        id="QuestionErr"
+                      ></span>
+                    </div>
+                    <div>
+                      <Textarea
+                        id="answer"
+                        size="md"
+                        resize={"none"}
+                        placeholder="Add an Answer: i.e. Yes, I also translate from English to Malay"
+                        defaultValue={faq.answer}
+                        onChange={validateAccordionAnswer}
+                      />
+                      <span
+                        className="text-sm text-red-500"
+                        id="AnswerErr"
+                      ></span>
+                    </div>
                     <Button
                       variant={"base"}
                       className=" w-[6rem] ml-auto"
