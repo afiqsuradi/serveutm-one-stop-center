@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import apiClient from "../services/apiClient";
 import { useAuth } from "./useAuth";
 import { UserProfile, defaultProfileValue } from "../interface/ProviderInfo";
+import { AuthType } from "../context/authProvider";
 
-const useUserProfile = (username: string) => {
+const useUserProfile = (username: string, role?: AuthType["role"]) => {
   const { Auth } = useAuth();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<UserProfile>(defaultProfileValue);
   useEffect(() => {
+    if (role && role !== "service_provider") return;
     setLoading(true);
     const controller = new AbortController();
     apiClient

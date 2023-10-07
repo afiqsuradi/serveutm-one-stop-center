@@ -4,9 +4,11 @@ import ProfileCard from "../components/UserProfile/ProfileCard";
 import { useAuth } from "../hooks/useAuth";
 import ProviderGigs from "../components/UserProfile/ProviderGigs";
 import ProviderInfo from "../components/UserProfile/ProviderInfo";
+import useUserProfile from "../hooks/useUserProfile";
 
 const UserProfile = () => {
   const { Auth } = useAuth();
+  const { data } = useUserProfile(Auth.username, Auth.role);
   return (
     <Grid
       templateColumns={{ sm: "1fr 3fr", base: "1fr" }}
@@ -14,10 +16,14 @@ const UserProfile = () => {
       padding={50}
     >
       <ProfileCard username={Auth.username} />
-      {Auth.role === "user" ? <ProviderAds /> : <ProviderGigs />}
+      {Auth.role === "user" ? (
+        <ProviderAds />
+      ) : (
+        <ProviderGigs servicesData={data.services} />
+      )}
       {Auth.role === "service_provider" ? (
         <GridItem colStart={1}>
-          <ProviderInfo username={Auth.username} />
+          <ProviderInfo UserData={data} />
         </GridItem>
       ) : (
         ""

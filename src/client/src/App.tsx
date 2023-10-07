@@ -18,6 +18,7 @@ import UserProfile from "./pages/UserProfile";
 import RegisterProvider from "./pages/RegisterProvider";
 import RequireVerify from "./components/Verify/RequireVerify";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import AddGig from "./pages/Seller/AddGig";
 
 function App() {
   return (
@@ -33,11 +34,13 @@ function App() {
           path={ROUTES.PASSWORD_RESET_CONFIRM}
           element={<ResetPassword />}
         />
+        {/* LOGIN CHECK / REFRESH */}
         <Route element={<PersistLogin />}>
           <Route path={ROUTES.REGISTER_SUCCESS} element={<RegisterSuccess />} />
           <Route path={ROUTES.HOMEPAGE} element={<Homepage />} />
           <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
           <Route path={ROUTES.CONTACT_US} element={<ContactUs />} />
+          {/* General link for all users */}
           <Route
             element={<RequireAuth allowedRole={["user", "service_provider"]} />}
           >
@@ -46,12 +49,19 @@ function App() {
             <Route path={ROUTES.USER_SETTING} element={<UserSetting />} />
             <Route path={ROUTES.VERIFY} element={<Verify />} />
           </Route>
-          <Route element={<RequireAuth allowedRole={["user"]} />}>
-            <Route element={<RequireVerify />}>
+
+          {/* Striclty for verified users */}
+          <Route element={<RequireVerify />}>
+            {/* Strictly For users */}
+            <Route element={<RequireAuth allowedRole={["user"]} />}>
               <Route
                 path={ROUTES.PROVIDER_REGISTER}
                 element={<RegisterProvider />}
               />
+            </Route>
+            {/* Strictly for service provider */}
+            <Route element={<RequireAuth allowedRole={["service_provider"]} />}>
+              <Route path={ROUTES.PROVIDER_ADD} element={<AddGig />} />
             </Route>
           </Route>
         </Route>

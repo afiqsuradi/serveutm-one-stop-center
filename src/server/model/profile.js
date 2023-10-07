@@ -41,7 +41,7 @@ const profileSchema = new mongoose.Schema({
   services: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Service",
+      ref: "Services",
     },
   ],
 });

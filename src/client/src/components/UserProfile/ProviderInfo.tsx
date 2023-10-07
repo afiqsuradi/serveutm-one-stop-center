@@ -15,14 +15,13 @@ import {
 } from "@chakra-ui/react";
 import { BsDashLg } from "react-icons/bs";
 import { AiOutlineLink } from "react-icons/ai";
-import useUserProfile from "../../hooks/useUserProfile";
+import { UserProfile } from "../../interface/ProviderInfo";
 
 interface Props {
-  username: string;
+  UserData: UserProfile;
 }
 
-const ProviderInfo = ({ username }: Props) => {
-  const { data } = useUserProfile(username);
+const ProviderInfo = ({ UserData }: Props) => {
   return (
     <Card>
       <CardBody>
@@ -30,7 +29,7 @@ const ProviderInfo = ({ username }: Props) => {
           <Heading as="h2" fontSize="md">
             Description
           </Heading>
-          <Text>{data.description}</Text>
+          <Text>{UserData.description}</Text>
         </Stack>
         <Divider marginY={5} />
         <Stack spacing={3}>
@@ -38,7 +37,7 @@ const ProviderInfo = ({ username }: Props) => {
             Languages
           </Heading>
           <HStack>
-            {data.language.map((lang) => {
+            {UserData.language.map((lang) => {
               return (
                 <>
                   <Text>{lang.name}</Text>
@@ -55,7 +54,7 @@ const ProviderInfo = ({ username }: Props) => {
             Skills
           </Heading>
           <Flex>
-            {data.skills.map((skill) => {
+            {UserData.skills.map((skill) => {
               return (
                 <Box paddingX={"1"}>
                   <Tooltip label={skill.level} aria-label="Skill Level">
@@ -69,7 +68,7 @@ const ProviderInfo = ({ username }: Props) => {
         <Divider marginY={5} />
       </CardBody>
       <CardFooter>
-        <Link href={data.PersonalWebsite || "#"} isExternal>
+        <Link href={UserData.PersonalWebsite || "#"} isExternal>
           <HStack>
             <Text>Personal Wesite</Text>
             <AiOutlineLink display="inline" mx="2px" />

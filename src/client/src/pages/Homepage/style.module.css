@@ -8,11 +8,7 @@
   padding: 50px 0px;
 }
 
-* {
-  font-family: "Poppins", sans-serif;
-}
-
-img {
+.images {
   width: 10rem;
   height: 15rem;
   display: flex;
@@ -20,7 +16,7 @@ img {
   align-items: center;
 }
 
-li {
+.lists {
   flex: 1; /* Distribute available space equally */
   margin: 5px; /* Equal margin on all sides of each li */
   padding: 20px;
