@@ -16,7 +16,11 @@ import {
 } from "@chakra-ui/react";
 import AddGigWrapper from "../AddGigWrapper";
 import PackageForm from "./PackageForm";
-import { PricingPackageType, ServiceType } from "../../../pages/Seller/AddGig";
+import {
+  GigsTypeOption,
+  PricingPackageType,
+  ServiceType,
+} from "../../../pages/Seller/AddGig";
 import { useRef, useState } from "react";
 
 interface Props {
@@ -104,16 +108,19 @@ const OverviewForm = ({ serviceData, setServiceData }: Props) => {
         <div>
           <Select
             defaultValue={serviceData ? serviceData.category : ""}
-            placeholder="Select option"
+            placeholder="Select Category"
             onChange={(event) => {
+              const newOpt = event.target.value as
+                | (typeof GigsTypeOption)[number]
+                | "";
               setServiceData((prev) => {
-                return { ...prev, category: event.target.value };
+                return { ...prev, category: newOpt };
               });
             }}
           >
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
+            {GigsTypeOption.map((opt) => (
+              <option value={opt}>{opt}</option>
+            ))}
           </Select>
           <span className="text-red-300"></span>
         </div>

@@ -11,6 +11,12 @@ import { AxiosError } from "axios";
 import { ErrorData } from "../../services/apiClient";
 import GigsAddSuccessOverlay from "../../components/Seller/AddGigs/GigsAddSuccessOverlay";
 
+export const GigsTypeOption = [
+  "Technical Expertise",
+  "Service",
+  "Education",
+] as const;
+
 export type PricingPackageType = {
   title: string;
   description: string;
@@ -25,7 +31,7 @@ export type FaqType = {
 export type ServiceType = {
   title: string;
   description: string;
-  category: string;
+  category: (typeof GigsTypeOption)[number] | "";
   faq: FaqType[];
   pricePackage: PricingPackageType[];
   images: string[];
@@ -34,7 +40,7 @@ export type ServiceType = {
 const defaultServiceType = {
   title: "",
   description: "",
-  category: "",
+  category: "" as (typeof GigsTypeOption)[number] | "",
   faq: [{ question: "", answer: "" }],
   pricePackage: [{ title: "", description: "", price: 0 }],
   images: [],
