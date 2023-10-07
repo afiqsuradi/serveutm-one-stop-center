@@ -19,8 +19,8 @@ const serviceSchema = new mongoose.Schema({
     required: true,
   },
   isApproved: {
+    type: Boolean,
     default: false,
-    required: false,
   },
   faq: [
     {

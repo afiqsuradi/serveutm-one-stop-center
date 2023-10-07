@@ -35,11 +35,21 @@ serviceProviderController.getSellerByUsername = async (req, res) => {
     return res
       .status(400)
       .json({ message: `User with username of ${username} not found` });
-  const profile = await Profile.findOne({ owner: user._id });
+  const profile = await Profile.findOne({ owner: user._id })
+    .populate("services")
+    .exec();
   if (!profile)
     return res
       .status(400)
       .json({ message: `Seller data with username of ${username} not found` });
+  if (profile.services) {
+    profile.services = profile.services.map((service) => {
+      service.images = service.images.map(
+        (url) => `${req.protocol}://${req.get("host")}/images/thumbnails/${url}`
+      );
+      return service;
+    });
+  }
   const pickedProfile = pickProfileData(profile);
   return res.status(200).send(pickedProfile);
 };
