@@ -51,7 +51,7 @@ const UserSearchBar = ({ setFilters, setError }: Props) => {
       </div>
       <select
         ref={type}
-        className="select select-bordered join-item bg-slate-200 text-black dark:bg-[#1D232A] dark:text-white"
+        className="select select-bordered join-item bg-slate-200 text-black dark:bg-[#1D232A] dark:text-white md:w-[8rem]"
         required
       >
         <option disabled selected value={undefined}>
@@ -62,7 +62,7 @@ const UserSearchBar = ({ setFilters, setError }: Props) => {
         <option value="email">Email</option>
       </select>
       <select
-        className="select select-bordered join-item bg-slate-200 text-black dark:bg-[#1D232A] dark:text-white"
+        className="select select-bordered join-item bg-slate-200 text-black dark:bg-[#1D232A] dark:text-white md:w-[8rem]"
         ref={role}
         onChange={(event) => {
           const roleVal = event.currentTarget.value.toString();

@@ -9,5 +9,5 @@ router.post(
   upload.array("images"),
   serviceController.createService
 );
-
+router.get("/", serviceController.getServices);
 module.exports = router;

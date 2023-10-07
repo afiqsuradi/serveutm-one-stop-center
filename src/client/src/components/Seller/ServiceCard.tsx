@@ -64,6 +64,7 @@ const ServiceCard = ({ serviceData }: Props) => {
             key={i}
             data-status={i == 0 ? "active" : "before"}
             className={`
+            aspect-video
             h-full absolute 
             data-[status=before]:z-0 
             data-[status=active]:z-20
