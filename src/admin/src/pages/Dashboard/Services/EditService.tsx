@@ -4,10 +4,12 @@ import PricePackageCard from "../../../components/Services/EditService/PricePack
 import ServiceImageCarousel from "../../../components/Services/EditService/ServiceImageCarousel";
 import FaqDisclosure from "../../../components/Services/EditService/FaqDisclosure";
 import ServiceEditor from "../../../partials/Services/ServiceEditor";
+import { useAuth } from "../../../hooks/useAuth";
 
 const EditService = () => {
   const { id } = useParams();
-  const { response } = useService(id ? id : "");
+  const { Auth } = useAuth();
+  const { response } = useService(id ? id : "", [Auth.accessToken]);
 
   if (!response) return "";
   return (
