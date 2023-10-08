@@ -5,6 +5,7 @@ import DescriptionForm from "../../components/Services/EditService/Forms/Descrip
 import GalleryForm from "../../components/Services/EditService/Forms/GalleryForm";
 import { ServiceType } from "../../hooks/Services/useServices";
 import { useState } from "react";
+import useUpdateService from "../../hooks/Services/useUpdateService";
 
 interface Props {
   service: ServiceType;
@@ -21,10 +22,20 @@ const ServiceEditor = ({ service }: Props) => {
     />,
     <GalleryForm serviceData={serviceData} setServiceData={setServiceData} />,
   ]);
+  const { updateService } = useUpdateService(service._id);
 
   const changeActiveTab = (id: number) => {
     goto(id);
   };
+
+  const update = async () => {
+    try {
+      await updateService(serviceData);
+    } catch (error) {
+      //
+    }
+  };
+
   return (
     <div className="w-full max-w-full px-2 py-16 sm:px-0">
       <Tab.Group selectedIndex={currentStepIndex} onChange={changeActiveTab}>
@@ -56,7 +67,11 @@ const ServiceEditor = ({ service }: Props) => {
         </Tab.Panels>
       </Tab.Group>
       <div className="w-full flex justify-end">
-        <button className="btn btn-primary btn-sm m-1 max-w-[8rem] w-full my-6">
+        <button
+          className="btn btn-primary btn-sm m-1 max-w-[8rem] w-full my-6"
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onClick={update}
+        >
           Update
         </button>
       </div>

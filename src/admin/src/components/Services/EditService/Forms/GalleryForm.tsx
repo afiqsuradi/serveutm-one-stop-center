@@ -85,7 +85,6 @@ const GalleryForm = ({ serviceData, setServiceData }: Props) => {
         });
       }
     }
-    console.log(serviceData);
   }, [selectedImagesPrev]);
 
   useEffect(() => {
