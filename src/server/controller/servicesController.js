@@ -139,4 +139,21 @@ serviceController.deleteService = async (req, res) => {
   }
 };
 
+serviceController.getService = async (req, res) => {
+  console.log("test");
+  try {
+    const serviceId = req.params.id;
+    if (!serviceId)
+      return res.status(401).json({ message: "Invalid Service Id" });
+    const service = await Service.findOne({ _id: serviceId });
+    if (!service) return res.status(404).json({ message: "Service not found" });
+    service.images = service.images.map(
+      (url) => `${req.protocol}://${req.get("host")}/images/thumbnails/${url}`
+    );
+    return res.status(200).json(service);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 module.exports = serviceController;

@@ -3,6 +3,7 @@ import useService from "../../../hooks/Services/useService";
 import PricePackageCard from "../../../components/Services/EditService/PricePackageCard";
 import ServiceImageCarousel from "../../../components/Services/EditService/ServiceImageCarousel";
 import FaqDisclosure from "../../../components/Services/EditService/FaqDisclosure";
+import ServiceEditor from "../../../partials/Services/ServiceEditor";
 
 const EditService = () => {
   const { id } = useParams();
@@ -11,7 +12,7 @@ const EditService = () => {
   if (!response) return "";
   return (
     <>
-      <div className="flex md:flex-row flex-wrap gap-14 p-8">
+      <div className="flex md:flex-row flex-wrap gap-14 p-8 justify-between w-full max-w-[80%] mx-auto">
         <div>
           <div className="mb-4">
             <h1 className="text-2xl text-black dark:text-white">
@@ -39,7 +40,10 @@ const EditService = () => {
         </div>
         <PricePackageCard pricePackages={response.pricePackage} />
       </div>
-      <div className="divider px-8"></div>
+      <div className="divider max-w-[80%] w-full mx-auto">EDITOR</div>
+      <div className="max-w-[80%] w-full mx-auto">
+        <ServiceEditor service={response} />
+      </div>
     </>
   );
 };
