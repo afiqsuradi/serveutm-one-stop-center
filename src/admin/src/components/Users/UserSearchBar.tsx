@@ -80,7 +80,7 @@ const UserSearchBar = ({ setFilters, setError }: Props) => {
       </select>
       <div className="indicator">
         <button
-          className="btn btn-secondary join-item"
+          className="btn btn-secondary join-item w-20"
           type="button"
           onClick={() => setFilters({ limit: 5 })}
         >
