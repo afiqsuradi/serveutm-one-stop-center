@@ -10,6 +10,7 @@ import Users from "./pages/Dashboard/Users/Users";
 import EditUser from "./pages/Dashboard/Users/EditUser";
 import Inquiries from "./pages/Dashboard/Inquiries/Inquiries";
 import Services from "./pages/Dashboard/Services/Services";
+import EditService from "./pages/Dashboard/Services/EditService";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path={routes.USERS} element={<Users />} />
             <Route path={routes.SERVICES} element={<Services />} />
             <Route path={routes.EDIT_USER} element={<EditUser />} />
+            <Route path={routes.EDIT_SERVICE} element={<EditService />} />
             <Route path={routes.INQUIRY} element={<Inquiries />} />
           </Route>
         </Route>

@@ -50,7 +50,12 @@ const ServicesTable = ({ services }: Props) => {
                       {service.isApproved ? "Approved" : "Pending Approval"}
                     </td>
                     <td>
-                      <button className="btn btn-active btn-sm btn-primary w-[5rem] mx-2">
+                      <button
+                        className="btn btn-active btn-sm btn-primary w-[5rem] mx-2"
+                        onClick={() =>
+                          navigate(`/dashboard/services/setting/${service._id}`)
+                        }
+                      >
                         Edit
                       </button>
                       <button

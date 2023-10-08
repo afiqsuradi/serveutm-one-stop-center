@@ -7,4 +7,5 @@ export default {
   SERVICES: "/dashboard/services",
   INQUIRY: "/dashboard/inquiries",
   EDIT_USER: "/dashboard/users/setting/:username",
+  EDIT_SERVICE: "/dashboard/services/setting/:id",
 };
