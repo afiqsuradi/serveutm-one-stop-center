@@ -26,7 +26,7 @@ const ServiceCard = ({ serviceData }: Props) => {
     const nextIndex = activeIndex + 1 <= MAX_IMAGE ? activeIndex + 1 : 0;
     if (images.current[activeIndex] && images.current[nextIndex]) {
       images.current[activeIndex].dataset.status = " after";
-      images.current[nextIndex].dataset.status = "active-from-after";
+      images.current[nextIndex].dataset.status = "activeFromAfter";
       setTimeout(() => {
         images.current[nextIndex].dataset.status = "active";
         setActiveIndex(() => nextIndex);
@@ -38,7 +38,7 @@ const ServiceCard = ({ serviceData }: Props) => {
     const nextIndex = activeIndex - 1 >= 0 ? activeIndex - 1 : MAX_IMAGE;
     if (images.current[activeIndex] && images.current[nextIndex]) {
       images.current[activeIndex].dataset.status = " before";
-      images.current[nextIndex].dataset.status = "active-from-before";
+      images.current[nextIndex].dataset.status = "activeFromBefore";
       setTimeout(() => {
         images.current[nextIndex].dataset.status = "active";
         setActiveIndex(() => nextIndex);
@@ -71,10 +71,10 @@ const ServiceCard = ({ serviceData }: Props) => {
             data-[status=before]:translate-x-[-100%] 
             data-[status=after]:translate-x-[100%] 
             data-[status=after]:z-10 transition-all
-            data-[status=active-from-after]:translate-x-[-100%] 
-            data-[status=active-from-after]:transition-none
-            data-[status=active-from-before]:translate-x-[100%] 
-            data-[status=active-from-before]:transition-none`}
+            data-[status=activeFromAfter]:translate-x-[-100%] 
+            data-[status=activeFromAfter]:transition-none
+            data-[status=activeFromBefore]:translate-x-[100%] 
+            data-[status=activeFromBefore]:transition-none`}
             src={img}
             alt="Gigs Image"
             ref={(el) => {
