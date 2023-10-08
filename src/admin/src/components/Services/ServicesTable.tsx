@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { ServiceType } from "../../hooks/Services/useServices";
+import useDeleteService from "../../hooks/Services/useDeleteService";
 
 interface Props {
   services?: ServiceType[];
@@ -7,6 +8,12 @@ interface Props {
 
 const ServicesTable = ({ services }: Props) => {
   const navigate = useNavigate();
+  const { deleteService } = useDeleteService();
+
+  const deleteUser = async (username: string, id: string) => {
+    await deleteService(username, id);
+  };
+
   return (
     <div className="overflow-x-auto">
       <table className="table ">
@@ -43,8 +50,16 @@ const ServicesTable = ({ services }: Props) => {
                       {service.isApproved ? "Approved" : "Pending Approval"}
                     </td>
                     <td>
-                      <button className="btn btn-active btn-sm btn-primary w-[5rem]">
+                      <button className="btn btn-active btn-sm btn-primary w-[5rem] mx-2">
                         Edit
+                      </button>
+                      <button
+                        className="btn bg-red-700 hover:bg-red-800 btn-sm w-[5rem] mx-2 text-white"
+                        onClick={() =>
+                          void deleteUser(service.owner.username, service._id)
+                        }
+                      >
+                        Delete
                       </button>
                     </td>
                   </tr>

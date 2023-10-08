@@ -22,6 +22,7 @@ export type FaqType = {
 };
 
 export type ServiceType = {
+  _id: string;
   title: string;
   description: string;
   category: (typeof GigsTypeOption)[number] | "";
