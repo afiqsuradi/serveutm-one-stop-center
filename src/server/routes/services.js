@@ -10,4 +10,6 @@ router.post(
   serviceController.createService
 );
 router.get("/", serviceController.getServices);
+router.get("/:id", serviceController.getService);
+router.delete("/:username", authenticateToken, serviceController.deleteService);
 module.exports = router;
