@@ -25,24 +25,24 @@ const ServiceCard = ({ serviceData }: Props) => {
   const nextImage = () => {
     const nextIndex = activeIndex + 1 <= MAX_IMAGE ? activeIndex + 1 : 0;
     if (images.current[activeIndex] && images.current[nextIndex]) {
-      images.current[activeIndex].dataset.status = " after";
+      images.current[activeIndex].dataset.status = "after";
       images.current[nextIndex].dataset.status = "activeFromAfter";
       setTimeout(() => {
         images.current[nextIndex].dataset.status = "active";
         setActiveIndex(() => nextIndex);
-      }, 10);
+      });
     }
   };
 
   const prevImage = () => {
     const nextIndex = activeIndex - 1 >= 0 ? activeIndex - 1 : MAX_IMAGE;
     if (images.current[activeIndex] && images.current[nextIndex]) {
-      images.current[activeIndex].dataset.status = " before";
+      images.current[activeIndex].dataset.status = "before";
       images.current[nextIndex].dataset.status = "activeFromBefore";
       setTimeout(() => {
         images.current[nextIndex].dataset.status = "active";
         setActiveIndex(() => nextIndex);
-      }, 10);
+      });
     }
   };
 
