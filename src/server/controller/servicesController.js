@@ -104,4 +104,39 @@ serviceController.getServices = async (req, res) => {
   }
 };
 
+serviceController.deleteService = async (req, res) => {
+  try {
+    // Check if the owner requested deletion
+    if (!(req.params.username === req.user.username)) {
+      // Validate user role
+      if (req.user.role !== "admin") {
+        return res.status(401).send({ message: "Unauthorized" });
+      }
+    }
+    const { serviceId } = req.body;
+    if (!serviceId)
+      return res.status(401).json({ message: "Invalid Service Id" });
+    // Find user by username
+    const user = await User.findOne({ username: req.params.username });
+    if (!user) return res.status(404).json({ message: "User not found" });
+    // Find service by id
+    //Delete Service Using id
+    const service = await Service.findOne({ _id: serviceId });
+    const profile = await Profile.findOne({ owner: user._id });
+    if (!service || !profile)
+      return res.status(404).json({ message: "Service or profile not found" });
+
+    // Update profile
+    profile.services = profile.services.filter((id) => id !== service._id);
+    // Delete Service
+    await service.deleteOne();
+    // Save Profile
+    await profile.save({ validateModifiedOnly: true });
+
+    res.status(200).send({ message: "User not found" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 module.exports = serviceController;
