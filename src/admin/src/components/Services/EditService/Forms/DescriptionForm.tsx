@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ServiceType } from "../../../../hooks/Services/useServices";
 import FaqForm from "./Partials/FaqForm";
 import DescField from "./Partials/DescField";

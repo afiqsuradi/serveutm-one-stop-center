@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ServiceType } from "../../../../../hooks/Services/useServices";
 import z, { ZodError } from "zod";
 
@@ -17,18 +17,22 @@ const DescField = ({ setServiceData, serviceData }: Props) => {
   const [descLength, setDescLength] = useState(0);
   const [error, setError] = useState("");
 
-  const updateDescription = (desc: string) => {
+  const updateDescription = (event: React.FocusEvent<HTMLTextAreaElement>) => {
     if (error.length > 0) return;
     setServiceData((prev) => {
-      return { ...prev, description: desc };
+      return { ...prev, description: event.target.value };
     });
   };
 
   const onDescChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     try {
-      schema.parse({ description: event.currentTarget.value });
-      if (error.length > 0) {
-        setError("");
+      if (
+        schema.parse({ description: event.currentTarget.value }).description ===
+        event.currentTarget.value
+      ) {
+        if (error.length > 0) {
+          setError("");
+        }
       }
     } catch (error) {
       setError((error as ZodError).errors[0].message);
@@ -44,6 +48,7 @@ const DescField = ({ setServiceData, serviceData }: Props) => {
     <div className="w-full">
       <textarea
         className="resize-none bg-[#161F2C] rounded-lg w-full min-h-[8rem]"
+        onBlur={updateDescription}
         defaultValue={serviceData.description}
         onChange={onDescChange}
       ></textarea>

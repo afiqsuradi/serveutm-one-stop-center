@@ -4,14 +4,56 @@ import {
   ServiceType,
 } from "../../../../hooks/Services/useServices";
 import PricePackageForm from "./PricePackageForm";
+import { ZodError, z } from "zod";
 
 interface Props {
   serviceData: ServiceType;
   setServiceData: React.Dispatch<React.SetStateAction<ServiceType>>;
 }
+const titleSchema = z
+  .string()
+  .min(10, "Title should be 10 - 70 characters.")
+  .max(70, "Title should be 10 - 70 characters.");
+
+const categorySchema = z.enum(GigsTypeOption);
 
 const OverviewForm = ({ serviceData, setServiceData }: Props) => {
+  const [error, setError] = useState({ title: "", category: "" });
   const [isOpen, setIsOpen] = useState(false);
+
+  const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      if (titleSchema.parse(event.target.value) === event.target.value) {
+        if (error.title.length > 0) {
+          setError({ ...error, title: "" });
+        }
+      }
+    } catch (err) {
+      setError({ ...error, title: (err as ZodError).errors[0].message });
+    }
+  };
+
+  const onTitleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    if (error.title.length > 0) return;
+    setServiceData((prev) => {
+      return { ...prev, title: event.target.value };
+    });
+  };
+
+  const onCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    try {
+      const category = event.target.value;
+      console.log(categorySchema.parse(category));
+      if (categorySchema.parse(category) === category) {
+        setError({ ...error, category: "" });
+        setServiceData((prev) => {
+          return { ...prev, category: category };
+        });
+      }
+    } catch (_) {
+      setError({ ...error, category: "Please select a category" });
+    }
+  };
 
   return (
     <div className="text-white p-4">
@@ -24,28 +66,35 @@ const OverviewForm = ({ serviceData, setServiceData }: Props) => {
       <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] my-4 gap-8">
         <h2 className="text-xl">Gig Title</h2>
         <div className="w-full relative">
-          <input
-            className="bg-[#161F2C] rounded-lg pl-[2rem] indent-5 w-full"
-            defaultValue={serviceData.title}
-          />
+          <div>
+            <input
+              className="bg-[#161F2C] rounded-lg pl-[2rem] indent-5 w-full"
+              onChange={onTitleChange}
+              onBlur={onTitleBlur}
+              defaultValue={serviceData.title}
+            />
+            <p className="text-red-500">{error.title}</p>
+          </div>
           <span className="absolute top-[0.6rem] left-4 text-gray-300">
             I will
           </span>
         </div>
         <h2 className="text-xl">Category</h2>
-        <select
-          className="w-full bg-[#161F2C] rounded-lg"
-          defaultValue={serviceData.category}
-        >
-          <option selected value={""}>
-            Select Category
-          </option>
-          {GigsTypeOption.map((option) => (
-            <option value={option} key={option}>
-              {option}
-            </option>
-          ))}
-        </select>
+        <div>
+          <select
+            onChange={onCategoryChange}
+            className="w-full bg-[#161F2C] rounded-lg"
+            defaultValue={serviceData.category}
+          >
+            <option value={""}>Select Category</option>
+            {GigsTypeOption.map((option, i) => (
+              <option value={option} key={i}>
+                {option}
+              </option>
+            ))}
+          </select>
+          <p className="text-red-500">{error.category}</p>
+        </div>
         <h2 className="text-xl">Price Package</h2>
         <button
           className="btn btn-primary btn-sm max-w-[8rem]"

@@ -16,6 +16,7 @@ const ServiceImageCarousel = ({ images }: Props) => {
         {images.map((image, i) => {
           return (
             <img
+              key={i}
               className="aspect-video w-full h-auto cursor-pointer"
               src={image}
               onClick={() => setActiveImage(i)}

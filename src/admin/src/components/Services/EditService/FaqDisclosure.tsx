@@ -10,9 +10,9 @@ const FaqDisclosure = ({ faqs }: Props) => {
   return (
     <div className="w-full pt-8">
       <div className="w-full max-w-2xl rounded-2xl bg-[#1D283A] p-2">
-        {faqs.map((faqData) => {
+        {faqs.map((faqData, i) => {
           return (
-            <Disclosure>
+            <Disclosure key={i}>
               {({ open }) => (
                 <>
                   <Disclosure.Button className="flex w-full justify-between rounded-lg bg-[#161F2C] px-4 py-2 text-left text-sm font-medium text-white hover:bg-[#641AE6] focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
