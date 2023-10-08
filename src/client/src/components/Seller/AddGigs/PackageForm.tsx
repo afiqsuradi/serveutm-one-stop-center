@@ -154,10 +154,8 @@ const PackageForm = ({
                   {...register("price", { valueAsNumber: true })}
                   defaultValue={initialData ? initialData.price : 0}
                 />
-                {errors.description ? (
-                  <FormErrorMessage>
-                    {errors.description.message}
-                  </FormErrorMessage>
+                {errors.price ? (
+                  <FormErrorMessage>{errors.price.message}</FormErrorMessage>
                 ) : (
                   <FormHelperText>Enter pricing for the package</FormHelperText>
                 )}
