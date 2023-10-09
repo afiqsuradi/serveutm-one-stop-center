@@ -36,7 +36,7 @@ export type ServiceType = {
 export type ServicesFilterType = {
   textInput?: string;
   type?: (typeof ServicesSearchTypes)[number];
-  gigStatus?: boolean;
+  gigStatus?: string;
   page?: number;
   limit: number;
 };

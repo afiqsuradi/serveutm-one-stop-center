@@ -76,7 +76,7 @@ serviceController.getServices = async (req, res) => {
       filter[req.query.type] = new RegExp(`.*${req.query.textInput}.*`);
     }
     if (req.query.gigStatus) {
-      filter.isApproved = req.query.gigStatus;
+      filter.isApproved = new RegExp(`.*${req.query.gigStatus}.*`);
     }
 
     // Count total documents
@@ -223,6 +223,27 @@ serviceController.updateService = async (req, res) => {
     if (!result)
       return res.status(500).json({ message: "Something went wrong" });
     return res.status(200).json(service);
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};
+
+serviceController.updateServiceApproval = async (req, res) => {
+  try {
+    const target = req.query.serviceId;
+    const { isApproved } = req.body;
+    if (!target || !isApproved) return res.sendStatus(400);
+    // If its another user then check if its admin
+    if (!(req.user.role === "admin"))
+      return res.status(403).json({ message: "Access Denied." });
+
+    const service = await Service.findOne({ _id: target });
+    if (!service) return res.status(404).json({ message: "Service not found" });
+    service.isApproved = isApproved;
+    const result = await service.save({ validateModifiedOnly: true });
+    if (!result)
+      return res.status(500).json({ message: "Something went wrong buckaro" });
+    return res.sendStatus(200);
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }

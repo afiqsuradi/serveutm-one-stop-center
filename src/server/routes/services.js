@@ -15,6 +15,11 @@ router.put(
   upload.array("images"),
   serviceController.updateService
 );
+router.put(
+  "/approval",
+  authenticateToken,
+  serviceController.updateServiceApproval
+);
 router.get("/", serviceController.getServices);
 router.get("/:id", serviceController.getService);
 router.delete("/:username", authenticateToken, serviceController.deleteService);

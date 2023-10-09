@@ -60,7 +60,6 @@ const ServiceImageCarousel = ({ images }: Props) => {
 
   useEffect(() => {
     imagesRef.current = imagesRef.current.slice(0, images.length);
-    console.log(imagesRef);
   }, [images.length]);
   return (
     <div className="grid grid-rows-[3fr_1fr] max-w-[50rem] gap-4">
