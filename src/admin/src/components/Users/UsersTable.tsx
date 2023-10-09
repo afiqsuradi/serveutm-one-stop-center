@@ -60,7 +60,7 @@ const UsersTable = ({ Users }: Props) => {
                 </td>
                 <th>
                   <button
-                    className="btn btn-primary   m-1 w-20"
+                    className="btn btn-primary btn-sm m-1 w-20"
                     onClick={() => {
                       navigate(`/dashboard/users/setting/${user.username}`);
                     }}
@@ -68,7 +68,7 @@ const UsersTable = ({ Users }: Props) => {
                     Edit
                   </button>
                   <button
-                    className="btn bg-red-700 hover:bg-red-800  text-white  m-1 w-20"
+                    className="btn bg-red-700 hover:bg-red-800 text-white m-1 w-20 btn-sm"
                     onClick={() => {
                       void deleteUser(user.username);
                     }}

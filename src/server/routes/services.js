@@ -9,5 +9,13 @@ router.post(
   upload.array("images"),
   serviceController.createService
 );
-
+router.put(
+  "/",
+  authenticateToken,
+  upload.array("images"),
+  serviceController.updateService
+);
+router.get("/", serviceController.getServices);
+router.get("/:id", serviceController.getService);
+router.delete("/:username", authenticateToken, serviceController.deleteService);
 module.exports = router;

@@ -1,16 +1,18 @@
-import { Badge, Image, Text } from "@chakra-ui/react";
-import { ServiceType } from "../../pages/Seller/AddGig";
+import { Image, Text } from "@chakra-ui/react";
 import {
   BiSolidChevronLeftCircle,
   BiSolidChevronRightCircle,
 } from "react-icons/bi";
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ServiceType } from "../../hooks/Services/useService";
 
 interface Props {
   serviceData: ServiceType;
 }
 
 const ServiceCard = ({ serviceData }: Props) => {
+  const navigate = useNavigate();
   const MAX_IMAGE = serviceData.images.length - 1;
   const images = useRef<HTMLImageElement[]>([]);
   const [focus, setFocus] = useState(false);
@@ -25,24 +27,24 @@ const ServiceCard = ({ serviceData }: Props) => {
   const nextImage = () => {
     const nextIndex = activeIndex + 1 <= MAX_IMAGE ? activeIndex + 1 : 0;
     if (images.current[activeIndex] && images.current[nextIndex]) {
-      images.current[activeIndex].dataset.status = " after";
-      images.current[nextIndex].dataset.status = "active-from-after";
+      images.current[activeIndex].dataset.status = "after";
+      images.current[nextIndex].dataset.status = "activeFromAfter";
       setTimeout(() => {
         images.current[nextIndex].dataset.status = "active";
         setActiveIndex(() => nextIndex);
-      }, 10);
+      });
     }
   };
 
   const prevImage = () => {
     const nextIndex = activeIndex - 1 >= 0 ? activeIndex - 1 : MAX_IMAGE;
     if (images.current[activeIndex] && images.current[nextIndex]) {
-      images.current[activeIndex].dataset.status = " before";
-      images.current[nextIndex].dataset.status = "active-from-before";
+      images.current[activeIndex].dataset.status = "before";
+      images.current[nextIndex].dataset.status = "activeFromBefore";
       setTimeout(() => {
         images.current[nextIndex].dataset.status = "active";
         setActiveIndex(() => nextIndex);
-      }, 10);
+      });
     }
   };
 
@@ -64,16 +66,17 @@ const ServiceCard = ({ serviceData }: Props) => {
             key={i}
             data-status={i == 0 ? "active" : "before"}
             className={`
+            aspect-video
             h-full absolute 
             data-[status=before]:z-0 
             data-[status=active]:z-20
             data-[status=before]:translate-x-[-100%] 
             data-[status=after]:translate-x-[100%] 
             data-[status=after]:z-10 transition-all
-            data-[status=active-from-after]:translate-x-[-100%] 
-            data-[status=active-from-after]:transition-none
-            data-[status=active-from-before]:translate-x-[100%] 
-            data-[status=active-from-before]:transition-none`}
+            data-[status=activeFromAfter]:translate-x-[-100%] 
+            data-[status=activeFromAfter]:transition-none
+            data-[status=activeFromBefore]:translate-x-[100%] 
+            data-[status=activeFromBefore]:transition-none`}
             src={img}
             alt="Gigs Image"
             ref={(el) => {
@@ -101,16 +104,22 @@ const ServiceCard = ({ serviceData }: Props) => {
         >
           <BiSolidChevronRightCircle />
         </button>
+        <span className="text-xs absolute top-2 left-2 z-[999] bg-slate-800 p-1 rounded-md shadow-xl">
+          {serviceData.isApproved ? "Approved" : "Pending Approval"}
+        </span>
       </div>
       <div className="flex flex-col justify-between gap-8 p-3 flex-1">
         <div>
-          <Text fontSize={"lg"}>
-            {serviceData.title}
-            <span className="text-xs">
-              <Badge colorScheme={serviceData.isApproved ? "green" : "purple"}>
-                {serviceData.isApproved ? "Approved" : "Pending Approval"}
-              </Badge>
-            </span>
+          <Text
+            fontSize={"lg"}
+            className="hover:cursor-pointer hover:underline hover:text-gray-200 transition-all"
+            onClick={() => {
+              if (serviceData._id) {
+                navigate(`/services/${serviceData._id}`);
+              }
+            }}
+          >
+            I will {serviceData.title}
           </Text>
         </div>
         <div>

@@ -10,33 +10,7 @@ import useAddGigs from "../../hooks/Services/useAddGigs";
 import { AxiosError } from "axios";
 import { ErrorData } from "../../services/apiClient";
 import GigsAddSuccessOverlay from "../../components/Seller/AddGigs/GigsAddSuccessOverlay";
-
-export const GigsTypeOption = [
-  "Technical Expertise",
-  "Service",
-  "Education",
-] as const;
-
-export type PricingPackageType = {
-  title: string;
-  description: string;
-  price: number;
-};
-
-export type FaqType = {
-  question: string;
-  answer: string;
-};
-
-export type ServiceType = {
-  title: string;
-  description: string;
-  category: (typeof GigsTypeOption)[number] | "";
-  faq: FaqType[];
-  pricePackage: PricingPackageType[];
-  images: string[];
-  isApproved?: boolean;
-};
+import { GigsTypeOption, ServiceType } from "../../hooks/Services/useService";
 
 const defaultServiceType = {
   title: "",

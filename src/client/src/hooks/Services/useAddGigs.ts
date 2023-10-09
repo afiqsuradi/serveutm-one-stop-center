@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../useAxiosPrivate";
-import { ServiceType } from "../../pages/Seller/AddGig";
 import { useToast } from "@chakra-ui/react";
 import { AxiosError } from "axios";
 import { ErrorData } from "../../services/apiClient";
+import { ServiceType } from "./useService";
 
 async function blobUrlsToFiles(blobUrls: string[]) {
   return Promise.all(

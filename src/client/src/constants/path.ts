@@ -14,5 +14,6 @@ const ROUTES = {
   PROVIDER_ADD: "/profile/add_gigs",
   DASHBOARD: "/dashboard",
   NOTFOUND: "/404",
+  VIEW_SERVICE_SPECIFIC: "/services/:id",
 };
 export default ROUTES;

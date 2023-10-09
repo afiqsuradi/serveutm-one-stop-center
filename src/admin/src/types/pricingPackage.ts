@@ -10,7 +10,7 @@ const schema = z.object({
   description: z
     .string()
     .min(15, "Package Description should be at least 15 characters")
-    .max(300, "Package Description should not exceed 300 characters")
+    .max(120, "Package Description should not exceed 120 characters")
     .trim(),
   price: z
     .number({
@@ -18,5 +18,5 @@ const schema = z.object({
     })
     .min(2, "Package Price must be atleast RM2"),
 });
-export const PackagePricingStructResolver = zodResolver(schema);
-export type PackagePricingStruct = z.infer<typeof schema>;
+export const PricingPackageStructResolver = zodResolver(schema);
+export type PricingPackageStruct = z.infer<typeof schema>;

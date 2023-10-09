@@ -19,6 +19,7 @@ import RegisterProvider from "./pages/RegisterProvider";
 import RequireVerify from "./components/Verify/RequireVerify";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import AddGig from "./pages/Seller/AddGig";
+import ViewServiceDetail from "./pages/Services/ViewServiceDetail";
 
 function App() {
   return (
@@ -40,6 +41,10 @@ function App() {
           <Route path={ROUTES.HOMEPAGE} element={<Homepage />} />
           <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
           <Route path={ROUTES.CONTACT_US} element={<ContactUs />} />
+          <Route
+            path={ROUTES.VIEW_SERVICE_SPECIFIC}
+            element={<ViewServiceDetail />}
+          />
           {/* General link for all users */}
           <Route
             element={<RequireAuth allowedRole={["user", "service_provider"]} />}

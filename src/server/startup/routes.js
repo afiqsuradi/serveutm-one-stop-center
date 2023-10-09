@@ -5,8 +5,8 @@ const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 module.exports = function (app) {
-  app.use("/images", express.static("images"));
   app.use(cors(corsOptions));
+  app.use("/images", express.static("images"));
   app.use(helmet());
   app.use(cookieParser());
   app.use(express.json({ limit: "50mb" }));

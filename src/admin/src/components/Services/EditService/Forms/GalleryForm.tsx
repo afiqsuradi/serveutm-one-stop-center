@@ -1,12 +1,11 @@
-import { Box, Input, Text, useToast } from "@chakra-ui/react";
-import AddGigWrapper from "../AddGigWrapper";
-import { BsFillImageFill } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
-import ImagePreview from "./ImagePreview";
-import { ServiceType } from "../../../hooks/Services/useService";
+import { ServiceType } from "../../../../hooks/Services/useServices";
+import FormImagePreview from "./Partials/FormImagePreview";
+import { BsFillImageFill } from "react-icons/bs";
+import { toast } from "react-toastify";
 
 interface Props {
-  serviceData: ServiceType | undefined;
+  serviceData: ServiceType;
   setServiceData: React.Dispatch<React.SetStateAction<ServiceType>>;
 }
 
@@ -32,7 +31,6 @@ const fillImagesPrev = (images: string[], newImages: string[]) => {
 };
 
 const GalleryForm = ({ serviceData, setServiceData }: Props) => {
-  const toast = useToast();
   const [error, setError] = useState("");
   const [selectedImagesPrev, setSelectedImagesPrev] = useState<string[]>([
     "",
@@ -106,11 +104,11 @@ const GalleryForm = ({ serviceData, setServiceData }: Props) => {
   useEffect(() => {
     if (error.length > 0) {
       if (error) {
-        toast({
-          title: `${error}`,
-          status: "error",
-          position: "top",
-          isClosable: true,
+        toast.error(error, {
+          position: "top-center",
+          autoClose: 5000,
+          progress: undefined,
+          theme: "colored",
         });
       }
     }
@@ -118,10 +116,11 @@ const GalleryForm = ({ serviceData, setServiceData }: Props) => {
   }, [error]);
 
   return (
-    <AddGigWrapper title="Gallery">
-      <Text>Upload image for your gig's thumbnail</Text>
-      <Box className="md:col-span-2 my-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 min-w-full justify-between">
-        <Input
+    <div className="text-white p-4">
+      <h1 className="text-4xl mb-8">Gallery</h1>
+      <p>Upload image for your gig's thumbnail</p>
+      <div className="md:col-span-2 my-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 min-w-full justify-between">
+        <input
           ref={imageRefs}
           id="image"
           name="image"
@@ -134,12 +133,12 @@ const GalleryForm = ({ serviceData, setServiceData }: Props) => {
         {selectedImagesPrev.map((img, i) => {
           if (img.length === 0) {
             return (
-              <Box
+              <div
                 key={i}
                 className="border-2 p-8 flex flex-col justify-center items-center text-center aspect-video flex-1"
               >
                 <BsFillImageFill className="text-[4rem] opacity-40" />
-                <Text>
+                <p>
                   <span
                     className="block text-[#bb76f3] underline hover:text-[#9469e4] hover:cursor-pointer"
                     onClick={() => {
@@ -149,17 +148,22 @@ const GalleryForm = ({ serviceData, setServiceData }: Props) => {
                     Click here
                   </span>
                   to upload your photo
-                </Text>
-              </Box>
+                </p>
+              </div>
             );
           } else {
             return (
-              <ImagePreview key={i} url={img} handleClick={deleteFile} id={i} />
+              <FormImagePreview
+                key={i}
+                url={img}
+                handleClick={deleteFile}
+                id={i}
+              />
             );
           }
         })}
-      </Box>
-    </AddGigWrapper>
+      </div>
+    </div>
   );
 };
 
