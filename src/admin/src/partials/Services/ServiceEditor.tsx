@@ -14,7 +14,7 @@ interface Props {
 const ServiceEditor = ({ service }: Props) => {
   const categories = ["Overview", "Description & Faq", "Gallery"];
   const [serviceData, setServiceData] = useState(service);
-  const { currentStepIndex, goto, steps, step } = useMultiForm([
+  const { currentStepIndex, goto, step } = useMultiForm([
     <OverviewForm serviceData={serviceData} setServiceData={setServiceData} />,
     <DescriptionForm
       serviceData={serviceData}
@@ -61,7 +61,7 @@ const ServiceEditor = ({ service }: Props) => {
               key={idx}
               className={`rounded-xl bg-[#1D283A] p-3 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2`}
             >
-              {steps[currentStepIndex]}
+              {step}
             </Tab.Panel>
           ))}
         </Tab.Panels>

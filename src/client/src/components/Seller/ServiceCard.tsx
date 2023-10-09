@@ -5,12 +5,14 @@ import {
   BiSolidChevronRightCircle,
 } from "react-icons/bi";
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   serviceData: ServiceType;
 }
 
 const ServiceCard = ({ serviceData }: Props) => {
+  const navigate = useNavigate();
   const MAX_IMAGE = serviceData.images.length - 1;
   const images = useRef<HTMLImageElement[]>([]);
   const [focus, setFocus] = useState(false);
@@ -108,7 +110,17 @@ const ServiceCard = ({ serviceData }: Props) => {
       </div>
       <div className="flex flex-col justify-between gap-8 p-3 flex-1">
         <div>
-          <Text fontSize={"lg"}>I will {serviceData.title}</Text>
+          <Text
+            fontSize={"lg"}
+            className="hover:cursor-pointer hover:underline hover:text-gray-200 transition-all"
+            onClick={() => {
+              if (serviceData._id) {
+                navigate(`/services/${serviceData._id}`);
+              }
+            }}
+          >
+            I will {serviceData.title}
+          </Text>
         </div>
         <div>
           <Text fontSize={"xs"}>

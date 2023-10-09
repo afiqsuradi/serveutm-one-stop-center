@@ -26,7 +26,7 @@ const useService = (id: string) => {
       .then((res) => {
         setData(res.data);
       })
-      .catch((err) => {
+      .catch(() => {
         //
       })
       .finally(() => {
