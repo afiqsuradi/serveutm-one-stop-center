@@ -28,7 +28,15 @@ export type FaqType = {
   answer: string;
 };
 
+export type OwnerType = {
+  profileImage: string;
+  name: string;
+  username: string;
+};
+
 export type ServiceType = {
+  _id?: string;
+  owner?: OwnerType;
   title: string;
   description: string;
   category: (typeof GigsTypeOption)[number] | "";

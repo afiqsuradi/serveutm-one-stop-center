@@ -144,7 +144,12 @@ serviceController.getService = async (req, res) => {
     const serviceId = req.params.id;
     if (!serviceId)
       return res.status(401).json({ message: "Invalid Service Id" });
-    const service = await Service.findOne({ _id: serviceId });
+    const service = await Service.findOne({ _id: serviceId })
+      .populate("owner", "name username profileImage")
+      .exec();
+    service.owner.profileImage = `${req.protocol}://${req.get("host")}/${
+      service.owner.profileImage
+    }`;
     if (!service) return res.status(404).json({ message: "Service not found" });
     service.images = service.images.map(
       (url) => `${req.protocol}://${req.get("host")}/images/thumbnails/${url}`

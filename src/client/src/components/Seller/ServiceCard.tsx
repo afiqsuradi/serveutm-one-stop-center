@@ -1,4 +1,4 @@
-import { Badge, Image, Text } from "@chakra-ui/react";
+import { Image, Text } from "@chakra-ui/react";
 import { ServiceType } from "../../pages/Seller/AddGig";
 import {
   BiSolidChevronLeftCircle,
@@ -102,17 +102,13 @@ const ServiceCard = ({ serviceData }: Props) => {
         >
           <BiSolidChevronRightCircle />
         </button>
+        <span className="text-xs absolute top-2 left-2 z-[999] bg-slate-800 p-1 rounded-md shadow-xl">
+          {serviceData.isApproved ? "Approved" : "Pending Approval"}
+        </span>
       </div>
       <div className="flex flex-col justify-between gap-8 p-3 flex-1">
         <div>
-          <Text fontSize={"lg"}>
-            I will {serviceData.title}
-            <span className="text-xs">
-              <Badge colorScheme={serviceData.isApproved ? "green" : "purple"}>
-                {serviceData.isApproved ? "Approved" : "Pending Approval"}
-              </Badge>
-            </span>
-          </Text>
+          <Text fontSize={"lg"}>I will {serviceData.title}</Text>
         </div>
         <div>
           <Text fontSize={"xs"}>
