@@ -20,8 +20,16 @@ const EditService = () => {
             <h1 className="text-2xl text-black dark:text-white">
               I will {response.title}{" "}
               <span>
-                <div className="badge badge-primary">
-                  {response.isApproved ? "Approved" : "Pending Approval"}
+                <div
+                  className={`badge ${
+                    response.isApproved === "Pending"
+                      ? "badge-primary"
+                      : response.isApproved === "Rejected"
+                      ? "badge-error"
+                      : "badge-success"
+                  }`}
+                >
+                  {response.isApproved}
                 </div>
               </span>
             </h1>

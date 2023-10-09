@@ -29,7 +29,7 @@ export type ServiceType = {
   faq: FaqType[];
   pricePackage: PricingPackageType[];
   images: string[];
-  isApproved?: boolean;
+  isApproved?: string;
   owner: User;
 };
 

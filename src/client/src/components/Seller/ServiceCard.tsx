@@ -129,8 +129,16 @@ const ServiceCard = ({ serviceData }: Props) => {
         >
           <BiSolidChevronRightCircle />
         </button>
-        <span className="text-xs absolute top-2 left-2 z-[999] bg-slate-800 p-1 rounded-md shadow-xl">
-          {serviceData.isApproved ? "Approved" : "Pending Approval"}
+        <span
+          className={`text-xs absolute top-2 left-2 z-[999] p-1 rounded-md shadow-xl ${
+            serviceData.isApproved === "Pending"
+              ? "bg-slate-800"
+              : serviceData.isApproved === "Rejected"
+              ? "bg-red-800"
+              : "bg-green-800"
+          }`}
+        >
+          {serviceData.isApproved}
         </span>
       </div>
       <div className="flex flex-col justify-between gap-8 p-3 flex-1">
@@ -165,7 +173,16 @@ const ServiceCard = ({ serviceData }: Props) => {
         >
           Delete
         </Button>
-        <Button variant={"base"} className=" w-[6rem] " type="submit">
+        <Button
+          variant={"base"}
+          className=" w-[6rem] "
+          type="submit"
+          onClick={() => {
+            navigate(
+              `/settings/services/${serviceData._id ? serviceData._id : ""}`
+            );
+          }}
+        >
           Edit
         </Button>
       </div>
