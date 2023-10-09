@@ -1,6 +1,6 @@
 import { Disclosure } from "@headlessui/react";
 import { BiChevronUp } from "react-icons/bi";
-import { ServiceType } from "../../../pages/Seller/AddGig";
+import { ServiceType } from "../../../hooks/Services/useService";
 
 interface Props {
   faqs: ServiceType["faq"];

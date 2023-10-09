@@ -43,7 +43,6 @@ const OverviewForm = ({ serviceData, setServiceData }: Props) => {
   const onCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     try {
       const category = event.target.value;
-      console.log(categorySchema.parse(category));
       if (categorySchema.parse(category) === category) {
         setError({ ...error, category: "" });
         setServiceData((prev) => {

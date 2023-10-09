@@ -1,11 +1,11 @@
 import { Image, Text } from "@chakra-ui/react";
-import { ServiceType } from "../../pages/Seller/AddGig";
 import {
   BiSolidChevronLeftCircle,
   BiSolidChevronRightCircle,
 } from "react-icons/bi";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ServiceType } from "../../hooks/Services/useService";
 
 interface Props {
   serviceData: ServiceType;

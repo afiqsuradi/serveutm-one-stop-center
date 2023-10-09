@@ -15,10 +15,13 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
-import { PricingPackageType, ServiceType } from "../../../pages/Seller/AddGig";
 import { useForm } from "react-hook-form";
 import { PackagePricingStructResolver } from "../../../types/packagePrice";
 import { useEffect, useState } from "react";
+import {
+  PricingPackageType,
+  ServiceType,
+} from "../../../hooks/Services/useService";
 interface Props {
   isOpen: boolean;
   setServiceData: React.Dispatch<React.SetStateAction<ServiceType>>;
@@ -143,7 +146,7 @@ const PackageForm = ({
                 ) : (
                   <FormHelperText>
                     Tell about your package in detail (
-                    {description ? description.length : 0}/120)
+                    {description ? description.length : 0}/300)
                   </FormHelperText>
                 )}
               </FormControl>

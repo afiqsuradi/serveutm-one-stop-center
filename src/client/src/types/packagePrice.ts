@@ -10,7 +10,7 @@ const schema = z.object({
   description: z
     .string()
     .min(15, "Package Description should be at least 15 characters")
-    .max(120, "Package Description should not exceed 120 characters")
+    .max(300, "Package Description should not exceed 300 characters")
     .trim(),
   price: z
     .number({

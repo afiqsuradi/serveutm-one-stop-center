@@ -1,4 +1,4 @@
-import { ServiceType } from "../pages/Seller/AddGig";
+import { ServiceType } from "../hooks/Services/useService";
 
 export const languageLevel = ["Basic", "Fluent", "Native"] as const;
 export const skillLevel = ["Beginner", "Intermediate", "Expert"] as const;

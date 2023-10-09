@@ -9,19 +9,18 @@ import {
   Text,
   FormLabel,
   Heading,
-  Input,
-  Select,
   useDisclosure,
   Stack,
 } from "@chakra-ui/react";
 import AddGigWrapper from "../AddGigWrapper";
 import PackageForm from "./PackageForm";
+import { useState } from "react";
+import TitleInput from "./Partials/TitleInput";
+import CategoryInput from "./Partials/CategoryInput";
 import {
-  GigsTypeOption,
   PricingPackageType,
   ServiceType,
-} from "../../../pages/Seller/AddGig";
-import { useRef, useState } from "react";
+} from "../../../hooks/Services/useService";
 
 interface Props {
   serviceData: ServiceType | undefined;
@@ -29,9 +28,7 @@ interface Props {
 }
 
 const OverviewForm = ({ serviceData, setServiceData }: Props) => {
-  const title = useRef<HTMLInputElement>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [titleCount, setTitleCount] = useState(0);
   const [pricePackage, setPricePackage] = useState<
     PricingPackageType | undefined
   >();
@@ -63,22 +60,6 @@ const OverviewForm = ({ serviceData, setServiceData }: Props) => {
     });
   };
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target && event.target.value) {
-      setTitleCount(() => {
-        return event.target.value.length;
-      });
-    }
-  };
-
-  const handleTitleBlur = () => {
-    if (title.current) {
-      const newTitle = title.current.value;
-      setServiceData((prev) => {
-        return { ...prev, title: newTitle };
-      });
-    }
-  };
   return (
     <>
       <PackageForm
@@ -89,41 +70,12 @@ const OverviewForm = ({ serviceData, setServiceData }: Props) => {
       />
       <AddGigWrapper title="Overview">
         <FormLabel>Gig title</FormLabel>
-        <div className="relative">
-          <Input
-            defaultValue={serviceData ? serviceData.title : ""}
-            ref={title}
-            placeholder=""
-            className="pl-[2rem] indent-9"
-            onChange={handleTitleChange}
-            onBlur={handleTitleBlur}
-          />
-          <span className="absolute top-2 left-4 text-gray-300">I will</span>
-          <div className="grid grid-cols-[3fr_1fr] text-xs text-gray-400 my-1">
-            <span className="text-red-300"></span>
-            <span className="place-self-end">{titleCount}/70</span>
-          </div>
-        </div>
+        <TitleInput serviceData={serviceData} setServiceData={setServiceData} />
         <FormLabel>Category</FormLabel>
-        <div>
-          <Select
-            defaultValue={serviceData ? serviceData.category : ""}
-            placeholder="Select Category"
-            onChange={(event) => {
-              const newOpt = event.target.value as
-                | (typeof GigsTypeOption)[number]
-                | "";
-              setServiceData((prev) => {
-                return { ...prev, category: newOpt };
-              });
-            }}
-          >
-            {GigsTypeOption.map((opt) => (
-              <option value={opt}>{opt}</option>
-            ))}
-          </Select>
-          <span className="text-red-300"></span>
-        </div>
+        <CategoryInput
+          serviceData={serviceData}
+          setServiceData={setServiceData}
+        />
         <FormLabel>Price Package</FormLabel>
         <div className="mb-4">
           <Button variant="base" className="mb-4 w-[6rem]" onClick={onOpen}>

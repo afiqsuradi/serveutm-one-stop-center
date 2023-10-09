@@ -1,5 +1,5 @@
 import { Avatar, Box, Heading, Text } from "@chakra-ui/react";
-import { OwnerType } from "../../../pages/Seller/AddGig";
+import { OwnerType } from "../../../hooks/Services/useService";
 
 interface Props {
   userdata: OwnerType;

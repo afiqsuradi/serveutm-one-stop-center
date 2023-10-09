@@ -1,9 +1,9 @@
 import { Box, Input, Text, useToast } from "@chakra-ui/react";
 import AddGigWrapper from "../AddGigWrapper";
 import { BsFillImageFill } from "react-icons/bs";
-import { ServiceType } from "../../../pages/Seller/AddGig";
 import { useEffect, useRef, useState } from "react";
 import ImagePreview from "./ImagePreview";
+import { ServiceType } from "../../../hooks/Services/useService";
 
 interface Props {
   serviceData: ServiceType | undefined;

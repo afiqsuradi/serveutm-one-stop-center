@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { PricingPackageType } from "../../../pages/Seller/AddGig";
 import { Button } from "@chakra-ui/react";
+import { PricingPackageType } from "../../../hooks/Services/useService";
 
 interface Props {
   pricePackages: PricingPackageType[];
