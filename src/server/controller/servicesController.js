@@ -133,7 +133,7 @@ serviceController.deleteService = async (req, res) => {
     // Save Profile
     await profile.save({ validateModifiedOnly: true });
 
-    res.status(200).send({ message: "User not found" });
+    res.status(200).send({ message: "Deleted Service" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
