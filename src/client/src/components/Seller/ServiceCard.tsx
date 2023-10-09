@@ -1,4 +1,4 @@
-import { Image, Text } from "@chakra-ui/react";
+import { Button, Divider, Image, Text } from "@chakra-ui/react";
 import {
   BiSolidChevronLeftCircle,
   BiSolidChevronRightCircle,
@@ -6,6 +6,9 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ServiceType } from "../../hooks/Services/useService";
+import useDeleteService from "../../hooks/Services/useDeleteService";
+import { AxiosError } from "axios";
+import { ErrorData } from "../../services/apiClient";
 
 interface Props {
   serviceData: ServiceType;
@@ -15,6 +18,7 @@ const ServiceCard = ({ serviceData }: Props) => {
   const navigate = useNavigate();
   const MAX_IMAGE = serviceData.images.length - 1;
   const images = useRef<HTMLImageElement[]>([]);
+  const { deleteService, isLoading, setNotification } = useDeleteService();
   const [focus, setFocus] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const highestPrice = serviceData.pricePackage.reduce((acc, curr) => {
@@ -45,6 +49,27 @@ const ServiceCard = ({ serviceData }: Props) => {
         images.current[nextIndex].dataset.status = "active";
         setActiveIndex(() => nextIndex);
       });
+    }
+  };
+
+  const onDeleteService = async () => {
+    try {
+      await deleteService(serviceData._id ? serviceData._id : "");
+    } catch (error) {
+      if ((error as AxiosError<ErrorData>).response) {
+        setNotification({
+          title: "Something went wrong",
+          status: "error",
+          description: (error as AxiosError<ErrorData>).response?.data
+            .message as string,
+        });
+      } else {
+        setNotification({
+          title: "Network Error",
+          status: "error",
+          description: "Couldn't connect to the server",
+        });
+      }
     }
   };
 
@@ -104,8 +129,16 @@ const ServiceCard = ({ serviceData }: Props) => {
         >
           <BiSolidChevronRightCircle />
         </button>
-        <span className="text-xs absolute top-2 left-2 z-[999] bg-slate-800 p-1 rounded-md shadow-xl">
-          {serviceData.isApproved ? "Approved" : "Pending Approval"}
+        <span
+          className={`text-xs absolute top-2 left-2 z-[999] p-1 rounded-md shadow-xl ${
+            serviceData.isApproved === "Pending"
+              ? "bg-slate-800"
+              : serviceData.isApproved === "Rejected"
+              ? "bg-red-800"
+              : "bg-green-800"
+          }`}
+        >
+          {serviceData.isApproved}
         </span>
       </div>
       <div className="flex flex-col justify-between gap-8 p-3 flex-1">
@@ -127,6 +160,31 @@ const ServiceCard = ({ serviceData }: Props) => {
             STARTING AT <span className="text-base">RM{lowestPrice}</span>
           </Text>
         </div>
+      </div>
+      <Divider />
+      <div className="w-full flex justify-around gap-4 p-4">
+        <Button
+          variant={"danger"}
+          className=" w-[6rem] "
+          type="button"
+          isLoading={isLoading}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onClick={() => onDeleteService()}
+        >
+          Delete
+        </Button>
+        <Button
+          variant={"base"}
+          className=" w-[6rem] "
+          type="submit"
+          onClick={() => {
+            navigate(
+              `/settings/services/${serviceData._id ? serviceData._id : ""}`
+            );
+          }}
+        >
+          Edit
+        </Button>
       </div>
     </figure>
   );

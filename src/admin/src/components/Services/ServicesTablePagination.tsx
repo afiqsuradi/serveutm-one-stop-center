@@ -18,7 +18,7 @@ const ServicesTablePagination = ({ count, setFilters, limit, page }: Props) => {
           onChange={(event) => {
             const val = event.currentTarget.value;
             setFilters((prev) => {
-              return { ...prev, limit: Number(val) };
+              return { ...prev, limit: Number(val), page: 1 };
             });
           }}
           required

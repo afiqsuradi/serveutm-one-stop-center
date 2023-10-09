@@ -29,14 +29,14 @@ export type ServiceType = {
   faq: FaqType[];
   pricePackage: PricingPackageType[];
   images: string[];
-  isApproved?: boolean;
+  isApproved?: string;
   owner: User;
 };
 
 export type ServicesFilterType = {
   textInput?: string;
   type?: (typeof ServicesSearchTypes)[number];
-  gigStatus?: boolean;
+  gigStatus?: string;
   page?: number;
   limit: number;
 };

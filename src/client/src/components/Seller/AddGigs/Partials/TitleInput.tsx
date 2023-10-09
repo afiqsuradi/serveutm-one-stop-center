@@ -1,5 +1,5 @@
 import { Input } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ZodError, z } from "zod";
 import { ServiceType } from "../../../../hooks/Services/useService";
 
@@ -41,6 +41,13 @@ const TitleInput = ({ serviceData, setServiceData }: Props) => {
       return { ...prev, title: event.target.value };
     });
   };
+
+  useEffect(() => {
+    if (serviceData && serviceData.title.length > 0) {
+      setTitleCount(serviceData.title.length);
+    }
+  }, [serviceData]);
+
   return (
     <div className="relative">
       <Input

@@ -46,9 +46,7 @@ const ServicesTable = ({ services }: Props) => {
                       </p>
                     </td>
                     <td>{service.category}</td>
-                    <td>
-                      {service.isApproved ? "Approved" : "Pending Approval"}
-                    </td>
+                    <td>{service.isApproved}</td>
                     <td>
                       <button
                         className="btn btn-active btn-sm btn-primary w-[5rem] mx-2"

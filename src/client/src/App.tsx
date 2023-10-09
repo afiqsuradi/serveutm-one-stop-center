@@ -20,6 +20,7 @@ import RequireVerify from "./components/Verify/RequireVerify";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import AddGig from "./pages/Seller/AddGig";
 import ViewServiceDetail from "./pages/Services/ViewServiceDetail";
+import EditService from "./pages/Services/EditService";
 
 function App() {
   return (
@@ -67,6 +68,7 @@ function App() {
             {/* Strictly for service provider */}
             <Route element={<RequireAuth allowedRole={["service_provider"]} />}>
               <Route path={ROUTES.PROVIDER_ADD} element={<AddGig />} />
+              <Route path={ROUTES.EDIT_SERVICE} element={<EditService />} />
             </Route>
           </Route>
         </Route>

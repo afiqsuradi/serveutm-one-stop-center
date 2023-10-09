@@ -5,6 +5,7 @@ import ServiceImageCarousel from "../../../components/Services/EditService/Servi
 import FaqDisclosure from "../../../components/Services/EditService/FaqDisclosure";
 import ServiceEditor from "../../../partials/Services/ServiceEditor";
 import { useAuth } from "../../../hooks/useAuth";
+import Approval from "../../../components/Services/Approval";
 
 const EditService = () => {
   const { id } = useParams();
@@ -20,8 +21,16 @@ const EditService = () => {
             <h1 className="text-2xl text-black dark:text-white">
               I will {response.title}{" "}
               <span>
-                <div className="badge badge-primary">
-                  {response.isApproved ? "Approved" : "Pending Approval"}
+                <div
+                  className={`badge ${
+                    response.isApproved === "Pending"
+                      ? "badge-primary"
+                      : response.isApproved === "Rejected"
+                      ? "badge-error"
+                      : "badge-success"
+                  }`}
+                >
+                  {response.isApproved}
                 </div>
               </span>
             </h1>
@@ -42,6 +51,11 @@ const EditService = () => {
         </div>
         <PricePackageCard pricePackages={response.pricePackage} />
       </div>
+      <div className="divider max-w-[80%] w-full mx-auto">APPROVAL</div>
+      <Approval
+        id={response._id}
+        isApproved={response.isApproved ? response.isApproved : ""}
+      />
       <div className="divider max-w-[80%] w-full mx-auto">EDITOR</div>
       <div className="max-w-[80%] w-full mx-auto">
         <ServiceEditor service={response} />
