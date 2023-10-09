@@ -15,5 +15,6 @@ const ROUTES = {
   DASHBOARD: "/dashboard",
   NOTFOUND: "/404",
   VIEW_SERVICE_SPECIFIC: "/services/:id",
+  EDIT_SERVICE: "/settings/services/:id",
 };
 export default ROUTES;

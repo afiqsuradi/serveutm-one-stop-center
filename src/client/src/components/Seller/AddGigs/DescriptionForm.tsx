@@ -82,6 +82,12 @@ const DescriptionForm = ({ serviceData, setServiceData }: Props) => {
     };
   }, [errorToast]);
 
+  useEffect(() => {
+    if (serviceData && serviceData.description.length > 0) {
+      setDescriptionCount(serviceData.description.length);
+    }
+  }, [serviceData]);
+
   return (
     <AddGigWrapper title="Description & Faq">
       <FormLabel>Description</FormLabel>

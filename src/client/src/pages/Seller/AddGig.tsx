@@ -12,7 +12,7 @@ import { ErrorData } from "../../services/apiClient";
 import GigsAddSuccessOverlay from "../../components/Seller/AddGigs/GigsAddSuccessOverlay";
 import { GigsTypeOption, ServiceType } from "../../hooks/Services/useService";
 
-const defaultServiceType = {
+export const defaultServiceType = {
   title: "",
   description: "",
   category: "" as (typeof GigsTypeOption)[number] | "",
