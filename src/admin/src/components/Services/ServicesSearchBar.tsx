@@ -51,9 +51,8 @@ const ServicesSearchBar = ({ setFilters, setError }: Props) => {
   };
 
   const onSelectStatus = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const statusVal = event.currentTarget.value === "true" ? true : false;
     setFilters((prev) => {
-      return { ...prev, gigStatus: statusVal };
+      return { ...prev, gigStatus: event.target.value };
     });
   };
 
@@ -79,8 +78,10 @@ const ServicesSearchBar = ({ setFilters, setError }: Props) => {
         <option selected value={""}>
           Filter By
         </option>
-        {ServicesSearchTypes.map((opt) => (
-          <option value={opt}>{opt[0].toUpperCase() + opt.slice(1)}</option>
+        {ServicesSearchTypes.map((opt, idx) => (
+          <option key={idx} value={opt}>
+            {opt[0].toUpperCase() + opt.slice(1)}
+          </option>
         ))}
       </select>
       <select
@@ -91,8 +92,9 @@ const ServicesSearchBar = ({ setFilters, setError }: Props) => {
         <option disabled selected value={""}>
           Gigs Status
         </option>
-        <option value={"false"}>Pending Approval</option>
-        <option value={"true"}>Approved</option>
+        <option value={"Rejected"}>Rejected</option>
+        <option value={"Pending"}>Pending Approval</option>
+        <option value={"Approved"}>Approved</option>
       </select>
       <div className="indicator">
         <button
