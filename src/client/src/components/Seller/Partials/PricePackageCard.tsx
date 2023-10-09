@@ -8,7 +8,7 @@ interface Props {
 const PricePackageCard = ({ pricePackages }: Props) => {
   const [activePrice, setActivePrice] = useState(0);
   return (
-    <div className="grid grid-rows-[1fr_4fr] border-2 rounded-lg sticky top-4 shadow-xl bg-white text-black dark:bg-[#1D283A] dark:text-white flex-wrap md:flex-nowrap justify-center max-w-[20rem] h-fit">
+    <div className="grid grid-rows-[1fr_4fr] border-2 rounded-lg sticky top-4 shadow-xl bg-white text-black dark:bg-[#1D283A] dark:text-white flex-wrap md:flex-nowrap justify-center max-w-[24rem] h-fit">
       <div className="border-b-2 grid grid-cols-3 items-center">
         {pricePackages.map((price, i) => {
           return (

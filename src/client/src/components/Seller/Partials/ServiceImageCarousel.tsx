@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { ServiceType } from "../../../pages/Seller/AddGig";
 import { Image } from "@chakra-ui/react";
 import {
   BiSolidChevronLeftCircle,
   BiSolidChevronRightCircle,
 } from "react-icons/bi";
+import { ServiceType } from "../../../hooks/Services/useService";
 
 interface Props {
   images: ServiceType["images"];
@@ -40,6 +40,7 @@ const ServiceImageCarousel = ({ images }: Props) => {
   };
 
   const goto = (idx: number) => {
+    if (idx === activeIndex) return;
     if (idx > MAX_IMAGE || idx < 0) return;
     if (idx - activeIndex > 0) {
       imagesRef.current[activeIndex].dataset.status = "after";
@@ -59,7 +60,8 @@ const ServiceImageCarousel = ({ images }: Props) => {
   };
 
   useEffect(() => {
-    imagesRef.current = imagesRef.current.slice(0, images.length - 1);
+    imagesRef.current = imagesRef.current.slice(0, images.length);
+    console.log(imagesRef);
   }, [images.length]);
 
   return (
@@ -109,6 +111,7 @@ const ServiceImageCarousel = ({ images }: Props) => {
         {images.map((image, idx) => {
           return (
             <div
+              key={idx}
               className="aspect-video relative hover:cursor-pointer"
               onClick={() => goto(idx)}
             >
