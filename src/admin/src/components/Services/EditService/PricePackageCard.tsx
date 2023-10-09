@@ -7,7 +7,7 @@ interface Props {
 const PricePackageCard = ({ pricePackages }: Props) => {
   const [activePrice, setActivePrice] = useState(0);
   return (
-    <div className="card shadow-xl bg-white text-black dark:bg-[#1D283A] dark:text-white flex-wrap md:flex-nowrap justify-center max-w-[20rem] h-fit">
+    <div className="sticky top-24 card shadow-xl bg-white text-black dark:bg-[#1D283A] dark:text-white flex-wrap md:flex-nowrap justify-center max-w-[20rem] h-fit">
       <div className="tabs tabs-boxed border-0 max-w-fit mt-4 ml-4 mr-4">
         {pricePackages.map((price, i) => {
           return (
