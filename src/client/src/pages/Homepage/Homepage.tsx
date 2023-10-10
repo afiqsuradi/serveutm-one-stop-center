@@ -3,8 +3,13 @@ import ServicePublicCard from "../../components/ServicePublicCard";
 import useServices from "../../hooks/Services/useServices";
 import styles from "./style.module.css";
 import { Grid } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import ROUTES from "../../constants/path";
 
 const Homepage = () => {
+  const navigate = useNavigate();
+  const { Auth } = useAuth();
   const memoizedObject = useMemo(() => {
     return {
       limit: 12,
@@ -16,34 +21,58 @@ const Homepage = () => {
   return (
     <>
       <div className="container">
-        <div className="h-screen w-screen bg-gradient-to-b from-gray-900 to-indigo-900 flex flex-col items-center justify-center">
-          <h1 className="text-6xl font-bold text-center max-sm:text-xl">
-            One stop, for <i className={styles["font-serif"]}>everything</i> you
-            need.
-          </h1>
-          <h2 className="text-3xl font-bold p-4 pb-10">We got you covered</h2>
-
-          <div className="pt-2 relative mx-auto text-gray-600 p">
-            <input
-              className="border-2 border-gray-300 bg-white h-10  px-5 pr-16 rounded-lg text-sm focus:outline-none"
-              type="search"
-              name="search"
-              placeholder="Search"
-            />
-            <button type="submit" className="absolute right-0 top-0 mt-5 mr-4">
-              <svg
-                className="text-gray-600 h-4 w-4 fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 56.966 56.966"
-                xmlSpace="preserve"
-                width="512px"
-                height="512px"
+        <section className="bg-white dark:bg-gray-900">
+          <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+            <div className="mr-auto place-self-center lg:col-span-7">
+              <h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
+                Empowering UTMKL Students
+              </h1>
+              <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
+                Your One-Stop Solution for Services by UTM Students - Connect,
+                Collaborate, and Excel Together
+              </p>
+              <a
+                onClick={() => {
+                  if (Auth.username && Auth.username.length > 0) {
+                    navigate(ROUTES.USER_PROFILE);
+                  } else {
+                    navigate(ROUTES.REGISTER);
+                  }
+                }}
+                className="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 hover:cursor-pointer hover:underline"
               >
-                <path d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
-              </svg>
-            </button>
+                Get started
+                <svg
+                  className="w-5 h-5 ml-2 -mr-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </a>
+              <a
+                onClick={() => {
+                  navigate(ROUTES.VIEW_SERVICES);
+                }}
+                className="inline-flex items-center hover:cursor-pointer justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+              >
+                Explore Services
+              </a>
+            </div>
+            <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
+              <img
+                src="https://layoutsfordivibuilder.com/wp-content/uploads/2019/10/hero-banner.png"
+                alt="mockup"
+              />
+            </div>
           </div>
-        </div>
+        </section>
+
         <div className="bg-white w-screen p-14">
           <h1 className="text-4xl flex flex-col items-center justify-center font-bold text-black text-center">
             Recently Uploaded
