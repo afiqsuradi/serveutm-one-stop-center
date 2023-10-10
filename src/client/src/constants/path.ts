@@ -14,6 +14,7 @@ const ROUTES = {
   PROVIDER_ADD: "/profile/add_gigs",
   DASHBOARD: "/dashboard",
   NOTFOUND: "/404",
+  VIEW_SERVICES: "/services",
   VIEW_SERVICE_SPECIFIC: "/services/:id",
   EDIT_SERVICE: "/settings/services/:id",
 };

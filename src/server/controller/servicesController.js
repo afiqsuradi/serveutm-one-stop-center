@@ -1,5 +1,6 @@
 const Service = require("../model/services");
 const Profile = require("../model/profile");
+const { cloneDeep } = require("lodash");
 const { User } = require("../model/user");
 
 const MAX_IMAGES = 3;
@@ -66,6 +67,7 @@ serviceController.createService = async (req, res) => {
 
 serviceController.getServices = async (req, res) => {
   try {
+    const baseUrl = `${req.protocol}://${req.get("host")}/`;
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
@@ -86,18 +88,112 @@ serviceController.getServices = async (req, res) => {
     const services = await Service.find(filter)
       .skip(skip)
       .limit(limit)
-      .populate("owner")
+      .populate("owner", "name username profileImage")
       .exec();
-
+    const modifiedService = [];
     services.forEach((service) => {
-      service.images = service.images.map(
-        (url) => `${req.protocol}://${req.get("host")}/images/thumbnails/${url}`
+      const clonedService = cloneDeep(service);
+      let owner = cloneDeep(clonedService.owner);
+      owner.profileImage = `${baseUrl}${owner.profileImage}`;
+      clonedService.images = service.images.map(
+        (url) => `${baseUrl}images/thumbnails/${url}`
       );
+      clonedService.owner = owner;
+      modifiedService.push(clonedService);
     });
 
     res.json({
       count,
-      services: services,
+      services: modifiedService,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+serviceController.getServicesByUsername = async (req, res, next) => {
+  if (
+    !req.query.type ||
+    !(req.query.type.includes("username") || req.query.type.includes("name"))
+  )
+    return next();
+  try {
+    const baseUrl = `${req.protocol}://${req.get("host")}/`;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    // Filter criteria
+    const userFilter = {};
+    const filter = {};
+    if (!(req.query.textInput && req.query.type))
+      return res.status(400).json({ message: "Username and type is required" });
+    if (req.query.gigStatus) {
+      filter.isApproved = new RegExp(`.*${req.query.gigStatus}.*`);
+    }
+
+    userFilter[`owner.${req.query.type}`] = {
+      $regex: new RegExp(`.*${req.query.textInput}.*`),
+      $options: "i",
+    };
+    const servicesDb = await Service.aggregate([
+      {
+        $lookup: {
+          from: "User",
+          localField: "owner",
+          foreignField: "_id",
+          as: "owner",
+        },
+      },
+      {
+        $match: userFilter,
+      },
+      {
+        $skip: skip,
+      },
+      {
+        $limit: limit,
+      },
+    ]);
+    const servicesDbCount = await Service.aggregate([
+      {
+        $lookup: {
+          from: "User",
+          localField: "owner",
+          foreignField: "_id",
+          as: "owner",
+        },
+      },
+      {
+        $match: userFilter,
+      },
+      {
+        $count: "total",
+      },
+    ]);
+    const modifiedService = [];
+    if (servicesDb && servicesDb.length > 0) {
+      servicesDb.forEach((service) => {
+        const clonedService = cloneDeep(service);
+        let owner = cloneDeep(clonedService.owner[0]);
+        delete owner.refreshToken;
+        delete owner.role;
+        delete owner.password;
+        delete owner.email;
+        delete owner.profile;
+        delete owner.isVerified;
+        owner.profileImage = `${baseUrl}${owner.profileImage}`;
+        clonedService.images = service.images.map(
+          (url) => `${baseUrl}images/thumbnails/${url}`
+        );
+        clonedService.owner = owner;
+        modifiedService.push(clonedService);
+      });
+    }
+
+    res.json({
+      count: servicesDbCount[0].total,
+      services: modifiedService,
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -141,18 +237,17 @@ serviceController.deleteService = async (req, res) => {
 
 serviceController.getService = async (req, res) => {
   try {
+    const baseUrl = `${req.protocol}://${req.get("host")}/`;
     const serviceId = req.params.id;
     if (!serviceId)
       return res.status(401).json({ message: "Invalid Service Id" });
     const service = await Service.findOne({ _id: serviceId })
       .populate("owner", "name username profileImage")
       .exec();
-    service.owner.profileImage = `${req.protocol}://${req.get("host")}/${
-      service.owner.profileImage
-    }`;
+    service.owner.profileImage = `${baseUrl}${service.owner.profileImage}`;
     if (!service) return res.status(404).json({ message: "Service not found" });
     service.images = service.images.map(
-      (url) => `${req.protocol}://${req.get("host")}/images/thumbnails/${url}`
+      (url) => `${baseUrl}images/thumbnails/${url}`
     );
     return res.status(200).json(service);
   } catch (err) {

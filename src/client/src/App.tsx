@@ -21,6 +21,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import AddGig from "./pages/Seller/AddGig";
 import ViewServiceDetail from "./pages/Services/ViewServiceDetail";
 import EditService from "./pages/Services/EditService";
+import ServicesList from "./pages/Services/ServicesList";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
           <Route path={ROUTES.HOMEPAGE} element={<Homepage />} />
           <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
           <Route path={ROUTES.CONTACT_US} element={<ContactUs />} />
+          <Route path={ROUTES.VIEW_SERVICES} element={<ServicesList />} />
           <Route
             path={ROUTES.VIEW_SERVICE_SPECIFIC}
             element={<ViewServiceDetail />}
