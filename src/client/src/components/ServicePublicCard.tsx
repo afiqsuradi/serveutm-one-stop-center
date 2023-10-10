@@ -107,28 +107,32 @@ const ServicePublicCard = ({ serviceData }: Props) => {
       </div>
       <div className="flex flex-col justify-between gap-8 p-3 flex-1">
         <div>
-          <div className="flex items-center gap-2 mb-2">
-            <Avatar
-              size={"sm"}
-              name={serviceData.owner?.name}
-              src={serviceData.owner?.profileImage}
-            />
-            <div>
-              <Heading
+          {serviceData.owner instanceof Object ? (
+            <div className="flex items-center gap-2 mb-2">
+              <Avatar
                 size={"sm"}
-                className="hover:underline hover:cursor-pointer"
-                onClick={() => {
-                  navigate(
-                    `/profile/${
-                      serviceData.owner ? serviceData.owner.username : ""
-                    }`
-                  );
-                }}
-              >
-                {serviceData.owner?.username}
-              </Heading>
+                name={serviceData.owner?.name}
+                src={serviceData.owner?.profileImage}
+              />
+              <div>
+                <Heading
+                  size={"sm"}
+                  className="hover:underline hover:cursor-pointer"
+                  onClick={() => {
+                    navigate(
+                      `/profile/${
+                        serviceData.owner ? serviceData.owner.username : ""
+                      }`
+                    );
+                  }}
+                >
+                  {serviceData.owner?.username}
+                </Heading>
+              </div>
             </div>
-          </div>
+          ) : (
+            ""
+          )}
           <Text
             fontSize={"lg"}
             className="hover:cursor-pointer hover:underline transition-all"
