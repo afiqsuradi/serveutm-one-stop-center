@@ -48,7 +48,7 @@ const Homepage = () => {
           <h1 className="text-4xl flex flex-col items-center justify-center font-bold text-black text-center">
             Recently Uploaded
           </h1>
-          <div className="py-8 grid md:grid-cols-3 text-black">
+          <div className="py-8 grid md:grid-cols-3 text-black gap-8">
             {data
               ? data.services.map((service) => (
                   <ServicePublicCard serviceData={service} />

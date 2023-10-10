@@ -4,8 +4,8 @@ import ProfileCard from "../components/UserProfile/ProfileCard";
 import useUser, { UserInfo } from "../hooks/useUser";
 import useUserProfile from "../hooks/useUserProfile";
 import ProviderInfo from "../components/UserProfile/ProviderInfo";
-import ProviderGigs from "../components/UserProfile/ProviderGigs";
 import { useEffect, useState } from "react";
+import ProviderPublicGigs from "../components/UserProfile/ProviderPublicGigs";
 
 const UserPublicProfile = () => {
   const [userData, setUserData] = useState<UserInfo>({
@@ -35,7 +35,7 @@ const UserPublicProfile = () => {
       {data.role === "user" ? (
         ""
       ) : (
-        <ProviderGigs servicesData={response.services} />
+        <ProviderPublicGigs servicesData={response.services} />
       )}
       {data.role === "service_provider" ? (
         <GridItem colStart={1}>
