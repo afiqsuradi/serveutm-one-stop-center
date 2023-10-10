@@ -36,17 +36,19 @@ const ProviderInfo = ({ UserData }: Props) => {
           <Heading as="h2" fontSize="md">
             Languages
           </Heading>
-          <HStack>
+          <div className="grid grid-cols-3 gap-4">
             {UserData.language.map((lang) => {
               return (
                 <>
-                  <Text>{lang.name}</Text>
-                  <BsDashLg />
-                  <Text color="gray.300">{lang.level}</Text>
+                  <div className="flex items-center gap-2">
+                    <Text>{lang.name}</Text>
+                    <BsDashLg />
+                    <Text color="gray.300">{lang.level}</Text>
+                  </div>
                 </>
               );
             })}
-          </HStack>
+          </div>
         </Stack>
         <Divider marginY={5} />
         <Stack spacing={4}>
