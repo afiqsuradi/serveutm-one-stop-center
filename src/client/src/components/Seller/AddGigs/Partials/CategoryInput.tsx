@@ -1,5 +1,5 @@
 import { Select } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import {
   GigsTypeOption,
@@ -15,6 +15,7 @@ const categorySchema = z.enum(GigsTypeOption);
 
 const CategoryInput = ({ serviceData, setServiceData }: Props) => {
   const [error, setError] = useState("");
+  const descEl = useRef<HTMLSelectElement>(null);
 
   const onCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     try {
@@ -30,9 +31,16 @@ const CategoryInput = ({ serviceData, setServiceData }: Props) => {
     }
   };
 
+  useEffect(() => {
+    if (serviceData && descEl.current) {
+      descEl.current.value = serviceData.category;
+    }
+  }, [serviceData]);
+
   return (
     <div>
       <Select
+        ref={descEl}
         defaultValue={serviceData ? serviceData.category : ""}
         placeholder="Select Category"
         onChange={onCategoryChange}

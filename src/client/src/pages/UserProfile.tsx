@@ -8,7 +8,8 @@ import useUserProfile from "../hooks/useUserProfile";
 
 const UserProfile = () => {
   const { Auth } = useAuth();
-  const { data } = useUserProfile(Auth.username, Auth.role);
+  const { response } = useUserProfile(Auth.username, Auth.role);
+  if (!response) return;
   return (
     <Grid
       templateColumns={{ sm: "1fr 3fr", base: "1fr" }}
@@ -19,11 +20,11 @@ const UserProfile = () => {
       {Auth.role === "user" ? (
         <ProviderAds />
       ) : (
-        <ProviderGigs servicesData={data.services} />
+        <ProviderGigs servicesData={response.services} />
       )}
       {Auth.role === "service_provider" ? (
         <GridItem colStart={1}>
-          <ProviderInfo UserData={data} />
+          <ProviderInfo UserData={response} />
         </GridItem>
       ) : (
         ""

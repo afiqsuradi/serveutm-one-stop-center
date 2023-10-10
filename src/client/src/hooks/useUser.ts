@@ -8,6 +8,7 @@ export interface UserInfo {
   username: string;
   email: string;
   dateJoined: string;
+  role?: string;
 }
 
 const useUser = (username: string) => {

@@ -24,18 +24,18 @@ const ServiceProfileSetting = ({ username }: Props) => {
   const { ProviderInfo, ProviderInfoDispatch } = useSeller();
   const { update, isLoading, setIsLoading, setNotification } =
     useUpdateProvider();
-  const { data } = useUserProfile(username);
+  const { response } = useUserProfile(username);
   const descriptionEl = useRef<HTMLTextAreaElement>(null);
   const personalWebsiteEl = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (data) {
+    if (response) {
       ProviderInfoDispatch({
         type: ProviderInfoActionTypes.SETINITIAL,
-        payload: data,
+        payload: response,
       });
     }
-  }, [data]);
+  }, [response]);
 
   const preUpdateSellerInfo = async () => {
     setIsLoading(true);

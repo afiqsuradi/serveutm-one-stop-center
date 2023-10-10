@@ -1,10 +1,12 @@
 import { useState } from "react";
 import {
   GigsTypeOption,
+  PricingPackageType,
   ServiceType,
 } from "../../../../hooks/Services/useServices";
 import PricePackageForm from "./PricePackageForm";
 import { ZodError, z } from "zod";
+import { PricingPackageStruct } from "../../../../types/pricingPackage";
 
 interface Props {
   serviceData: ServiceType;
@@ -20,6 +22,8 @@ const categorySchema = z.enum(GigsTypeOption);
 const OverviewForm = ({ serviceData, setServiceData }: Props) => {
   const [error, setError] = useState({ title: "", category: "" });
   const [isOpen, setIsOpen] = useState(false);
+  const [initialPackageData, setInitialPackageData] =
+    useState<PricingPackageType>();
 
   const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
@@ -54,12 +58,33 @@ const OverviewForm = ({ serviceData, setServiceData }: Props) => {
     }
   };
 
+  const onEditPrice = (pack: PricingPackageStruct) => {
+    setInitialPackageData(pack);
+    onDeletePackage(pack);
+    setIsOpen(true);
+  };
+
+  const onClosePriceModal = () => {
+    setIsOpen(false);
+    setInitialPackageData(undefined);
+  };
+
+  const onDeletePackage = (pack: PricingPackageStruct) => {
+    const deletedArray = serviceData.pricePackage.filter(
+      (packObj) => !packObj.title.includes(pack.title)
+    );
+    setServiceData((prev) => {
+      return { ...prev, pricePackage: deletedArray };
+    });
+  };
+
   return (
     <div className="text-white p-4">
       <PricePackageForm
         isOpen={isOpen}
+        initialData={initialPackageData}
         setServiceData={setServiceData}
-        closeModal={() => setIsOpen(false)}
+        closeModal={onClosePriceModal}
       />
       <h1 className="text-4xl mb-8">Overview</h1>
       <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] my-4 gap-8">
@@ -116,10 +141,20 @@ const OverviewForm = ({ serviceData, setServiceData }: Props) => {
                 </div>
                 <div className="divider p-0 m-0"></div>
                 <div className="flex w-full justify-around p-6">
-                  <button className="btn btn-primary btn-sm m-1 w-[4rem] lg:w-full max-w-[8rem]">
+                  <button
+                    className="btn btn-primary btn-sm m-1 w-[4rem] lg:w-full max-w-[8rem]"
+                    onClick={() => {
+                      onEditPrice(pack);
+                    }}
+                  >
                     Edit
                   </button>
-                  <button className="btn bg-red-700 hover:bg-red-800 text-white m-1 w-[4rem] lg:w-full max-w-[8rem] btn-sm">
+                  <button
+                    className="btn bg-red-700 hover:bg-red-800 text-white m-1 w-[4rem] lg:w-full max-w-[8rem] btn-sm"
+                    onClick={() => {
+                      onDeletePackage(pack);
+                    }}
+                  >
                     Delete
                   </button>
                 </div>

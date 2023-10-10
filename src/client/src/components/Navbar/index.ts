@@ -16,6 +16,7 @@ export const navigation: NavLinksType[] = [
     to: ROUTES.DASHBOARD,
     role: ["user", "service_provider"],
   },
+  { name: "Services", to: ROUTES.VIEW_SERVICES, role: ["all"] },
   { name: "About", to: ROUTES.ABOUT_US, role: ["all"] },
   { name: "Contact", to: ROUTES.CONTACT_US, role: ["all"] },
 ];
