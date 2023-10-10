@@ -33,15 +33,17 @@ const useData = <T>(
           }
         })
         .catch((error: Error) => {
-          if (!(error as AxiosError).message.includes("canceled")) {
-            if ((error as AxiosError<ErrorData>).response) {
-              setError(
-                (error as AxiosError<ErrorData>).response?.data
-                  .message as string
-              );
+          const err = error as AxiosError<ErrorData>;
+          if (!err.message.includes("canceled")) {
+            if (err.response) {
+              if (err.response.data && err.response.data.message) {
+                setError(err.response.data.message);
+              } else {
+                setError(err.message);
+              }
             } else {
               // If backend crash / not found
-              setError((error as AxiosError<ErrorData>).message);
+              setError(err.message);
             }
           }
         })

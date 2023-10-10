@@ -114,7 +114,19 @@ const ServicePublicCard = ({ serviceData }: Props) => {
               src={serviceData.owner?.profileImage}
             />
             <div>
-              <Heading size={"sm"}>{serviceData.owner?.username}</Heading>
+              <Heading
+                size={"sm"}
+                className="hover:underline hover:cursor-pointer"
+                onClick={() => {
+                  navigate(
+                    `/profile/${
+                      serviceData.owner ? serviceData.owner.username : ""
+                    }`
+                  );
+                }}
+              >
+                {serviceData.owner?.username}
+              </Heading>
             </div>
           </div>
           <Text
