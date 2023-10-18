@@ -4,7 +4,7 @@ import { Outlet } from "react-router";
 const Layout = () => {
   return (
     <>
-      <div className="w-full border-b sticky top-0">
+      <div className="w-full border-b sticky top-0 bg-background">
         <Header />
       </div>
       <Outlet />
