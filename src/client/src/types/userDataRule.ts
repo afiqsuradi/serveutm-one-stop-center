@@ -28,3 +28,18 @@ const loginSchema = z.object({
 });
 export const LoginStructResolver = zodResolver(loginSchema);
 export type LoginStruct = z.infer<typeof loginSchema>;
+
+const registerSchema = z
+  .object({
+    name: schema.shape.name,
+    username: schema.shape.username,
+    email: schema.shape.email,
+    password: schema.shape.password,
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
+export const RegisterStructResolver = zodResolver(registerSchema);
+export type RegisterStruct = z.infer<typeof registerSchema>;

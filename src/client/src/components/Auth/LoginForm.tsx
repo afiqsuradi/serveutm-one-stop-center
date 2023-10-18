@@ -85,7 +85,7 @@ const LoginForm = () => {
             <Link to={ROUTES.PASSWORD_RESET}>Forgot Password</Link>
           </p>
         </div>
-        <Button className="w-full" disabled={isLoading}>
+        <Button className="w-full" type="submit" disabled={isLoading}>
           {isLoading ? <Spinner /> : "Sign In"}
         </Button>
         <p className="ml-auto">
