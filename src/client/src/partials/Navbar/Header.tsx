@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/Auth/useAuth";
 import NavLinks from "./NavLinks";
 import { ModeToggle } from "@/components/mode-toggle";
 import Sidebar from "./Sidebar";
+import AvatarNav from "./AvatarNav";
 
 const Header = () => {
   const { Auth } = useAuth();
@@ -25,7 +26,9 @@ const Header = () => {
       </div>
       <div className="flex flex-1 justify-end space-x-6 items-center">
         <ModeToggle />
-        {Auth.role || (
+        {Auth.role ? (
+          <AvatarNav src={Auth.profileImage} />
+        ) : (
           <>
             <Link to={ROUTES.LOGIN}>Sign In</Link>
             <Link to={ROUTES.LOGIN}>Join Us</Link>
