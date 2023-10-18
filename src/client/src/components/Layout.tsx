@@ -7,9 +7,7 @@ const Layout = () => {
       <div className="w-full border-b sticky top-0">
         <Header />
       </div>
-      <div>
-        <Outlet />
-      </div>
+      <Outlet />
     </>
   );
 };

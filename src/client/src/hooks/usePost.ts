@@ -1,17 +1,17 @@
 import { AxiosError, AxiosRequestConfig } from "axios";
-import { useEffect, useState } from "react";
-import useAuthService from "./useAuthService";
+import { useState } from "react";
 import { ErrorData } from "../services/apiClient";
-import { toast } from "react-toastify";
+import usePrivateApiClient from "./usePrivateApiClient";
 
 const usePost = <I, T>(endpoint: string, config?: AxiosRequestConfig) => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const apiClient = useAuthService();
+  const apiClient = usePrivateApiClient();
 
   const post = async (data: I) => {
     setIsLoading(true);
     try {
+      setError("");
       return await apiClient.post<T>(endpoint, data, {
         ...config,
       });
@@ -33,20 +33,6 @@ const usePost = <I, T>(endpoint: string, config?: AxiosRequestConfig) => {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (!(error.length === 0))
-      toast.error(error, {
-        position: "top-center",
-        autoClose: 5000,
-        progress: undefined,
-        theme: "colored",
-      });
-    return () => {
-      setError("");
-    };
-  }, [error]);
-
   return { isLoading, post, error, setError };
 };
 

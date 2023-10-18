@@ -1,6 +1,6 @@
 import { useAuth } from "./useAuth";
-import apiClient from "../services/apiClient";
-import { AuthType } from "../context/authProvider";
+import apiClient from "../../services/apiClient";
+import { AuthType } from "../../context/authProvider";
 
 export const useRefresh = () => {
   const { setAuth } = useAuth();

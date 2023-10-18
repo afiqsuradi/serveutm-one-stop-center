@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { useAuth } from "./useAuth";
-import { useRefresh } from "./useRefresh";
+import { useAuth } from "./Auth/useAuth";
+import { useRefresh } from "./Auth/useRefresh";
 import { AxiosError, AxiosRequestConfig } from "axios";
 import apiClient from "@/services/apiClient";
 

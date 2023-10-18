@@ -1,6 +1,6 @@
 import ROUTES from "@/constant/routes";
 import { Link } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/Auth/useAuth";
 import NavLinks from "./NavLinks";
 import { ModeToggle } from "@/components/mode-toggle";
 import Sidebar from "./Sidebar";
