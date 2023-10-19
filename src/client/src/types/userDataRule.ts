@@ -45,3 +45,15 @@ const registerSchema = z
   });
 export const RegisterStructResolver = zodResolver(registerSchema);
 export type RegisterStruct = z.infer<typeof registerSchema>;
+
+const resetPasswordSchema = z
+  .object({
+    password: schema.shape.password,
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
+export const PassResetStructResolver = zodResolver(resetPasswordSchema);
+export type PassResetStruct = z.infer<typeof resetPasswordSchema>;
