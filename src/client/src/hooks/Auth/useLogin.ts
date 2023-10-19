@@ -14,7 +14,7 @@ const useLogin = () => {
   const login = async (data: LoginStruct) => {
     try {
       const result = await post(JSON.stringify(data));
-      if (result) {
+      if (result && result.status >= 200 && result.status < 300) {
         setAuth(result.data);
         navigate(ROUTES.HOMEPAGE);
       }
