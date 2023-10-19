@@ -22,6 +22,8 @@ const schema = z.object({
     }),
 });
 
+export const emailRule = schema.shape.email;
+
 const loginSchema = z.object({
   username: schema.shape.username,
   password: schema.shape.password,
