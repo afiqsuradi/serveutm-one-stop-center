@@ -6,6 +6,7 @@ import Register from "./pages/Auth/Register";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import ResetPassword from "./pages/Auth/ResetPassword";
 import AboutUs from "./pages/AboutUs";
+import ContactUs from "./pages/ContactUs";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           element={<ResetPassword />}
         />
         <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
+        <Route path={ROUTES.CONTACT_US} element={<ContactUs />} />
       </Route>
     </Routes>
   );

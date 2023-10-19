@@ -57,3 +57,14 @@ const resetPasswordSchema = z
   });
 export const PassResetStructResolver = zodResolver(resetPasswordSchema);
 export type PassResetStruct = z.infer<typeof resetPasswordSchema>;
+
+const inquirySchema = z.object({
+  name: schema.shape.name,
+  mail: schema.shape.email,
+  message: z
+    .string()
+    .min(50, "The message should be atleast 50 characters")
+    .max(1000, "The message should not exceed 1000 characters"),
+});
+export const inquiryStructResolver = zodResolver(inquirySchema);
+export type inquiryStruct = z.infer<typeof inquirySchema>;
