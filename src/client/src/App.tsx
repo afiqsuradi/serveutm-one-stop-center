@@ -7,6 +7,9 @@ import ForgotPassword from "./pages/Auth/ForgotPassword";
 import ResetPassword from "./pages/Auth/ResetPassword";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
+import PersistLogin from "./components/Auth/PersistLogin";
+import RequireAuth from "./components/Auth/RequireAuth";
+import UserProfile from "./pages/User/UserProfile";
 
 function App() {
   return (
@@ -19,8 +22,15 @@ function App() {
           path={ROUTES.PASSWORD_RESET_CONFIRM}
           element={<ResetPassword />}
         />
-        <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
-        <Route path={ROUTES.CONTACT_US} element={<ContactUs />} />
+        <Route element={<PersistLogin />}>
+          <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
+          <Route path={ROUTES.CONTACT_US} element={<ContactUs />} />
+          <Route
+            element={<RequireAuth allowedRole={["user", "service_provider"]} />}
+          >
+            <Route path={ROUTES.USER_PROFILE} element={<UserProfile />} />
+          </Route>
+        </Route>
       </Route>
     </Routes>
   );
