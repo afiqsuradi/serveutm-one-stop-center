@@ -36,7 +36,7 @@ const ContactUs = () => {
             src={mascot}
             className="hidden md:inline-block h-[25rem] w-auto "
           />
-          <div className="border p-6 md:border-0 md:p-0 md:px-12 space-y-4">
+          <div className="border p-6 mt-24 md:mt-0 md:border-0 md:p-0 md:px-12 space-y-4">
             <h1 className="text-xl">Get in touch</h1>
             <div className="flex items-center">
               <div className="rounded-full border border-foreground max-w-fit p-2">
