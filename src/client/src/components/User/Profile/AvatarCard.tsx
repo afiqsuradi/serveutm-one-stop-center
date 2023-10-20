@@ -6,10 +6,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { UserInfo } from "@/hooks/User/useGetUser";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { Separator } from "../../ui/separator";
 import { BiSolidUser } from "react-icons/bi";
+import { UserInfo } from "@/interface/User";
 
 interface Props {
   userData: UserInfo;

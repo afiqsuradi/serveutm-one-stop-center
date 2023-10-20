@@ -1,3 +1,4 @@
+import ProviderInfo from "@/components/Service_Provider/Profile/ProviderInfo";
 import AvatarCard from "@/components/User/Profile/AvatarCard";
 import BecomeSellerBanner from "@/components/User/Profile/BecomeSellerBanner";
 import { useAuth } from "@/hooks/Auth/useAuth";
@@ -15,9 +16,14 @@ const UserProfile = () => {
   }
   return (
     <div className="container">
-      <div className="flex flex-col justify-center items-center md:flex-row md:gap-12 mt-16 gap-8">
-        <section className="w-full md:w-fit">
+      <div className="flex flex-col justify-center items-center md:flex-row md:gap-12 my-16 gap-8">
+        <section className="w-full md:w-fit space-y-12">
           <AvatarCard userData={data} />
+          {data.role === "service_provider" ? (
+            <ProviderInfo username={data.username} />
+          ) : (
+            ""
+          )}
         </section>
         <section className="w-full">
           {data.role === "user" && Auth.username === data.username ? (

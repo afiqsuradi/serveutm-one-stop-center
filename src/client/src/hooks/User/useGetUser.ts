@@ -1,16 +1,14 @@
+import { UserInfo } from "@/interface/User";
 import useData from "../useData";
-
-export interface UserInfo {
-  profileImage: string;
-  name: string;
-  username: string;
-  email: string;
-  dateJoined: string;
-  role?: string;
-}
+import { useAuth } from "../Auth/useAuth";
 
 const useGetUser = (username: string) => {
-  const { data, isLoading, error } = useData<UserInfo>(`api/user/${username}`);
+  const { Auth } = useAuth();
+  const { data, isLoading, error } = useData<UserInfo>(
+    `api/user/${username}`,
+    {},
+    [Auth.accessToken, username]
+  );
   return { data, isLoading, error };
 };
 
