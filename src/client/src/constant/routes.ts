@@ -10,7 +10,6 @@ const ROUTES = {
   CONTACT_US: "/contact",
   USER_SETTING: "/settings",
   USER_PROFILE: "/profile",
-  USER_PROFILE_SPECIFIC: "/profile/:username",
   PROVIDER_REGISTER: "/seller_onboarding",
   PROVIDER_ADD: "/profile/add_gigs",
   DASHBOARD: "/dashboard",

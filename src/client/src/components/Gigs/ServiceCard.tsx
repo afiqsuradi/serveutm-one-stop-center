@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "@/constant/routes";
 
 interface Props {
   service: ServiceType;
@@ -20,6 +22,7 @@ interface Props {
 }
 
 const ServiceCard = ({ service, isOwner }: Props) => {
+  const navigate = useNavigate();
   const highestPrice = service.pricePackage.reduce((acc, curr) => {
     return acc > curr.price ? acc : curr.price;
   }, 0);
@@ -27,11 +30,22 @@ const ServiceCard = ({ service, isOwner }: Props) => {
     return acc > curr.price ? curr.price : acc;
   }, highestPrice);
 
+  const goto = (route: string) => {
+    navigate(route);
+  };
+
   return (
     <Card className="w-[250px]">
       <ServiceImagesCarousel showChild={false} images={service.images} />
       <CardContent className="flex flex-col gap-8 justify-start items-start py-2">
-        <h3>I will {service.title}</h3>
+        <h3
+          className="hover:underline hover:cursor-pointer transition-all"
+          onClick={() =>
+            goto(ROUTES.VIEW_SERVICE_SPECIFIC.split(":")[0] + service._id)
+          }
+        >
+          I will {service.title}
+        </h3>
         <div className=" flex justify-between items-center w-full">
           {isOwner && (
             <>

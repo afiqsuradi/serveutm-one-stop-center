@@ -11,6 +11,7 @@ import PersistLogin from "./components/Auth/PersistLogin";
 import RequireAuth from "./components/Auth/RequireAuth";
 import UserProfile from "./pages/User/UserProfile";
 import Verify from "./pages/Auth/Verify";
+import GigDetail from "./pages/Gigs/GigDetail";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path={ROUTES.CONTACT_US} element={<ContactUs />} />
           <Route path={ROUTES.VERIFY} element={<Verify />} />
           <Route path={ROUTES.USER_PROFILE} element={<UserProfile />} />
+          <Route path={ROUTES.VIEW_SERVICE_SPECIFIC} element={<GigDetail />} />
           <Route
             element={<RequireAuth allowedRole={["user", "service_provider"]} />}
           ></Route>
