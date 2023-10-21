@@ -1,3 +1,5 @@
+import { ServiceType } from "./Service";
+
 export const languageLevel = ["Basic", "Fluent", "Native"] as const;
 export const skillLevel = ["Beginner", "Intermediate", "Expert"] as const;
 
@@ -16,6 +18,7 @@ export type ProviderInfo = {
   language: Language[];
   skills: Skill[];
   PersonalWebsite?: string;
+  services?: ServiceType[];
 };
 export const defaultProfileValue: ProviderInfo = {
   description: "",

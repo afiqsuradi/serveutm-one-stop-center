@@ -31,14 +31,19 @@ const ProviderInfo = ({ username }: Props) => {
         <article>
           <h3 className="font-bold py-4">Languages</h3>
           <div className="font-light text-sm text-foreground/80 grid grid-cols-[1fr_4px_1fr] gap-2 w-fit">
-            {data.language.map((lang) => {
+            {data.language.map((lang, idx) => {
               return (
                 <>
-                  <p className="text-background-foreground font-semibold">
+                  <p
+                    className="text-background-foreground font-semibold"
+                    key={`${idx}_1`}
+                  >
                     {lang.name}
                   </p>
-                  <p>-</p>
-                  <p className="text-background-foreground/80">{lang.level}</p>
+                  <p key={`${idx}_2`}>-</p>
+                  <p className="text-background-foreground/80" key={`${idx}_3`}>
+                    {lang.level}
+                  </p>
                 </>
               );
             })}
@@ -49,9 +54,9 @@ const ProviderInfo = ({ username }: Props) => {
           <h3 className="font-bold py-4">Skills</h3>
           <div className="font-light text-sm text-foreground/80 grid grid-cols-[1fr_4px_1fr] gap-2 w-fit">
             <div className="grid gap-4 grid-flow-col auto-cols-max">
-              {data.skills.map((skill) => {
+              {data.skills.map((skill, idx) => {
                 return (
-                  <TooltipProvider>
+                  <TooltipProvider key={idx}>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button className="min-w-[5rem] max-w-[10rem]">

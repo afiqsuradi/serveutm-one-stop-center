@@ -27,11 +27,10 @@ function App() {
           <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
           <Route path={ROUTES.CONTACT_US} element={<ContactUs />} />
           <Route path={ROUTES.VERIFY} element={<Verify />} />
+          <Route path={ROUTES.USER_PROFILE} element={<UserProfile />} />
           <Route
             element={<RequireAuth allowedRole={["user", "service_provider"]} />}
-          >
-            <Route path={ROUTES.USER_PROFILE} element={<UserProfile />} />
-          </Route>
+          ></Route>
         </Route>
       </Route>
     </Routes>
