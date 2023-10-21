@@ -83,10 +83,10 @@ const ServiceImagesCarousel = ({ images, showChild }: Props) => {
             aspect-video w-full max-w-[60rem]
             h-full absolute 
             data-[status=before]:z-0 
-            data-[status=active]:z-20
+            data-[status=active]:z-[1]
             data-[status=before]:translate-x-[-100%] 
             data-[status=after]:translate-x-[100%] 
-            data-[status=after]:z-10 transition-all
+            data-[status=after]:z-[1] transition-all
             data-[status=activeFromAfter]:translate-x-[-100%] 
             data-[status=activeFromAfter]:transition-none
             data-[status=activeFromBefore]:translate-x-[100%] 
@@ -105,8 +105,8 @@ const ServiceImagesCarousel = ({ images, showChild }: Props) => {
           className={`absolute translate-y-[-50%] top-[50%] left-8 ${
             showChild ? "scale-[4] left-8" : "scale-[2] left-4"
           } ${
-            focus && !showChild ? "opacity-100" : "opacity-0"
-          } drop-shadow-xl transition-all z-30`}
+            (focus && !showChild) || showChild ? "opacity-100" : "opacity-0"
+          } drop-shadow-xl transition-all z-[2]`}
           onClick={prevImage}
         >
           <BiSolidChevronLeftCircle />
@@ -116,8 +116,8 @@ const ServiceImagesCarousel = ({ images, showChild }: Props) => {
           className={`absolute translate-y-[-50%] top-[50%] ${
             showChild ? "scale-[4] right-8" : "scale-[2] right-4"
           } ${
-            focus && !showChild ? "opacity-100" : "opacity-0"
-          } drop-shadow-xl transition-all z-30`}
+            (focus && !showChild) || showChild ? "opacity-100" : "opacity-0"
+          } drop-shadow-xl transition-all z-[2]`}
           onClick={nextImage}
         >
           <BiSolidChevronRightCircle />
