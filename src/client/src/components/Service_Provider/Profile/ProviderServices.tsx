@@ -1,12 +1,17 @@
 import useGetProvider from "@/hooks/Service_Provider/useGetProvider";
 import { useAuth } from "@/hooks/Auth/useAuth";
 import ServiceCard from "@/components/Gigs/ServiceCard";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { BsFillPlusCircleFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "@/constant/routes";
 
 interface Props {
   username: string;
 }
 
 const ProviderServices = ({ username }: Props) => {
+  const navigate = useNavigate();
   const { Auth } = useAuth();
   const { data, isLoading } = useGetProvider(username);
   if (!data || isLoading) {
@@ -19,7 +24,7 @@ const ProviderServices = ({ username }: Props) => {
         {Auth.username === username ? "Your Gigs" : `${username}'s Gigs`}
       </h1>
       <div className="flex flex-wrap gap-12">
-        {data.services &&
+        {data.services && data.services.length > 0 ? (
           data.services.map((service) => {
             return (
               <ServiceCard
@@ -28,7 +33,22 @@ const ProviderServices = ({ username }: Props) => {
                 service={service}
               />
             );
-          })}
+          })
+        ) : Auth.username === username ? (
+          <Card
+            className="p-8 hover:cursor-pointer"
+            onClick={() => navigate(ROUTES.PROVIDER_ADD)}
+          >
+            <CardHeader>
+              <BsFillPlusCircleFill className="text-6xl w-full" />
+            </CardHeader>
+            <CardContent className="text-center space-y-4">
+              <h2>Create a new gig</h2>
+            </CardContent>
+          </Card>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

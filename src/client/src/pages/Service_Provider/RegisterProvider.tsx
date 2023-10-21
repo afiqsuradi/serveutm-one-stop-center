@@ -25,8 +25,10 @@ import {
   providerDescriptionRule,
 } from "@/types/providerInfoDataRule";
 import { ZodError } from "zod";
+import { useAuth } from "@/hooks/Auth/useAuth";
 
 const RegisterProvider = () => {
+  const { Auth } = useAuth();
   const { register, success, isLoading, error: err } = useRegisterProvider();
   const [error, setError] = useState(err);
   const navigate = useNavigate();
@@ -72,6 +74,10 @@ const RegisterProvider = () => {
       return { ...prev, skills, language };
     });
   }, []);
+
+  if (!Auth.isVerified) {
+    navigate(ROUTES.USER_PROFILE);
+  }
 
   return (
     <div className="py-12">
