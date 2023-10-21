@@ -13,6 +13,7 @@ import UserProfile from "./pages/User/UserProfile";
 import Verify from "./pages/Auth/Verify";
 import GigDetail from "./pages/Gigs/GigDetail";
 import RegisterProvider from "./pages/Service_Provider/RegisterProvider";
+import RequireVerified from "./components/Auth/RequireVerified";
 
 function App() {
   return (
@@ -36,9 +37,13 @@ function App() {
           >
             <Route element={<RequireAuth allowedRole={["user"]} />}>
               <Route
-                element={<RegisterProvider />}
-                path={ROUTES.PROVIDER_REGISTER}
-              />
+                element={<RequireVerified fallback={ROUTES.USER_PROFILE} />}
+              >
+                <Route
+                  element={<RegisterProvider />}
+                  path={ROUTES.PROVIDER_REGISTER}
+                />
+              </Route>
             </Route>
           </Route>
         </Route>

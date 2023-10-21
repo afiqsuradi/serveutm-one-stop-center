@@ -129,25 +129,27 @@ const Languages = ({ languages, setProviderInfo }: Props) => {
           <TableRow>
             <TableHead>Language</TableHead>
             <TableHead>Level</TableHead>
-            <TableHead className="py-2 md:space-x-2 space-y-2 md:space-y-0">
-              {isOpen ? (
-                <>
-                  <Button className="w-[70px]" onClick={onSubmit}>
-                    Save
+            <TableHead className="py-2">
+              <div className="flex justify-end gap-2">
+                {isOpen ? (
+                  <>
+                    <Button className="w-[70px]" onClick={onSubmit}>
+                      Save
+                    </Button>
+                    <Button
+                      variant={"destructive"}
+                      className="w-[70px]"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                ) : (
+                  <Button className="w-[147px]" onClick={() => setIsOpen(true)}>
+                    Add New
                   </Button>
-                  <Button
-                    variant={"destructive"}
-                    className="w-[70px]"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Cancel
-                  </Button>
-                </>
-              ) : (
-                <Button className="w-[147px]" onClick={() => setIsOpen(true)}>
-                  Add New
-                </Button>
-              )}
+                )}
+              </div>
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -157,23 +159,25 @@ const Languages = ({ languages, setProviderInfo }: Props) => {
               <TableRow key={skill.name}>
                 <TableCell className="font-medium">{skill.name}</TableCell>
                 <TableCell>{skill.level}</TableCell>
-                <TableCell className="md:space-x-2 space-y-2 md:space-y-0">
-                  <Button
-                    className="w-[70px]"
-                    onClick={() => {
-                      editSkill(skill);
-                      deleteSkill(skill);
-                    }}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    className="w-[70px]"
-                    variant={"destructive"}
-                    onClick={() => deleteSkill(skill)}
-                  >
-                    Delete
-                  </Button>
+                <TableCell>
+                  <div className="flex justify-end gap-2">
+                    <Button
+                      className="w-[70px]"
+                      onClick={() => {
+                        editSkill(skill);
+                        deleteSkill(skill);
+                      }}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      className="w-[70px]"
+                      variant={"destructive"}
+                      onClick={() => deleteSkill(skill)}
+                    >
+                      Delete
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             );
