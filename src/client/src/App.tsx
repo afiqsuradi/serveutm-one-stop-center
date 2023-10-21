@@ -12,6 +12,7 @@ import RequireAuth from "./components/Auth/RequireAuth";
 import UserProfile from "./pages/User/UserProfile";
 import Verify from "./pages/Auth/Verify";
 import GigDetail from "./pages/Gigs/GigDetail";
+import RegisterProvider from "./pages/Service_Provider/RegisterProvider";
 
 function App() {
   return (
@@ -32,7 +33,14 @@ function App() {
           <Route path={ROUTES.VIEW_SERVICE_SPECIFIC} element={<GigDetail />} />
           <Route
             element={<RequireAuth allowedRole={["user", "service_provider"]} />}
-          ></Route>
+          >
+            <Route element={<RequireAuth allowedRole={["user"]} />}>
+              <Route
+                element={<RegisterProvider />}
+                path={ROUTES.PROVIDER_REGISTER}
+              />
+            </Route>
+          </Route>
         </Route>
       </Route>
     </Routes>
