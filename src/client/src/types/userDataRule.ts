@@ -68,3 +68,11 @@ const inquirySchema = z.object({
 });
 export const inquiryStructResolver = zodResolver(inquirySchema);
 export type inquiryStruct = z.infer<typeof inquirySchema>;
+
+const accountSettingsSchema = z.object({
+  name: schema.shape.name,
+  username: schema.shape.username,
+  email: schema.shape.email,
+});
+export const accountSettingsStructResolver = zodResolver(accountSettingsSchema);
+export type accountSettingsStruct = z.infer<typeof accountSettingsSchema>;

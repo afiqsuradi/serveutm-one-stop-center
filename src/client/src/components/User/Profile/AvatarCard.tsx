@@ -17,7 +17,7 @@ interface Props {
 
 const AvatarCard = ({ userData }: Props) => {
   return (
-    <Card className="w-full md:w-[350px]">
+    <Card className="w-full h-max md:w-[350px]">
       <CardHeader className="overflow-hidden relative flex justify-center items-center">
         <div className="absolute w-full h-1/2 bg-primary top-0 left-0"></div>
         <div>

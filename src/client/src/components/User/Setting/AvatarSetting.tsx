@@ -54,7 +54,7 @@ const AvatarSetting = ({ profileImage }: Props) => {
   }, [uploadErr]);
 
   return (
-    <div className="space-y-6">
+    <div className="mt-6 md:mt-0 space-y-6">
       {error.length > 0 ? (
         <Alert className="text-start" variant={"destructive"}>
           <FaExclamation />
@@ -64,8 +64,8 @@ const AvatarSetting = ({ profileImage }: Props) => {
       ) : (
         ""
       )}
-      <div className="flex gap-6 p-6 border">
-        <Avatar className="w-[4rem] h-[4rem]">
+      <div className="flex flex-col lg:flex-row gap-6 p-6 border">
+        <Avatar className="w-[4rem] h-[4rem] mx-auto">
           <AvatarImage src={profileImage} className="object-cover" />
           <AvatarFallback>DP</AvatarFallback>
         </Avatar>

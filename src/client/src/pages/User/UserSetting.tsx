@@ -23,9 +23,9 @@ const UserSetting = () => {
             Auth.role === "service_provider" ? "grid-cols-2" : "grid-cols-1"
           }`}
         >
-          <TabsTrigger value="account">Account Setting</TabsTrigger>
+          <TabsTrigger value="account">Account Settings</TabsTrigger>
           {Auth.role === "service_provider" ? (
-            <TabsTrigger value="profile">Profile Setting</TabsTrigger>
+            <TabsTrigger value="profile">Profile Settings</TabsTrigger>
           ) : (
             ""
           )}
