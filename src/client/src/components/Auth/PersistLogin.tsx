@@ -17,7 +17,9 @@ const PersistLogin = () => {
         setLoading(false);
       }
     };
-    Auth.accessToken.length === 0 ? verifyRefreshToken() : setLoading(false);
+    !Auth || Auth.accessToken.length === 0
+      ? verifyRefreshToken()
+      : setLoading(false);
   }, []);
   return <>{!isLoading && <Outlet />}</>;
 };

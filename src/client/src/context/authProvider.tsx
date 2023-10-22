@@ -1,3 +1,4 @@
+import { defaultAuthValue } from "@/constant/authValue";
 import { createContext, useState } from "react";
 export interface AuthType {
   profileImage: string;
@@ -6,13 +7,6 @@ export interface AuthType {
   role?: "user" | "admin" | "service_provider";
   isVerified: boolean;
 }
-
-export const defaultAuthValue: AuthType = {
-  profileImage: "",
-  accessToken: "",
-  username: "",
-  isVerified: false,
-};
 
 interface AuthContextType {
   Auth: AuthType;

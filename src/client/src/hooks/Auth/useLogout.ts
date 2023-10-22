@@ -1,6 +1,6 @@
 import apiClient from "@/services/apiClient";
 import { useAuth } from "./useAuth";
-import { defaultAuthValue } from "@/context/authProvider";
+import { defaultAuthValue } from "@/constant/authValue";
 
 const useLogout = () => {
   const { setAuth } = useAuth();
