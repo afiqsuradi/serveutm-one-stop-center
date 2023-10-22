@@ -19,7 +19,7 @@ const ProviderInfo = ({ username }: Props) => {
     return;
   }
   return (
-    <Card className="w-full md:w-[350px]">
+    <Card className="w-full h-max md:w-[350px]">
       <CardContent>
         <article>
           <h3 className="font-bold py-4">Description</h3>

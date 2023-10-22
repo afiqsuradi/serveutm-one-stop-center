@@ -107,7 +107,7 @@ const RegisterProvider = () => {
           ) : (
             ""
           )}
-          <div className="grid md:grid-cols-2 md:justify-between md:gap-12">
+          <div className="grid lg:grid-cols-2 lg:justify-between lg:gap-12">
             <Description
               value={providerInfo.description}
               setProviderInfo={setProviderInfo}

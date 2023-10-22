@@ -9,7 +9,7 @@ const AccountSetting = () => {
   const { data } = useGetUser(Auth.username);
   if (!data) return;
   return (
-    <div className="flex justify-between flex-wrap">
+    <div className="flex justify-between flex-wrap gap-12">
       <AvatarCard userData={data} />
       <div className="space-y-6">
         <AvatarSetting profileImage={Auth.profileImage} />
