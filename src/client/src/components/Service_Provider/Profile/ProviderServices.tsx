@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { BsFillPlusCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "@/constant/routes";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   username: string;
@@ -20,9 +21,22 @@ const ProviderServices = ({ username }: Props) => {
   if (!data.services) return;
   return (
     <div className="space-y-8">
-      <h1 className="text-xl font-semibold">
-        {Auth.username === username ? "Your Gigs" : `${username}'s Gigs`}
-      </h1>
+      <div className="flex gap-6 items-center relative">
+        <h1 className="text-xl font-semibold">
+          {Auth.username === username ? "Your Gigs" : `${username}'s Gigs`}
+        </h1>
+        {Auth.username === username ? (
+          <Button
+            size={"sm"}
+            className="absolute right-0 -top-1"
+            onClick={() => navigate(ROUTES.PROVIDER_ADD)}
+          >
+            Add gigs
+          </Button>
+        ) : (
+          ""
+        )}
+      </div>
       <div className="flex flex-wrap gap-12">
         {data.services && data.services.length > 0 ? (
           data.services.map((service) => {
