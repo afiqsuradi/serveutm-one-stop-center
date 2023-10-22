@@ -1,17 +1,13 @@
 import { ReactNode } from "react";
-import { Label } from "@/components/ui/label";
 
 interface Props {
   children: ReactNode;
   title: string;
-  key: string;
 }
-const RegisterFormWrapper = ({ children, title, key: name }: Props) => {
+const RegisterFormWrapper = ({ children, title }: Props) => {
   return (
     <>
-      <Label htmlFor={name} className="text-lg">
-        {title}
-      </Label>
+      <h1 className="text-lg">{title}</h1>
       <div>{children}</div>
     </>
   );

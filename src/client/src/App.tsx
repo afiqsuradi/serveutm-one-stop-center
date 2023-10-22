@@ -15,6 +15,8 @@ import GigDetail from "./pages/Gigs/GigDetail";
 import RegisterProvider from "./pages/Service_Provider/RegisterProvider";
 import RequireVerified from "./components/Auth/RequireVerified";
 import UserSetting from "./pages/User/UserSetting";
+import AddGig from "./pages/Gigs/AddGig";
+import { ServiceProvider } from "./context/gigProvider";
 
 function App() {
   return (
@@ -37,6 +39,17 @@ function App() {
             element={<RequireAuth allowedRole={["user", "service_provider"]} />}
           >
             <Route path={ROUTES.USER_SETTING} element={<UserSetting />} />
+
+            <Route element={<RequireAuth allowedRole={["service_provider"]} />}>
+              <Route
+                path={ROUTES.PROVIDER_ADD}
+                element={
+                  <ServiceProvider>
+                    <AddGig />
+                  </ServiceProvider>
+                }
+              />
+            </Route>
             <Route element={<RequireAuth allowedRole={["user"]} />}>
               <Route
                 element={<RequireVerified fallback={ROUTES.USER_PROFILE} />}
