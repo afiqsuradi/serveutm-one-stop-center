@@ -27,8 +27,10 @@ import {
 } from "@/types/userDataRule";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import PasswordModalForm from "./PasswordModalForm";
 
 const AccountSettingForm = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState("");
   const { Auth } = useAuth();
   const { data, error: fetchErr } = useGetUser(Auth.username);
@@ -60,6 +62,7 @@ const AccountSettingForm = () => {
   if (!data) return;
   return (
     <div className="space-y-6">
+      <PasswordModalForm isOpen={isOpen} setIsOpen={setIsOpen} />
       {error.length > 0 ? (
         <Alert className="text-start" variant={"destructive"}>
           <FaExclamation />
@@ -119,6 +122,15 @@ const AccountSettingForm = () => {
             <CardFooter className="flex justify-between">
               <Button type="submit" className="w-[10rem]" disabled={isLoading}>
                 {isLoading ? <Spinner /> : "Update"}
+              </Button>
+              <Button
+                type="button"
+                className="w-[10rem]"
+                onClick={() => {
+                  setIsOpen(true);
+                }}
+              >
+                Change Password
               </Button>
             </CardFooter>
           </form>

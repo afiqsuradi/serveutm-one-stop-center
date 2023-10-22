@@ -76,3 +76,16 @@ const accountSettingsSchema = z.object({
 });
 export const accountSettingsStructResolver = zodResolver(accountSettingsSchema);
 export type accountSettingsStruct = z.infer<typeof accountSettingsSchema>;
+
+const changePasswordSchema = z
+  .object({
+    currentPassword: z.string(),
+    newPassword: schema.shape.password,
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
+export const PassChangeStructResolver = zodResolver(changePasswordSchema);
+export type PassChangeStruct = z.infer<typeof changePasswordSchema>;
