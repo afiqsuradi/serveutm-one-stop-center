@@ -1,15 +1,6 @@
 import { Button } from "@/components/ui/button";
 import RegisterFormWrapper from "./RegisterFormWrapper";
 import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -88,7 +79,7 @@ const Skills = ({ skills, setProviderInfo }: Props) => {
   return (
     <RegisterFormWrapper title="Skills" key="skills">
       {isOpen ? (
-        <div className="grid grid-cols-2 gap-6 mb-6">
+        <div className="grid grid-cols-2 gap-6 mb-6 mt-6 md:mt-0">
           <Input
             type="text"
             placeholder="Skill Name"
@@ -114,14 +105,13 @@ const Skills = ({ skills, setProviderInfo }: Props) => {
       ) : (
         ""
       )}
-      <Table>
-        <TableCaption className="text-destructive">{error}</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Skill</TableHead>
-            <TableHead>Level</TableHead>
-            <TableHead className="py-2">
-              <div className="flex justify-end gap-2">
+      <div>
+        <div className="border-b my-1">
+          <ul className="grid grid-cols-[1fr_1fr_2fr] md:grid-cols-3 items-center text-sm font-medium text-muted-foreground">
+            <li className="px-4">Skill</li>
+            <li className="px-4">Level</li>
+            <li className="py-2">
+              <div className="flex justify-center gap-2">
                 {isOpen ? (
                   <>
                     <Button className="w-[70px]" onClick={onSubmit}>
@@ -141,17 +131,20 @@ const Skills = ({ skills, setProviderInfo }: Props) => {
                   </Button>
                 )}
               </div>
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
+            </li>
+          </ul>
+        </div>
+        <div className="[&_ul:last-child]:border-0">
           {skills.map((skill) => {
             return (
-              <TableRow key={skill.name}>
-                <TableCell className="font-medium">{skill.name}</TableCell>
-                <TableCell>{skill.level}</TableCell>
-                <TableCell>
-                  <div className="flex justify-end gap-2">
+              <ul
+                key={skill.name}
+                className="grid grid-cols-[1fr_1fr_2fr] md:grid-cols-3 text-sm font-medium py-2 hover:bg-muted/50 border-b"
+              >
+                <li className="font-medium px-4">{skill.name}</li>
+                <li className="px-4">{skill.level}</li>
+                <li>
+                  <div className="flex justify-center gap-2">
                     <Button
                       className="w-[70px]"
                       onClick={() => {
@@ -169,12 +162,13 @@ const Skills = ({ skills, setProviderInfo }: Props) => {
                       Delete
                     </Button>
                   </div>
-                </TableCell>
-              </TableRow>
+                </li>
+              </ul>
             );
           })}
-        </TableBody>
-      </Table>
+        </div>
+        <p className="text-destructive text-sm py-1">{error}</p>
+      </div>
     </RegisterFormWrapper>
   );
 };
