@@ -54,6 +54,7 @@
     --success-foreground: 144.9 80.4% 10%;
     --alert: 47.9 95.8% 53.1%;
     --alert-foreground: 26 83.3% 14.1%;
+    --radius: 0.5rem;
   }
 }
 

@@ -13,7 +13,7 @@ import { validate } from "./utils/validator";
 const AddGig = () => {
   const [error, setError] = useState("");
   const { service } = useGig();
-  const { currentStepIndex, next, goto, prev, steps, step } = useMultiStepForm([
+  const { currentStepIndex, next, goto, prev, step } = useMultiStepForm([
     <Overview />,
     <Description />,
   ]);
@@ -25,8 +25,8 @@ const AddGig = () => {
         for (let i = currentStepIndex; i < index; i++) {
           validate[i](service);
         }
-        goto(index);
       }
+      goto(index);
     } catch (error) {
       if (error instanceof ZodError) {
         return setError(error.issues[0].message);
@@ -40,7 +40,7 @@ const AddGig = () => {
   const onNext = () => {
     try {
       setError("");
-      validate[currentStepIndex](service);
+      // validate[currentStepIndex](service);
       next();
     } catch (error) {
       if (error instanceof ZodError) {

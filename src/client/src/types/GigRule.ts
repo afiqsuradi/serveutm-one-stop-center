@@ -9,19 +9,6 @@ export const GigTitleRule = z
 
 export const GigCategoryRule = z.enum(GigsTypeOption);
 
-const faqSchema = z.object({
-  question: z
-    .string()
-    .min(10, "Question should contain atleast 10 words")
-    .trim(),
-  answer: z
-    .string()
-    .min(30, "Question should contain atleast 30 words")
-    .max(300, "Question should not exceed 300 characters"),
-});
-export const FaqStructResolver = zodResolver(faqSchema);
-export type FaqStruct = z.infer<typeof faqSchema>;
-
 const inputPriceRule = z.preprocess(
   (value) => parseFloat(value as string),
   z
@@ -44,3 +31,22 @@ const pricePackageSchema = z.object({
 });
 export const PackagePricingStructResolver = zodResolver(pricePackageSchema);
 export type PackagePricingStruct = z.infer<typeof pricePackageSchema>;
+
+export const descriptionRule = z
+  .string()
+  .min(100, "Description should be atleast 100 characters.")
+  .max(700, "Description must not exceed 700 characters");
+
+const faqSchema = z.object({
+  question: z
+    .string()
+    .min(10, "Question should contain atleast 10 words")
+    .max(70, "Question should not exceed 70 characters")
+    .trim(),
+  answer: z
+    .string()
+    .min(30, "Answer should contain atleast 30 words")
+    .max(500, "Answer should not exceed 500 characters"),
+});
+export const FaqStructResolver = zodResolver(faqSchema);
+export type FaqStruct = z.infer<typeof faqSchema>;

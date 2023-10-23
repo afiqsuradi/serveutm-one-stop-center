@@ -1,5 +1,5 @@
 import { ServiceType } from "@/interface/Service";
-import { GigTitleRule } from "@/types/GigRule";
+import { GigTitleRule, descriptionRule } from "@/types/GigRule";
 
 const validator = {
   title: (title: string) => {
@@ -14,9 +14,7 @@ const validator = {
       throw new Error("You should add atleast 1 price pack");
   },
   description: (desc: string) => {
-    if (!(desc.length >= 100 && desc.length <= 500)) {
-      throw new Error("Description should be 100 - 500 characters.");
-    }
+    descriptionRule.parse(desc);
   },
   faq: (faq: ServiceType["faq"]) => {
     if (!(faq.length > 0)) {
