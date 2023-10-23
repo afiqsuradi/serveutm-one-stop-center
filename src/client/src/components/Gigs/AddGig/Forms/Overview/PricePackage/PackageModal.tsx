@@ -47,6 +47,7 @@ const PackageModal = ({ isOpen, setIsOpen, initialValue }: Props) => {
   });
 
   const desc = form.watch("description");
+  const title = form.watch("title");
 
   const addPackage = (data: PackagePricingStruct) => {
     try {
@@ -105,6 +106,9 @@ const PackageModal = ({ isOpen, setIsOpen, initialValue }: Props) => {
                         defaultValue={initialValue ? initialValue.title : ""}
                       />
                     </FormControl>
+                    <FormDescription>
+                      Enter the name of package ({title.length}/15)
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -144,6 +148,9 @@ const PackageModal = ({ isOpen, setIsOpen, initialValue }: Props) => {
                         defaultValue={initialValue ? initialValue.price : 0}
                       />
                     </FormControl>
+                    <FormDescription>
+                      Enter pricing for the package
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
