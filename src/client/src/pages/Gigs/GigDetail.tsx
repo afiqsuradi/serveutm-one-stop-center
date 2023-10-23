@@ -106,7 +106,7 @@ const GigDetail = () => {
                       <p className="font-light text-lg">RM {pack.price}</p>
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-2">
+                  <CardContent className="space-y-2 break-words">
                     {pack.description}
                   </CardContent>
                 </Card>
