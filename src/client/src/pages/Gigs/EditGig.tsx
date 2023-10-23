@@ -59,6 +59,11 @@ const EditGig = () => {
     if (data) {
       setService(data);
     }
+    return () => {
+      if (data) {
+        setService(data);
+      }
+    };
   }, [data]);
   if (!data) return;
   return (
