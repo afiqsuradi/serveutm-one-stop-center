@@ -4,8 +4,9 @@ export async function blobUrlsToFiles(
   requestor: AxiosInstance,
   urls: string[]
 ) {
+  const validUrl = urls.filter((url) => url.length > 0);
   return Promise.all(
-    urls.map(async (url) => {
+    validUrl.map(async (url) => {
       if (url.includes("blob")) {
         return await blobUrlToFile(url);
       } else {

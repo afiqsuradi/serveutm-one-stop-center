@@ -91,7 +91,11 @@ const ServiceCard = ({ service, isOwner }: Props) => {
                     <DropdownMenuLabel>Manage Gig</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() =>
+                          goto(ROUTES.EDIT_SERVICE.split(":")[0] + service._id)
+                        }
+                      >
                         <AiFillEdit className="mr-2 h-4 w-4" />
                         <span>Edit</span>
                       </DropdownMenuItem>

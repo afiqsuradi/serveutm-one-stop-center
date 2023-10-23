@@ -90,10 +90,14 @@ const Gallery = () => {
 
   //   Trim data
   useEffect(() => {
-    const updatedImages = resizeArr(service.images, MAX_IMAGES_SIZE);
+    if (service.images.length < 3) {
+      const updatedImages = resizeArr(service.images, MAX_IMAGES_SIZE);
 
-    setService({ ...service, images: updatedImages });
-  }, []);
+      setService({ ...service, images: updatedImages });
+    }
+  }, [service.images]);
+
+  useEffect;
 
   return (
     <AddGigFormWrapper title="Gallery">

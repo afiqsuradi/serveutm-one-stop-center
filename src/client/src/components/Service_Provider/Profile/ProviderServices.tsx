@@ -29,7 +29,7 @@ const ProviderServices = ({ username }: Props) => {
           <Button
             size={"sm"}
             className="absolute right-0 -top-1"
-            onClick={() => navigate(ROUTES.PROVIDER_ADD)}
+            onClick={() => navigate(ROUTES.ADD_SERVICE)}
           >
             Add gigs
           </Button>
@@ -51,7 +51,7 @@ const ProviderServices = ({ username }: Props) => {
         ) : Auth.username === username ? (
           <Card
             className="p-8 hover:cursor-pointer"
-            onClick={() => navigate(ROUTES.PROVIDER_ADD)}
+            onClick={() => navigate(ROUTES.ADD_SERVICE)}
           >
             <CardHeader>
               <BsFillPlusCircleFill className="text-6xl w-full" />

@@ -7,7 +7,7 @@ import { ProviderInfo } from "@/interface/Provider";
 const useUpdateProfile = () => {
   const { toast } = useToast();
   const refresh = useRefresh();
-  const { isLoading, post, error } = usePut<string, AxiosResponse>(
+  const { isLoading, put, error } = usePut<string, AxiosResponse>(
     "/api/service-provider",
     {
       headers: { "Content-Type": "application/json" },
@@ -15,7 +15,7 @@ const useUpdateProfile = () => {
   );
   const update = async (data: ProviderInfo) => {
     try {
-      const result = await post(JSON.stringify(data));
+      const result = await put(JSON.stringify(data));
       if (result && result.status >= 200 && result.status < 300) {
         toast({
           variant: "success",

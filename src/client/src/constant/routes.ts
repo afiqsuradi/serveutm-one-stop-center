@@ -11,11 +11,11 @@ const ROUTES = {
   USER_SETTING: "/settings",
   USER_PROFILE: "/profile",
   PROVIDER_REGISTER: "/seller_onboarding",
-  PROVIDER_ADD: "/profile/add_gigs",
   DASHBOARD: "/dashboard",
   NOTFOUND: "/404",
   VIEW_SERVICES: "/services",
   VIEW_SERVICE_SPECIFIC: "/services/:id",
+  ADD_SERVICE: "/profile/add_gigs",
   EDIT_SERVICE: "/settings/services/:id",
 };
 export default ROUTES;

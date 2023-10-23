@@ -13,11 +13,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
-const GigDetail = () => {
+interface Props {
+  serviceId?: string;
+}
+const GigDetail = ({ serviceId }: Props) => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { data } = useService(id ? id : "");
+  const { data } = useService(id ? id : serviceId ? serviceId : "");
 
   if (!data) return;
   return (

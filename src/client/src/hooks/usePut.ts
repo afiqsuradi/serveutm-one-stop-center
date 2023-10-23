@@ -8,7 +8,7 @@ const usePut = <I, T>(endpoint: string, config?: AxiosRequestConfig) => {
   const [isLoading, setIsLoading] = useState(false);
   const apiClient = usePrivateApiClient();
 
-  const post = async (data: I) => {
+  const put = async (data: I) => {
     setIsLoading(true);
     try {
       setError("");
@@ -29,11 +29,12 @@ const usePut = <I, T>(endpoint: string, config?: AxiosRequestConfig) => {
           setError(err.message);
         }
       }
+      setIsLoading(false);
     } finally {
       setIsLoading(false);
     }
   };
-  return { isLoading, post, error, setError };
+  return { isLoading, put, error, setError, setIsLoading };
 };
 
 export default usePut;

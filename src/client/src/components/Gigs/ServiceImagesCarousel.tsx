@@ -62,7 +62,7 @@ const ServiceImagesCarousel = ({ images, showChild }: Props) => {
 
   useEffect(() => {
     imagesRef.current = imagesRef.current.slice(0, images.length);
-  }, [images.length]);
+  }, [images.length, images]);
 
   return (
     <div

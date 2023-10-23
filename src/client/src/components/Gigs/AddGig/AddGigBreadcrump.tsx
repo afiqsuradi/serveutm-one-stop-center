@@ -3,9 +3,9 @@ interface Props {
   currentIndex: number;
   goto: (index: number) => void;
 }
+const processes = ["Overview", "Description & Faq", "Gallery", "Publish"];
 
 const AddGigBreadcrump = ({ currentIndex, goto }: Props) => {
-  const processes = ["Overview", "Description & Faq", "Gallery", "Publish"];
   return (
     <ol className="flex gap-2 items-center flex-wrap">
       {processes.map((process, idx) => {

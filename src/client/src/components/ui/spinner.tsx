@@ -9,7 +9,7 @@ const spinner = React.forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>(
         ref={ref}
         aria-hidden="true"
         className={cn(
-          "inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300",
+          "inline w-8 h-8 mr-2 text-sm text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300",
           className
         )}
         viewBox="0 0 100 101"
