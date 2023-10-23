@@ -33,7 +33,7 @@ const usePost = <I, T>(endpoint: string, config?: AxiosRequestConfig) => {
       setIsLoading(false);
     }
   };
-  return { isLoading, post, error, setError };
+  return { isLoading, setIsLoading, post, error, setError };
 };
 
 export default usePost;
