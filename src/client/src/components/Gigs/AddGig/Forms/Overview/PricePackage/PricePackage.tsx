@@ -62,7 +62,7 @@ const PricePackage = () => {
               </CardHeader>
               <CardContent>
                 <article className="space-y-4">
-                  <p className="font-light text-sm text-foreground/80">
+                  <p className="font-light text-sm text-foreground/80 break-words">
                     {pack.description}
                   </p>
                   <h5>RM {pack.price}</h5>
