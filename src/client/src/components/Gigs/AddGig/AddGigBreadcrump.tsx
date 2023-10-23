@@ -12,15 +12,17 @@ const AddGigBreadcrump = ({ currentIndex, goto }: Props) => {
         return (
           <>
             <li
-              className="flex items-center"
+              className="flex gap-1 items-center"
               value={process}
               key={`${process}_${idx}`}
             >
               <span
-                className="bg-secondary rounded-full w-6 text-center font-extrabold text-foreground mx-1 data-[active=true]:bg-success"
+                className="bg-secondary relative rounded-full w-6 h-6 font-extrabold text-foreground data-[active=true]:bg-success"
                 data-active={idx === currentIndex || idx < currentIndex}
               >
-                {idx + 1}
+                <span className="absolute top-1/2 translate-y-[-55%] left-1/2 translate-x-[-55%]">
+                  {idx + 1}
+                </span>
               </span>
               <a
                 onClick={() => goto(idx)}

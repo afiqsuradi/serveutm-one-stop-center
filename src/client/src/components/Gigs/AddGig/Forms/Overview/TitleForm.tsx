@@ -15,10 +15,10 @@ const TitleForm = () => {
     try {
       setError("");
       setLength(event.target.value.length);
-      GigTitleRule.parse(event.target.value);
       setService((prev) => {
         return { ...prev, title: event.target.value };
       });
+      GigTitleRule.parse(event.target.value);
     } catch (error) {
       if (error instanceof ZodError) {
         setError(error.issues[0].message);
@@ -33,6 +33,7 @@ const TitleForm = () => {
           type="text"
           className="text-base indent-9"
           onChange={onTitleChange}
+          defaultValue={service.title}
         />
         <span className="absolute left-[0.8rem] top-1/2 -translate-y-1/2 text-base text-foreground/60">
           I will

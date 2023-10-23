@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -44,6 +45,8 @@ const PackageModal = ({ isOpen, setIsOpen, initialValue }: Props) => {
       price: 0,
     },
   });
+
+  const desc = form.watch("description");
 
   const addPackage = (data: PackagePricingStruct) => {
     try {
@@ -121,6 +124,9 @@ const PackageModal = ({ isOpen, setIsOpen, initialValue }: Props) => {
                         }
                       />
                     </FormControl>
+                    <FormDescription>
+                      Tell about your package in detail ({desc.length}/300)
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}

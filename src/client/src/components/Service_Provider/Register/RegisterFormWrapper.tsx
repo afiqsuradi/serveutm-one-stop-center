@@ -8,7 +8,7 @@ const RegisterFormWrapper = ({ children, title }: Props) => {
   return (
     <>
       <h1 className="text-lg">{title}</h1>
-      <div>{children}</div>
+      <div className="mb-6 md:mb-0">{children}</div>
     </>
   );
 };
