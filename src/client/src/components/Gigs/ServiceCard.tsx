@@ -15,6 +15,7 @@ import { AiFillEdit } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "@/constant/routes";
+import { Badge } from "../ui/badge";
 
 interface Props {
   service: ServiceType;
@@ -35,9 +36,27 @@ const ServiceCard = ({ service, isOwner }: Props) => {
   };
 
   return (
-    <Card className="w-[250px]">
-      <ServiceImagesCarousel showChild={false} images={service.images} />
-      <CardContent className="flex flex-col gap-8 justify-start items-start py-2">
+    <Card className="w-[250px] flex flex-col overflow-hidden">
+      <div className="relative">
+        <ServiceImagesCarousel showChild={false} images={service.images} />
+        {isOwner ? (
+          <Badge
+            variant={
+              service.isApproved === "Rejected"
+                ? "destructive"
+                : service.isApproved === "Approved"
+                ? "default"
+                : "secondary"
+            }
+            className={`absolute top-2 left-2 z-[2]`}
+          >
+            {service.isApproved}
+          </Badge>
+        ) : (
+          ""
+        )}
+      </div>
+      <CardContent className="grid grid-rows-2 gap-8 justify-start items-start py-2 h-full">
         <h3
           className="hover:underline hover:cursor-pointer transition-all"
           onClick={() =>
@@ -46,7 +65,7 @@ const ServiceCard = ({ service, isOwner }: Props) => {
         >
           I will {service.title}
         </h3>
-        <div className=" flex justify-between items-center w-full">
+        <div className=" flex justify-between items-center w-full mt-auto">
           {isOwner && (
             <>
               <DropdownMenu>
