@@ -167,9 +167,6 @@ serviceController.getServicesByUsername = async (req, res, next) => {
       {
         $match: userFilter,
       },
-      {
-        $count: "total",
-      },
     ]);
     const modifiedService = [];
     if (servicesDb && servicesDb.length > 0) {
@@ -192,7 +189,7 @@ serviceController.getServicesByUsername = async (req, res, next) => {
     }
 
     res.json({
-      count: servicesDbCount[0].total,
+      count: servicesDbCount.length,
       services: modifiedService,
     });
   } catch (err) {

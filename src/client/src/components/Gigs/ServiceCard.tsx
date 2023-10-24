@@ -18,13 +18,26 @@ import ROUTES from "@/constant/routes";
 import { Badge } from "../ui/badge";
 import { useState } from "react";
 import DeleteServicePrompt from "./DeleteServicePrompt";
+import { cn } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Separator } from "../ui/separator";
+
+const cardVariants = {
+  default: "bg-background text-foreground",
+  secondary: "bg-secondary text-secondary-foreground",
+};
+
+const cardVariantsArr = Object.keys(
+  cardVariants
+) as (keyof typeof cardVariants)[];
 
 interface Props {
   service: ServiceType;
   isOwner: boolean;
+  variant?: (typeof cardVariantsArr)[number];
 }
 
-const ServiceCard = ({ service, isOwner }: Props) => {
+const ServiceCard = ({ service, isOwner, variant = "default" }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const highestPrice = service.pricePackage.reduce((acc, curr) => {
@@ -49,8 +62,13 @@ const ServiceCard = ({ service, isOwner }: Props) => {
       ) : (
         ""
       )}
-      <Card className="w-[250px] flex flex-col overflow-hidden">
-        <div className="relative">
+      <Card
+        className={cn(
+          cardVariants[variant],
+          "w-[270px] flex flex-col overflow-hidden"
+        )}
+      >
+        <div className="relative w-full">
           <ServiceImagesCarousel showChild={false} images={service.images} />
           {isOwner ? (
             <Badge
@@ -69,16 +87,45 @@ const ServiceCard = ({ service, isOwner }: Props) => {
             ""
           )}
         </div>
-        <CardContent className="grid grid-rows-2 gap-8 justify-start items-start py-2 h-full">
-          <h3
-            className="hover:underline hover:cursor-pointer transition-all"
-            onClick={() =>
-              goto(ROUTES.VIEW_SERVICE_SPECIFIC.split(":")[0] + service._id)
-            }
-          >
-            I will {service.title}
-          </h3>
-          <div className=" flex justify-between items-center w-full mt-auto">
+        <CardContent className="grid grid-rows-[2fr_1fr] gap-4 justify-start items-start py-2 h-full">
+          <div className="flex flex-col gap-1">
+            {service.owner instanceof Object && (
+              <div className="flex items-center">
+                <Avatar className="w-[2.5rem] h-[2.5rem]">
+                  <AvatarImage
+                    src={service.owner.profileImage}
+                    className="object-cover"
+                  />
+                  <AvatarFallback>DP</AvatarFallback>
+                </Avatar>
+                <Separator
+                  orientation="vertical"
+                  className="border-card/80 mx-[0.3rem] h-[2rem]"
+                />
+                <div className="flex flex-col justify-center">
+                  <h5
+                    className="hover:underline hover:cursor-pointer transition-all text-base"
+                    onClick={() =>
+                      navigate(
+                        `${ROUTES.USER_PROFILE}?username=${service.owner?.username}`
+                      )
+                    }
+                  >
+                    {service.owner?.username}
+                  </h5>
+                </div>
+              </div>
+            )}
+            <h3
+              className="hover:underline hover:cursor-pointer transition-all"
+              onClick={() =>
+                goto(ROUTES.VIEW_SERVICE_SPECIFIC.split(":")[0] + service._id)
+              }
+            >
+              I will {service.title}
+            </h3>
+          </div>
+          <div className=" flex items-center justify-between w-full mt-auto">
             {isOwner && (
               <>
                 <DropdownMenu>

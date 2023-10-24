@@ -67,7 +67,7 @@ const ServiceImagesCarousel = ({ images, showChild }: Props) => {
   return (
     <div
       className={`${
-        showChild ? "grid grid-rows-[3fr_1fr] max-w-[60rem] gap-4" : "w-[250px]"
+        showChild ? "grid grid-rows-[3fr_1fr] max-w-[60rem] gap-4" : "w-full"
       }`}
       onMouseEnter={() => {
         setFocus(true);

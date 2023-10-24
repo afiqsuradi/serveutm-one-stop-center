@@ -32,3 +32,18 @@ export type ServiceType = {
   images: string[];
   isApproved?: string;
 };
+
+export const ServicesSearchTypes = ["", "title", "name", "username"] as const;
+
+export type ServicesResponse = {
+  count: number;
+  services: ServiceType[];
+};
+
+export type ServicesFilterType = {
+  textInput?: string;
+  type?: (typeof ServicesSearchTypes)[number];
+  gigStatus?: string;
+  page?: number;
+  limit: number;
+};
