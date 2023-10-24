@@ -102,7 +102,7 @@ const ServiceImagesCarousel = ({ images, showChild }: Props) => {
         ))}
         <button
           id={"img_nav"}
-          className={`absolute translate-y-[-50%] top-[50%] left-8 ${
+          className={`absolute translate-y-[-50%] top-[50%] ${
             showChild ? "scale-[4] left-8" : "scale-[2] left-4"
           } ${
             (focus && !showChild) || showChild ? "opacity-100" : "opacity-0"
