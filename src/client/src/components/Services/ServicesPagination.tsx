@@ -23,7 +23,7 @@ const ServicesPagination = ({ count, setFilters, limit, page }: Props) => {
       <div className="flex justify-end items-center gap-4">
         <h4>Limit: </h4>
         <Select>
-          <SelectTrigger className="w-[110px]">
+          <SelectTrigger className="w-[130px]">
             <SelectValue placeholder="Card limit" />
           </SelectTrigger>
           <SelectContent>

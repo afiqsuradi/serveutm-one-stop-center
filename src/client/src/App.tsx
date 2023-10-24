@@ -20,6 +20,7 @@ import { ServiceProvider } from "./context/gigProvider";
 import EditGig from "./pages/Gigs/EditGig";
 import ServicesList from "./pages/ServicesList";
 import Homepage from "./pages/Homepage";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -75,6 +76,8 @@ function App() {
             </Route>
           </Route>
         </Route>
+
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );

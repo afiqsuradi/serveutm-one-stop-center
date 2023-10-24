@@ -7,7 +7,7 @@ import { Outlet } from "react-router";
 const Layout = () => {
   const { Auth } = useAuth();
   return (
-    <>
+    <div className="flex flex-col h-screen">
       <div className="w-full bg-background z-[10]  sticky top-0">
         <div className="border-b ">
           <Header />
@@ -20,7 +20,7 @@ const Layout = () => {
       </div>
       <Outlet />
       <Footer />
-    </>
+    </div>
   );
 };
 

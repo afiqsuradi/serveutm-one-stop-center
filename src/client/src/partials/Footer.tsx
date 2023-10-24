@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="">
+    <footer className="mt-auto">
       <div className="container py-8">
         <div className="sm:flex sm:items-center sm:justify-between">
           <a
