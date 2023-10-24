@@ -7,7 +7,7 @@ const UserSetting = () => {
   const { Auth } = useAuth();
   return (
     <div className="container flex flex-col">
-      <Tabs defaultValue="account" className="w-max mx-auto py-12">
+      <Tabs defaultValue="account" className="w-full mx-auto py-12">
         <TabsList
           className={`grid w-full ${
             Auth.role === "service_provider" ? "grid-cols-2" : "grid-cols-1"

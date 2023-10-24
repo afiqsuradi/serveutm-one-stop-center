@@ -8,7 +8,7 @@ const ProfileSetting = () => {
   const { data } = useGetProvider(Auth.username);
   if (!data) return;
   return (
-    <div className="flex justify-between md:flex-col lg:flex-row flex-wrap gap-12">
+    <div className="flex justify-between md:flex-col lg:flex-row flex-wrap md:flex-nowrap gap-12">
       <ProviderInfo username={Auth.username} />
       <ProviderInfoSetting initialValue={data} />
     </div>
