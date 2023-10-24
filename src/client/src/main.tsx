@@ -1,25 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "./App.tsx";
 import "./index.css";
+import { ThemeProvider } from "./components/theme-provider.tsx";
 import { AuthProvider } from "./context/authProvider.tsx";
-import { ChakraProvider } from "@chakra-ui/react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import theme from "./theme.ts";
-import SellerProvider from "./context/SellerProvider.tsx";
+import { Toaster } from "./components/ui/toaster.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
-      <BrowserRouter>
+    <BrowserRouter>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <AuthProvider>
-          <SellerProvider>
-            <Routes>
-              <Route path="/*" element={<App />} />
-            </Routes>
-          </SellerProvider>
+          <Toaster />
+          <Routes>
+            <Route path="/*" element={<App />} />
+          </Routes>
         </AuthProvider>
-      </BrowserRouter>
-    </ChakraProvider>
+      </ThemeProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

@@ -1,15 +1,24 @@
-import { Container } from "@chakra-ui/react";
-import TeamCard from "../components/About/TeamCard";
-import Introduction from "../components/About/Introduction";
-import Vision from "../components/About/Vision";
+import Introduction from "@/partials/AboutUs/Introduction";
+import TeamCard from "@/partials/AboutUs/TeamCard";
+import Vision from "@/partials/AboutUs/Vision";
 
 const AboutUs = () => {
   return (
-    <Container maxW={"100%"} padding={"0"}>
-      <Introduction />
-      <Vision />
-      <TeamCard />
-    </Container>
+    <>
+      <div className="container py-12">
+        <Introduction />
+      </div>
+      <div className="light bg-slate-300 w-full">
+        <div className="container text-center space-y-6 p-12">
+          <Vision />
+        </div>
+      </div>
+      <div className="light bg-background/90 w-full">
+        <div className="container">
+          <TeamCard />
+        </div>
+      </div>
+    </>
   );
 };
 

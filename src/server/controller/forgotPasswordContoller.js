@@ -30,9 +30,11 @@ forgotPasswordController.sendMail = async (req, res) => {
 
 forgotPasswordController.resetPass = async (req, res) => {
   const { token, password } = req.body;
-  if (!token) return res.sendStatus(400);
+  if (!token)
+    return res.status(400).json({ message: "Reset token not found!" });
   const resetToken = await PasswordResetToken.findOne({ token });
-  if (!resetToken) return res.sendStatus(400);
+  if (!resetToken)
+    return res.status(400).json({ message: "Invalid reset token!" });
   const user = await User.findOne({ _id: resetToken.owner });
   user.password = await bcrypt.hash(password, Number(process.env.SALT_ROUND));
   const result = await user.save({ validateModifiedOnly: true });
@@ -45,9 +47,11 @@ forgotPasswordController.resetPass = async (req, res) => {
 
 forgotPasswordController.isValid = async (req, res) => {
   const { token } = req.body;
-  if (!token) return res.sendStatus(400);
+  if (!token)
+    return res.status(400).json({ message: "Reset token not found!" });
   const resetToken = await PasswordResetToken.findOne({ token });
-  if (!resetToken) return res.sendStatus(400);
+  if (!resetToken)
+    return res.status(400).json({ message: "Invalid reset token!" });
   return res.sendStatus(200);
 };
 

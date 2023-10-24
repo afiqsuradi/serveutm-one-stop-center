@@ -16,13 +16,18 @@ const usePost = <I, T>(endpoint: string, config?: AxiosRequestConfig) => {
         ...config,
       });
     } catch (error) {
-      if ((error as AxiosError<ErrorData>).response) {
-        setError(
-          (error as AxiosError<ErrorData>).response?.data.message as string
-        );
-      } else {
-        // If backend crash / not found
-        setError((error as AxiosError<ErrorData>).message);
+      const err = error as AxiosError<ErrorData>;
+      if (!err.message.includes("canceled")) {
+        if (err.response) {
+          if (err.response.data && err.response.data.message) {
+            setError(err.response.data.message);
+          } else {
+            setError(err.message);
+          }
+        } else {
+          // If backend crash / not found
+          setError(err.message);
+        }
       }
     } finally {
       setIsLoading(false);
