@@ -1,79 +1,69 @@
-import { AxiosError, AxiosRequestConfig } from "axios";
-import { useEffect, useState } from "react";
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import { useCallback, useEffect, useState } from "react";
 import { ErrorData } from "../services/apiClient";
-import useAxiosPrivate from "./useAxiosPrivate";
-import { useToast } from "@chakra-ui/react";
+import usePrivateApiClient from "./usePrivateApiClient";
 
-const useData = <T>(
-  endpoint: string,
-  config?: AxiosRequestConfig,
-  dependency?: any[],
-  showErr?: boolean
-) => {
-  const toast = useToast();
-  const showError = showErr === undefined ? true : showErr;
-  const [response, setResponse] = useState<T>();
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const apiClient = useAxiosPrivate();
-  useEffect(
-    () => {
-      setIsLoading(true);
-      const controller = new AbortController();
-      apiClient
-        .get<T>(endpoint, {
-          signal: controller.signal,
-          ...config,
-        })
-        .then((response) => {
-          setResponse(response.data);
-          if (response.status === 200) {
-            setSuccess(true);
-          }
-        })
-        .catch((error: Error) => {
-          const err = error as AxiosError<ErrorData>;
-          if (!err.message.includes("canceled")) {
-            if (err.response) {
-              if (err.response.data && err.response.data.message) {
-                setError(err.response.data.message);
-              } else {
-                setError(err.message);
-              }
-            } else {
-              // If backend crash / not found
-              setError(err.message);
-            }
-          }
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-      return () => controller.abort();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/no-unsafe-assignment
-    dependency ? [...dependency] : []
-  );
+type ApiResponse<T> = AxiosResponse<T>;
 
-  useEffect(() => {
-    if (showError) {
-      if (error.length > 0) {
-        if (error) {
-          toast({
-            title: `${error}`,
-            status: "error",
-            position: "top",
-            isClosable: true,
-          });
-        }
-      }
-    }
-    return () => {
-      setError("");
-    };
-  }, [error]);
-  return { isLoading, response, success, setError };
+type ApiResponseResult<T> = {
+  data: T | null;
+  isLoading: boolean;
+  error: string | null;
 };
 
+const useData = <T>(
+  url: string,
+  config?: AxiosRequestConfig,
+  dependencies?: string[]
+): ApiResponseResult<T> => {
+  const [data, setData] = useState<T | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const apiClient = usePrivateApiClient();
+
+  const fetchData = useCallback(async () => {
+    const controller = new AbortController();
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response: ApiResponse<T> = await apiClient.get<T>(url, {
+        signal: controller.signal,
+        ...config,
+      });
+      setData(response.data);
+    } catch (error) {
+      const err = error as AxiosError<ErrorData>;
+      if (!err.message.includes("canceled")) {
+        if (err.response) {
+          if (err.response.data && err.response.data.message) {
+            setError(err.response.data.message);
+          } else {
+            setError(err.message);
+          }
+        } else {
+          // If backend crash / not found
+          setError(err.message);
+        }
+      }
+    } finally {
+      setIsLoading(false);
+    }
+    return () => controller.abort();
+  }, [url]);
+
+  useEffect(
+    () => {
+      fetchData();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    dependencies ? [...dependencies] : []
+  );
+
+  return {
+    data,
+    isLoading,
+    error,
+  };
+};
 export default useData;

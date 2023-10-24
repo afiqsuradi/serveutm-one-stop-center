@@ -1,6 +1,6 @@
-import { ReactElement, useState } from "react";
+import { useState } from "react";
 
-const useMultiStepForm = (steps: ReactElement[]) => {
+const useMultiStepForm = (steps: React.ReactNode[]) => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [highestStepIndex, setHighestStepIndex] = useState(0);
 
