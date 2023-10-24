@@ -49,10 +49,9 @@ const ServicesList = () => {
       setServices(data.services);
     }
   }, [data]);
-  if (isLoading) return <Spinner />;
   return (
     <>
-      <div className="py-4 border-b">
+      <div className="py-4">
         <div className="container">
           <ServicesSearchBar />
         </div>
@@ -65,36 +64,44 @@ const ServicesList = () => {
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
-        <div className="space-y-4 border p-6">
-          <h1 className="text-xl font-semibold">
-            {filters.type &&
-            filters.type.length > 0 &&
-            filters.textInput &&
-            filters.textInput.length > 0
-              ? `Result for ${filters.textInput}`
-              : "Recently Added"}
-          </h1>
-          <div className="flex gap-6 flex-wrap">
-            {services &&
-              services.map((service) => {
-                return (
-                  <ServiceCard
-                    key={service._id}
-                    service={service}
-                    isOwner={false}
-                    variant="secondary"
-                  />
-                );
-              })}
-            {services && data && data.count === 0 && <ServicesNotFound />}
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div className="space-y-4 border p-6 rounded-md">
+            {isLoading ? (
+              ""
+            ) : (
+              <h1 className="text-xl font-semibold">
+                {filters.type &&
+                filters.type.length > 0 &&
+                filters.textInput &&
+                filters.textInput.length > 0
+                  ? `Result for ${filters.textInput}`
+                  : "Recently Added"}
+              </h1>
+            )}
+            <div className="flex gap-6 flex-wrap">
+              {services &&
+                services.map((service) => {
+                  return (
+                    <ServiceCard
+                      key={service._id}
+                      service={service}
+                      isOwner={false}
+                      variant="secondary"
+                    />
+                  );
+                })}
+              {services && data && data.count === 0 && <ServicesNotFound />}
+            </div>
+            <ServicesPagination
+              count={data?.count || 0}
+              setFilters={setFilters}
+              limit={filters.limit}
+              page={filters.page || 1}
+            />
           </div>
-          <ServicesPagination
-            count={data?.count || 0}
-            setFilters={setFilters}
-            limit={filters.limit}
-            page={filters.page || 1}
-          />
-        </div>
+        )}
       </div>
     </>
   );
