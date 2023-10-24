@@ -1,4 +1,5 @@
 import { useAuth } from "@/hooks/Auth/useAuth";
+import Footer from "@/partials/Footer";
 import Header from "@/partials/Navbar/Header";
 import VerifyHeader from "@/partials/VerifyHeader";
 import { Outlet } from "react-router";
@@ -18,6 +19,7 @@ const Layout = () => {
         )}
       </div>
       <Outlet />
+      <Footer />
     </>
   );
 };
