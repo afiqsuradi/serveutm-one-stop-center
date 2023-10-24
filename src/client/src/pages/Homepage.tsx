@@ -61,13 +61,13 @@ const Homepage = () => {
       </section>
       <section className="py-12 bg-secondary text-secondary-foreground">
         <div className="container">
-          <h1 className="text-center text-4xl font-bold">
+          <h1 className="md:text-center text-4xl font-bold">
             "Streamline Your Services with ServeUTM"
           </h1>
-          <p className="text-center text-secondary-foreground/75 my-2 mb-12">
+          <p className="md:text-center text-secondary-foreground/75 my-2 mb-12">
             Connecting UTM Students with Services Made Simple
           </p>
-          <div className="grid grid-cols-3 justify-center items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center items-center">
             <div className="flex flex-col gap-4 h-full w-[400px] p-6">
               <div>
                 <PiChalkboardTeacherFill className="text-7xl text-secondary-foreground/70" />
