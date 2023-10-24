@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://fonts.gstatic.com/s/poppins/v20/pxiEyp8kv8JHgFVrFJA.ttf")
+    format("truetype");
+}
+
 @layer base {
   .light {
     --background: 0 0% 100%;
@@ -61,6 +69,7 @@
 @layer base {
   * {
     @apply border-border;
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
   }
   body {
     @apply bg-background text-foreground;

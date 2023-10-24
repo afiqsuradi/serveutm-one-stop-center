@@ -19,6 +19,7 @@ import AddGig from "./pages/Gigs/AddGig";
 import { ServiceProvider } from "./context/gigProvider";
 import EditGig from "./pages/Gigs/EditGig";
 import ServicesList from "./pages/ServicesList";
+import Homepage from "./pages/Homepage";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           element={<ResetPassword />}
         />
         <Route element={<PersistLogin />}>
+          <Route path={ROUTES.HOMEPAGE} element={<Homepage />} />
           <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
           <Route path={ROUTES.CONTACT_US} element={<ContactUs />} />
           <Route path={ROUTES.VERIFY} element={<Verify />} />
