@@ -5,7 +5,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 const useChangePassword = () => {
   const { toast } = useToast();
-  const { isLoading, post, error } = usePut<string, AxiosResponse>(
+  const { isLoading, put, error } = usePut<string, AxiosResponse>(
     "/api/user/password",
     {
       headers: { "Content-Type": "application/json" },
@@ -13,7 +13,7 @@ const useChangePassword = () => {
   );
   const update = async (data: PassChangeStruct) => {
     try {
-      const result = await post(JSON.stringify(data));
+      const result = await put(JSON.stringify(data));
       if (result && result.status >= 200 && result.status < 300) {
         toast({
           variant: "success",
