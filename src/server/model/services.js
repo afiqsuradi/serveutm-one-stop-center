@@ -51,6 +51,12 @@ const serviceSchema = new mongoose.Schema({
     },
   ],
   images: [String],
+  serviceRequest: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Orders",
+    },
+  ],
 });
 const Service = mongoose.model("Services", serviceSchema, "Services");
 module.exports = Service;
