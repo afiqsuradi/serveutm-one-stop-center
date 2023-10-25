@@ -51,6 +51,7 @@ checkoutController.createSession = async (req, res) => {
         },
       ],
       mode: "payment",
+      redirect_on_completion: "always",
       invoice_creation: {
         enabled: true,
       },
@@ -65,16 +66,38 @@ checkoutController.createSession = async (req, res) => {
 };
 
 checkoutController.getSessionStatus = async (req, res) => {
-  const session = await stripe.checkout.sessions.retrieve(
-    req.query.session_id,
-    { expand: ["line_items.data.price.product"] }
-  );
+  const session_id = req.query.session_id;
+  try {
+    const session = await stripe.checkout.sessions.retrieve(session_id, {
+      expand: ["line_items.data.price.product", "payment_intent"],
+    });
+    if (session.status === "open") {
+      res.json({ status: session.status });
+    }
 
-  res.send({
-    status: session.status,
-    payment_status: session.payment_status,
-    total: session.line_items.data[0].amount_total / 100,
-  });
+    const invoice = await stripe.invoices.retrieve(
+      session.payment_intent.invoice
+    );
+    const paymentMethod = await stripe.paymentMethods.retrieve(
+      session.payment_intent.payment_method
+    );
+
+    const responseData = {
+      status: session.status,
+      payment_status: session.payment_status,
+      invoice: {
+        number: invoice.number,
+        invoice_pdf: invoice.invoice_pdf,
+        total: invoice.amount_paid / 100,
+        email: invoice.customer_email,
+        method: `${paymentMethod.card.brand} •••• ${paymentMethod.card.last4}`,
+      },
+    };
+
+    res.json(responseData).status(200);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 checkoutController.handlePaymentWebhook = async (req, res) => {
