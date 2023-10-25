@@ -62,6 +62,12 @@ const userSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Profile",
   },
+  pendingRequest: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Orders",
+    },
+  ],
   // Bad implementation, ik but im too lazy
   refreshToken: { type: String, default: "" },
 });

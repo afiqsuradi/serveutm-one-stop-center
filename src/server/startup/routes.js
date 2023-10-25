@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 module.exports = function (app) {
   app.use(cors(corsOptions));
+  app.use("/api/webhook", require("../routes/webhook"));
   app.use("/images", express.static("images"));
   app.use(helmet());
   app.use(cookieParser());
@@ -20,6 +21,7 @@ module.exports = function (app) {
   app.use("/logout", require("../routes/logout"));
   app.use("/api/service-provider", require("../routes/serviceProvider"));
   app.use(require("../middleware/authenticateToken"));
+  app.use("/api/checkout", require("../routes/checkout"));
   app.use("/api/profile-image/upload", require("../routes/profileImageUpload"));
   app.use("/api/verify", require("../routes/verify"));
 };
