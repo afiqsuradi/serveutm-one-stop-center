@@ -91,7 +91,7 @@ const GigDetail = ({ serviceId }: Props) => {
                 <TabsTrigger
                   key={pack.title}
                   value={pack.title}
-                  className="break-all whitespace-normal"
+                  className="whitespace-normal text-ellipsis break-words h-full"
                 >
                   {pack.title}
                 </TabsTrigger>
