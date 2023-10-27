@@ -50,7 +50,7 @@ const StripeReturn = () => {
     return (
       <div className="container">
         <section className="flex justify-center items-center my-12">
-          <Card className="w-[400px]">
+          <Card className="w-[450px]">
             <CardHeader className="text-success space-y-6">
               <CardTitle className="w-full text-center">
                 Payment Successful!
@@ -65,8 +65,8 @@ const StripeReturn = () => {
                 MYR {data?.invoice.total}
               </h3>
             </CardHeader>
-            <CardContent className="grid grid-cols-2 space-y-2 text-sm text-foreground/80 w-full">
-              <h5>Email</h5>
+            <CardContent className="grid grid-cols-[1fr_2fr] space-y-2 text-sm text-foreground/80 w-full">
+              <h5 className="mt-auto">Email</h5>
               <h5 className="text-foreground justify-self-end">
                 {data?.invoice.email}
               </h5>
