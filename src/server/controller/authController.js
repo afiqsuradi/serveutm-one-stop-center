@@ -30,9 +30,8 @@ authController.handleLogin = async (req, res) => {
     ...jwtCookie.properties,
     maxAge: 24 * 60 * 60 * 1000,
   });
-  const result = await User.updateOne(user, {
-    $set: { refreshToken: newRefreshToken },
-  });
+  user.refreshToken = newRefreshToken;
+  const result = await user.save({ validateModifiedOnly: true });
   if (!result) return res.sendStatus(500);
   //send access token
   return res.json({
