@@ -2,7 +2,7 @@ const { User } = require("../../model/user");
 const Order = require("../../model/order");
 const Service = require("../../model/services");
 
-const createOrder = async (id, lineItems) => {
+const createOrder = async (lineItems) => {
   const data = lineItems.data[0];
   const serviceId = data.price.product.metadata.serviceId;
   const packageTitle = data.price.product.metadata.package;
@@ -17,7 +17,6 @@ const createOrder = async (id, lineItems) => {
   );
   if (!selectedPackage) throw new Error("Could not find selected package");
   const orderData = {
-    stripeId: id,
     service: service._id,
     user: user._id,
     package: selectedPackage,
