@@ -1,5 +1,6 @@
 import ProviderInfo from "@/components/Service_Provider/Profile/ProviderInfo";
 import ProviderServices from "@/components/Service_Provider/Profile/ProviderServices";
+import OrderStatus from "@/components/User/Order/OrderStatus";
 import AvatarCard from "@/components/User/Profile/AvatarCard";
 import BecomeSellerBanner from "@/components/User/Profile/BecomeSellerBanner";
 import ROUTES from "@/constant/routes";
@@ -22,7 +23,7 @@ const UserProfile = () => {
   }
   return (
     <div className="container">
-      <div className="flex flex-col justify-center items-center md:flex-row md:gap-12 my-16 gap-8">
+      <div className="flex flex-col justify-center items-start md:flex-row md:gap-12 my-16 gap-8">
         <section className="w-full md:w-fit space-y-12">
           <AvatarCard userData={data} />
           {data.role === "service_provider" ? (
@@ -31,9 +32,12 @@ const UserProfile = () => {
             ""
           )}
         </section>
-        <section className="w-full self-start">
+        <section className="w-full self-start space-y-6">
           {data.role === "user" && Auth.username === data.username ? (
-            <BecomeSellerBanner />
+            <>
+              <BecomeSellerBanner />
+              <OrderStatus />
+            </>
           ) : data.role === "service_provider" ? (
             <ProviderServices username={data.username} />
           ) : (
