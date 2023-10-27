@@ -30,13 +30,13 @@ const usePlaceOrder = () => {
   const placeOrder = async (data: CheckOutRequest) => {
     try {
       await refresh();
-      if (!(Auth.accessToken.length > 0)) return navigate(ROUTES.LOGIN);
       const result = await post(JSON.stringify(data));
       if (result && result.status >= 200 && result.status < 300) {
         setClientSecret(result.data.clientSecret);
         navigate(ROUTES.CHECKOUT);
       }
     } catch (error) {
+      if (!(Auth.accessToken.length > 0)) return navigate(ROUTES.LOGIN);
       //
     }
   };
