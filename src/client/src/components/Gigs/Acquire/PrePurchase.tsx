@@ -22,15 +22,18 @@ import usePlaceOrder from "@/hooks/Purchase/usePlaceOrder";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { FaExclamation } from "react-icons/fa";
 import Spinner from "@/components/ui/spinner";
+import { useAuth } from "@/hooks/Auth/useAuth";
 
 interface Props {
   pack: PricingPackageType;
   isOpen: boolean;
   serviceId: string;
+  owner: string;
   setIsOpen: (open: boolean) => void;
 }
 
-const PrePurchase = ({ isOpen, setIsOpen, pack, serviceId }: Props) => {
+const PrePurchase = ({ isOpen, setIsOpen, pack, serviceId, owner }: Props) => {
+  const { Auth } = useAuth();
   const { placeOrder, isLoading, error } = usePlaceOrder();
   const [quantity, setQuantity] = useState(1);
   const [total, setTotal] = useState(pack.price);
@@ -124,7 +127,7 @@ const PrePurchase = ({ isOpen, setIsOpen, pack, serviceId }: Props) => {
             )}
             <Button
               className="w-full"
-              disabled={isLoading}
+              disabled={isLoading || Auth.username === owner}
               onClick={onPlaceOrder}
             >
               {isLoading ? <Spinner /> : `Checkout (RM ${total})`}

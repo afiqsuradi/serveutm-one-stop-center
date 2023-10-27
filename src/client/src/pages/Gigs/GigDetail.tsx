@@ -132,11 +132,11 @@ const GigDetail = ({ serviceId }: Props) => {
                         setIsOpen={setIsOpen}
                         serviceId={data._id || ""}
                         pack={pack}
+                        owner={data.owner?.username || ""}
                       />
                       <Button
                         className="w-full font-semibold "
                         onClick={openCheckOut}
-                        // disabled={Auth.username === data.owner?.username}
                       >
                         Continue
                       </Button>
