@@ -68,12 +68,12 @@ const Homepage = () => {
             Connecting UTM Students with Services Made Simple
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center items-center">
-            <div className="flex flex-col gap-4 h-full w-[400px] p-6">
+            <div className="flex flex-col gap-4 h-full w-full md:w-[400px] p-6">
               <div>
                 <PiChalkboardTeacherFill className="text-7xl text-secondary-foreground/70" />
                 <h4 className="font-semibold text-xl">Highlight your skills</h4>
               </div>
-              <p className="text-secondary-foreground/50">
+              <p className="text-secondary-foreground/50 text-ellipsis break-words">
                 {" "}
                 Showcase your talents and services on ServeUTM's user-friendly
                 platform. Whether you excel in tutoring, item delivery, or other
@@ -81,26 +81,26 @@ const Homepage = () => {
                 discover and appreciate.
               </p>
             </div>
-            <div className="flex flex-col gap-4 h-full w-[400px] p-6">
+            <div className="flex flex-col gap-4 h-full w-full md:w-[400px] p-6">
               <div>
                 <FaWhatsapp className="text-7xl text-secondary-foreground/70" />
                 <h4 className="font-semibold text-xl">Goodbye to WhatsApp</h4>
               </div>
-              <p className="text-secondary-foreground/50">
+              <p className="text-secondary-foreground/50 text-ellipsis break-words">
                 Drowning in endless WhatsApp notifications? ServeUTM offers a
                 clean and organized inbox, ensuring that your service
                 advertisements are seen by the right audience without the noise.
                 Manage your service requests and inquiries effortlessly.
               </p>
             </div>
-            <div className="flex flex-col gap-4 h-full w-[400px] p-6">
+            <div className="flex flex-col gap-4 h-full w-full md:w-[400px] p-6">
               <div>
                 <LiaConnectdevelop className="text-7xl text-secondary-foreground/70" />
                 <h4 className="font-semibold text-xl">
                   Connecting service providers
                 </h4>
               </div>
-              <p className="text-secondary-foreground/50">
+              <p className="text-secondary-foreground/50 text-ellipsis break-words">
                 Looking for a specific service? ServeUTM's advanced search and
                 matching feature makes it easy to find the perfect service
                 provider. Whether you need a tutor, courier, or expert advice,
