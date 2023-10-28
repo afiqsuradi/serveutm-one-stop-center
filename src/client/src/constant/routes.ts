@@ -19,5 +19,6 @@ const ROUTES = {
   EDIT_SERVICE: "/settings/services/:id",
   CHECKOUT: "/checkout",
   CHECKOUT_RETURN: "/checkout-confirm",
+  CHAT: "/inbox",
 };
 export default ROUTES;

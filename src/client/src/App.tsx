@@ -24,6 +24,7 @@ import NotFound from "./pages/NotFound";
 import StripeCheckout from "./pages/Checkout/StripeCheckout";
 import { StripeProvider } from "./context/stripeSecretProvider";
 import StripeReturn from "./pages/Checkout/StripeReturn";
+import TextChat from "./pages/Chat/TextChat";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <Route path={ROUTES.VERIFY} element={<Verify />} />
           <Route path={ROUTES.USER_PROFILE} element={<UserProfile />} />
           <Route path={ROUTES.VIEW_SERVICES} element={<ServicesList />} />
+          <Route path={ROUTES.CHAT} element={<TextChat />} />
           <Route element={<StripeProvider />}>
             <Route
               path={ROUTES.VIEW_SERVICE_SPECIFIC}
