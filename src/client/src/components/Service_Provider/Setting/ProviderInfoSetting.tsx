@@ -61,7 +61,7 @@ const ProviderInfoSetting = ({ initialValue }: Props) => {
   }, []);
 
   return (
-    <div className="p-6 border space-y-12">
+    <div className="p-6 border space-y-12 ">
       <div>
         <h1 className="text-2xl font-semibold">Profile Settings</h1>
       </div>
