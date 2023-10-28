@@ -51,7 +51,7 @@ const ServicesList = () => {
   }, [data]);
   return (
     <>
-      <div className="py-4 relative">
+      <div className="py-4 relative overflow-hidden">
         <div className="container">
           <ServicesSearchBar />
         </div>
