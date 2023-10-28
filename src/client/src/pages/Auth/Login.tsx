@@ -7,8 +7,8 @@ const Login = () => {
         <div className="hidden md:inline-block m-6 rounded-2xl bg-primary">
           <img src={mascot} />
         </div>
-        <div className="m-6 flex flex-col">
-          <div className="text-center w-[70%] mx-auto my-auto space-y-6">
+        <div className="m-0 md:m-6 flex flex-col">
+          <div className="text-center w-full md:w-[70%] mx-auto my-auto space-y-6">
             <div>
               <h1 className="text-2xl">Welcome Back!</h1>
               <p>Sign in to your account.</p>
