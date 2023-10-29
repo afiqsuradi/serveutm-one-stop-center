@@ -8,7 +8,7 @@ interface Props {
 const RecentSaleCard = ({ order }: Props) => {
   return (
     <div className="hover:bg-secondary rounded-lg p-4 hover:cursor-pointer">
-      <div className="grid items-center grid-cols-[2fr_1fr] w-full">
+      <div className="grid items-center grid-cols-2 w-full">
         <div className="flex items-center gap-2">
           <Avatar className="w-[2.2rem] h-[2.2rem]">
             <AvatarImage
@@ -24,7 +24,7 @@ const RecentSaleCard = ({ order }: Props) => {
             </p>
           </div>
         </div>
-        <div className="flex flex-col">
+        <div className="place-self-end flex flex-col text-end">
           <h3>
             {order.package.title} (x{order.quantity})
           </h3>
