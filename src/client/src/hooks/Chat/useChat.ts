@@ -1,19 +1,21 @@
+import { RoomMessageType } from "@/interface/Chat";
+import {
+  ClientToServerEvents,
+  ServerToClientEvents,
+} from "@/interface/ChatSocket";
 import { BASE_URL } from "@/services/apiClient";
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
-interface ServerToClientEvents {
-  message: (data: string) => void;
-}
+export type MessageRequestType = {
+  message: string | FormData;
+  type: RoomMessageType["type"];
+};
 
-interface ClientToServerEvents {
-  message: (data: string) => void;
-}
-
-const useSocket = () => {
+const useChat = () => {
   const [socket, setSocket] = useState<Socket<
-    ServerToClientEvents,
-    ClientToServerEvents
+    ServerToClientEvents<RoomMessageType>,
+    ClientToServerEvents<MessageRequestType>
   > | null>(null);
 
   useEffect(() => {
@@ -28,4 +30,4 @@ const useSocket = () => {
   return { socket };
 };
 
-export default useSocket;
+export default useChat;

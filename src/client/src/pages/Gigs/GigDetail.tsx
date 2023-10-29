@@ -23,6 +23,7 @@ import {
 import { Button } from "@/components/ui/button";
 import PrePurchase from "@/components/Gigs/Acquire/PrePurchase";
 import { useState } from "react";
+import ContactBtn from "@/components/Chat/ContactBtn";
 interface Props {
   serviceId?: string;
 }
@@ -64,6 +65,12 @@ const GigDetail = ({ serviceId }: Props) => {
               </h2>
               <p>@{data.owner?.username}</p>
             </div>
+            <div className="hidden md:block ml-auto">
+              <ContactBtn receiver={data.owner?.username || ""} />
+            </div>
+          </div>
+          <div className="block md:hidden w-full">
+            <ContactBtn receiver={data.owner?.username || ""} />
           </div>
         </div>
         <div className="w-full">
