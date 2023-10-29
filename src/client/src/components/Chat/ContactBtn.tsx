@@ -7,8 +7,9 @@ import { useNavigate } from "react-router-dom";
 import ROUTES from "@/constant/routes";
 interface Props {
   receiver: string;
+  text?: string;
 }
-const ContactBtn = ({ receiver }: Props) => {
+const ContactBtn = ({ receiver, text }: Props) => {
   const navigate = useNavigate();
   const { Auth } = useAuth();
   const { data, isLoading, getRoom } = useGetRoom();
@@ -23,11 +24,14 @@ const ContactBtn = ({ receiver }: Props) => {
       variant={"default"}
       className="w-full"
       disabled={
-        Auth.accessToken.length === 0 || receiver.length === 0 || isLoading
+        Auth.accessToken.length === 0 ||
+        receiver.length === 0 ||
+        isLoading ||
+        Auth.username === receiver
       }
       onClick={() => getRoom({ receiver })}
     >
-      {isLoading ? <Spinner /> : "Contact Me"}
+      {isLoading ? <Spinner /> : text ? text : "Contact Me"}
     </Button>
   );
 };
