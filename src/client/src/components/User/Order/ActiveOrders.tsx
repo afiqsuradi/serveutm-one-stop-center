@@ -22,10 +22,10 @@ const ActiveOrders = () => {
       </div>
     );
   }
-  if (!data)
+  if (!data || data.count === 0)
     return (
       <div className="border rounded-lg flex justify-center items-center p-4">
-        <h4>No services in progress</h4>
+        <h4>No ordered services in progress</h4>
       </div>
     );
   return (
