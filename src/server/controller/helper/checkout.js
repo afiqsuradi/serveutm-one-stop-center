@@ -1,6 +1,7 @@
 const { User } = require("../../model/user");
 const Order = require("../../model/order");
 const Service = require("../../model/services");
+const { createNewRoom } = require("./chat");
 
 const createOrder = async (lineItems) => {
   const data = lineItems.data[0];
@@ -10,7 +11,7 @@ const createOrder = async (lineItems) => {
   const userId = data.price.product.metadata.user;
   const user = await User.findOne({ _id: userId });
   if (!user) throw new Error("User not found");
-  const service = await Service.findOne({ _id: serviceId });
+  const service = await Service.findOne({ _id: serviceId }).populate("owner");
   if (!service) throw new Error("Service not found");
   const selectedPackage = service.pricePackage.find((pack) =>
     pack.title.includes(packageTitle)
@@ -21,6 +22,7 @@ const createOrder = async (lineItems) => {
     user: user._id,
     package: selectedPackage,
     quantity: data.quantity,
+    total: data.quantity * selectedPackage.price,
     requirements: requirement,
   };
   const newOrder = new Order(orderData);
@@ -29,6 +31,17 @@ const createOrder = async (lineItems) => {
   await service.save({ validateModifiedOnly: true });
   user.pendingRequest.push(newOrder._id);
   await user.save({ validateModifiedOnly: true });
+
+  const chatRoom = await createNewRoom(user.username, service.owner.username);
+  if (chatRoom) {
+    chatRoom.messages.push({
+      type: "order",
+      sender: user._id,
+      message: newOrder._id,
+      timestamp: new Date(),
+    });
+    await chatRoom.save({ validateModifiedOnly: true });
+  }
 };
 
 const fulfillOrder = async (session, success = true) => {
