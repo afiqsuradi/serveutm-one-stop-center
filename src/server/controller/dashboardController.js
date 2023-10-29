@@ -2,6 +2,8 @@ const Service = require("../model/services");
 const { User } = require("../model/user");
 const { cloneDeep } = require("lodash");
 const Order = require("../model/order");
+const { idToDate } = require("./helper/utils");
+const _ = require("lodash");
 
 const dashboardController = {};
 
@@ -50,20 +52,25 @@ dashboardController.getServiceProviderStats = async (req, res) => {
       );
       const canceled = orders.filter(
         (order) =>
-          order.paymentStatus === "Success" &&
+          order.paymentStatus === "Refunded" &&
           order.fullfillmentStatus === "Canceled"
       );
 
       if (active.length > 0) {
         active.forEach((order) => {
+          _.set(order, "placed", idToDate(order._id));
+        });
+        active = active.map((order) => {
+          const clonedOrder = cloneDeep(order);
           const clonedUser = cloneDeep(order.user);
-          clonedUser.profileImage = `${baseUrl}${clonedUser.profileImage}`;
-          order.user = clonedUser;
           const clonedService = cloneDeep(order.service);
+          clonedUser.profileImage = `${baseUrl}${clonedUser.profileImage}`;
+          clonedOrder.user = clonedUser;
           clonedService.images = clonedService.images.map(
             (image) => `${baseUrl}images/thumbnails/${image}`
           );
-          order.service = clonedService;
+          clonedOrder.service = clonedService;
+          return clonedOrder;
         });
       }
 

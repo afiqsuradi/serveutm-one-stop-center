@@ -33,6 +33,10 @@ const orderSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  placed: {
+    type: Date,
+    required: true,
+  },
   total: {
     type: Number,
     required: true,

@@ -3,7 +3,7 @@ import { GigsTypeOption } from "@/interface/Service";
 
 export type OrderType = {
   _id: string;
-  requirement: string;
+  requirements: string;
   placed: string;
   total: number;
   quantity: number;

@@ -18,6 +18,7 @@ const createOrder = async (lineItems, id) => {
   );
   if (!selectedPackage) throw new Error("Could not find selected package");
   const orderData = {
+    placed: new Date(),
     stripeId: id,
     service: service._id,
     user: user._id,

@@ -91,4 +91,21 @@ ordersController.getOrders = async (req, res) => {
   }
 };
 
+ordersController.rejectOrder = async (req, res) => {
+  const { id } = req.body;
+  if (!id) return res.status(400).json({ message: "Order id required" });
+  try {
+    const order = await Order.findOne({ _id: id });
+    if (!order) return res.status(404).json({ message: "Order not found!" });
+    order.fullfillmentStatus = "Canceled";
+    order.paymentStatus = "Refunded";
+    const result = await order.save({ validateModifiedOnly: true });
+    if (!result)
+      return res.status(400).json({ message: "Failed to save data" });
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = ordersController;
