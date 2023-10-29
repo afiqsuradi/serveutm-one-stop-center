@@ -182,7 +182,12 @@ const PrivateChat = ({ room_id }: Props) => {
               )}
               <div className="relative w-full">
                 <Input type="text" onChange={onTypeChange} ref={textInput} />
-                <MdSend className="text-primary absolute top-1/2 -translate-y-1/2 right-4 text-2xl hover:cursor-pointer transition-all hover:text-primary/75" />
+                <button
+                  type="submit"
+                  className="absolute top-1/2 -translate-y-1/2 right-4"
+                >
+                  <MdSend className="text-primary text-2xl hover:cursor-pointer transition-all hover:text-primary/75" />
+                </button>
               </div>
             </div>
           </form>
