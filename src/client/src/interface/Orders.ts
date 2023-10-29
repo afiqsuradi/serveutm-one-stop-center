@@ -5,6 +5,7 @@ export type OrderType = {
   _id: string;
   requirement: string;
   placed: string;
+  total: number;
   quantity: number;
   paymentStatus: string;
   fullfillmentStatus: string;

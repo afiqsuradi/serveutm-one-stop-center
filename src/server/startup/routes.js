@@ -21,6 +21,7 @@ module.exports = function (app) {
   app.use("/logout", require("../routes/logout"));
   app.use("/api/service-provider", require("../routes/serviceProvider"));
   app.use(require("../middleware/authenticateToken"));
+  app.use("/api/dashboard", require("../routes/dashboard"));
   app.use("/api/chat", require("../routes/chat"));
   app.use("/api/orders", require("../routes/orders"));
   app.use("/api/checkout", require("../routes/checkout"));

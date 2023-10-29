@@ -1,9 +1,9 @@
 const { User } = require("../../model/user");
 const Order = require("../../model/order");
 const Service = require("../../model/services");
-const { createNewRoom } = require("./chat");
+const { createNewRoom, getRoom } = require("./chat");
 
-const createOrder = async (lineItems) => {
+const createOrder = async (lineItems, id) => {
   const data = lineItems.data[0];
   const serviceId = data.price.product.metadata.serviceId;
   const packageTitle = data.price.product.metadata.package;
@@ -18,6 +18,7 @@ const createOrder = async (lineItems) => {
   );
   if (!selectedPackage) throw new Error("Could not find selected package");
   const orderData = {
+    stripeId: id,
     service: service._id,
     user: user._id,
     package: selectedPackage,
@@ -32,7 +33,10 @@ const createOrder = async (lineItems) => {
   user.pendingRequest.push(newOrder._id);
   await user.save({ validateModifiedOnly: true });
 
-  const chatRoom = await createNewRoom(user.username, service.owner.username);
+  let chatRoom = await getRoom(user.username, service.owner.username);
+  if (!chatRoom) {
+    chatRoom = await createNewRoom(user.username, service.owner.username);
+  }
   if (chatRoom) {
     chatRoom.messages.push({
       type: "order",

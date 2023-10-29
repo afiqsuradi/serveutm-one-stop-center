@@ -25,6 +25,7 @@ import StripeCheckout from "./pages/Checkout/StripeCheckout";
 import { StripeProvider } from "./context/stripeSecretProvider";
 import StripeReturn from "./pages/Checkout/StripeReturn";
 import TextChat from "./pages/Chat/TextChat";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -44,7 +45,6 @@ function App() {
           <Route path={ROUTES.VERIFY} element={<Verify />} />
           <Route path={ROUTES.USER_PROFILE} element={<UserProfile />} />
           <Route path={ROUTES.VIEW_SERVICES} element={<ServicesList />} />
-          <Route path={ROUTES.CHAT} element={<TextChat />} />
           <Route element={<StripeProvider />}>
             <Route
               path={ROUTES.VIEW_SERVICE_SPECIFIC}
@@ -56,6 +56,8 @@ function App() {
           <Route
             element={<RequireAuth allowedRole={["user", "service_provider"]} />}
           >
+            <Route path={ROUTES.CHAT} element={<TextChat />} />
+            <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
             <Route path={ROUTES.USER_SETTING} element={<UserSetting />} />
 
             <Route element={<RequireAuth allowedRole={["service_provider"]} />}>

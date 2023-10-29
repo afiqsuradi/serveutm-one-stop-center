@@ -123,7 +123,7 @@ checkoutController.handlePaymentWebhook = async (req, res) => {
           }
         );
         const lineItems = sessionWithLineItems.line_items;
-        await createOrder(lineItems);
+        await createOrder(lineItems, session.id);
         if (session.payment_status === "paid") {
           await fulfillOrder(session);
         }
