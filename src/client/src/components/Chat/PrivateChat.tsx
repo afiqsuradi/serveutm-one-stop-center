@@ -6,14 +6,25 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { MdSend } from "react-icons/md";
 import useChat from "@/hooks/Chat/useChat";
 import { useEffect, useRef, useState } from "react";
-import { RoomMessageType } from "@/interface/Chat";
-import { useLocation } from "react-router-dom";
+import { RoomMessageType, RoomMessageTypeWithOrder } from "@/interface/Chat";
+import { useLocation, useNavigate } from "react-router-dom";
+import ServiceImagesCarousel from "../Gigs/ServiceImagesCarousel";
+import { Separator } from "../ui/separator";
+import { Badge } from "../ui/badge";
+import ROUTES from "@/constant/routes";
+import { Button } from "../ui/button";
+import useReject from "@/hooks/Orders/useReject";
+import useDoneOrder from "@/hooks/Orders/useDoneOrder";
 
 interface Props {
   room_id: string;
 }
 
 const PrivateChat = ({ room_id }: Props) => {
+  const { reject, isLoading: rejectLoading } = useReject();
+  const { markAsDone, isLoading: approveLoading } = useDoneOrder();
+
+  const navigate = useNavigate();
   const location = useLocation();
   const [previousRoom, setPreviousRoom] = useState("");
   const textInput = useRef<HTMLInputElement>(null);
@@ -49,6 +60,10 @@ const PrivateChat = ({ room_id }: Props) => {
       });
       textInput.current.value = "";
     }
+  };
+
+  const onReject = (id: string) => {
+    reject(id);
   };
 
   useEffect(() => {
@@ -131,6 +146,133 @@ const PrivateChat = ({ room_id }: Props) => {
                   const sender = data.participants.find((participator) => {
                     return participator.user._id === message.sender;
                   });
+                  if (message.type === "order") {
+                    const order = (message as RoomMessageTypeWithOrder).order;
+                    return (
+                      <div className="flex items-center  border p-4 my-4 gap-4">
+                        <div className="w-[20rem]">
+                          <ServiceImagesCarousel
+                            showChild={false}
+                            images={order.service.images}
+                          />
+                        </div>
+                        <div className="space-y-2 w-full">
+                          <div className="w-full flex gap-4">
+                            <h3 className="font-semibold text-lg">
+                              {order.service.title}
+                            </h3>
+                            <Badge
+                              variant={
+                                order.fullfillmentStatus === "Completed"
+                                  ? "success"
+                                  : order.fullfillmentStatus === "In Progress"
+                                  ? "default"
+                                  : "destructive"
+                              }
+                            >
+                              {order.fullfillmentStatus}
+                            </Badge>
+                          </div>
+                          <div className="flex w-full gap-4 items-center">
+                            <p className="text-foreground/75">
+                              Ordered by{" "}
+                              <span
+                                className="text-foreground hover:underline hover:cursor-pointer"
+                                onClick={() =>
+                                  navigate(
+                                    `${ROUTES.USER_PROFILE}?username=${order.user.username}`
+                                  )
+                                }
+                              >
+                                {order.user.username}
+                              </span>
+                            </p>
+                            <Separator
+                              orientation="vertical"
+                              className="w-[1px] h-[20px]"
+                            />
+                            {order.placed && (
+                              <p className="text-foreground/75">
+                                Date ordered{" "}
+                                <span className="text-foreground">
+                                  {" "}
+                                  {new Intl.DateTimeFormat("en-MY", {
+                                    year: "numeric",
+                                    month: "2-digit",
+                                    day: "2-digit",
+                                  }).format(new Date(order.placed))}
+                                  ,{" "}
+                                  {new Intl.DateTimeFormat("en-MY", {
+                                    hour: "numeric",
+                                    minute: "numeric",
+                                  }).format(new Date(order.placed))}
+                                </span>
+                              </p>
+                            )}
+                          </div>
+                          <div className=" border p-4 flex gap-4 flex-col">
+                            <div className="flex gap-4">
+                              <h1>{order.package.title}</h1>
+                              <Separator
+                                orientation="vertical"
+                                className="w-[1px] h-[20px]"
+                              />
+                              <p>Qty {order.quantity}</p>
+                              <Separator
+                                orientation="vertical"
+                                className="w-[1px] h-[20px]"
+                              />
+                              <p>RM{order.total}</p>
+                            </div>
+                            {order.requirements.length > 0 ? (
+                              <p>
+                                <span className="text-foreground/75 font-semibold">
+                                  User Requirement:
+                                </span>{" "}
+                                {order.requirements}
+                              </p>
+                            ) : (
+                              ""
+                            )}
+                            <div className="space-x-4">
+                              {order.fullfillmentStatus === "In Progress" ? (
+                                <>
+                                  <Button
+                                    className="w-[9rem]"
+                                    variant={"destructive"}
+                                    onClick={() => onReject(order._id)}
+                                    disabled={rejectLoading}
+                                  >
+                                    {rejectLoading ? (
+                                      <Spinner />
+                                    ) : (
+                                      "Reject Request"
+                                    )}
+                                  </Button>
+                                  <Button
+                                    className="w-[9rem]"
+                                    disabled={approveLoading}
+                                    onClick={() => {
+                                      markAsDone(order._id);
+                                    }}
+                                  >
+                                    {approveLoading ? (
+                                      <Spinner />
+                                    ) : (
+                                      "Mark As Done"
+                                    )}
+                                  </Button>
+                                </>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
+
                   return (
                     <div key={message.timestamp} className="flex gap-2 py-4">
                       <Avatar className="w-[2rem] h-[2rem]">

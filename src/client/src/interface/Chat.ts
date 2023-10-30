@@ -1,5 +1,7 @@
+import { OrderType } from "./Orders";
 import { UserInfo } from "./User";
 const chatMessageType = ["message", "image", "order"] as const;
+
 export type RoomParticipantType = {
   user: {
     _id: string;
@@ -21,4 +23,8 @@ export type RoomType = {
   createdAt: string;
   participants: RoomParticipantType[];
   messages: RoomMessageType[];
+};
+
+export type RoomMessageTypeWithOrder = RoomMessageType & {
+  order: OrderType;
 };
