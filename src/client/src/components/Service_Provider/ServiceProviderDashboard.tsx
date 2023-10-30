@@ -2,6 +2,7 @@ import useGetProviderStats from "@/hooks/Service_Provider/useGetProviderStats";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import Spinner from "../ui/spinner";
 import RecentSaleCard from "./Dashboard/RecentSaleCard";
+import Overview from "./Dashboard/Overview";
 
 const ServiceProviderDashboard = () => {
   const { data, isLoading } = useGetProviderStats();
@@ -111,7 +112,7 @@ const ServiceProviderDashboard = () => {
                 <CardTitle>Overview</CardTitle>
               </CardHeader>
               <CardContent className="pl-2">
-                {/* todo: graph for revenue */}
+                {data && <Overview data={data.monthlyRevenue} />}
               </CardContent>
             </Card>
             <Card className="col-span-3">
@@ -119,6 +120,11 @@ const ServiceProviderDashboard = () => {
                 <CardTitle>Recent Sales</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
+                {data && !(data?.recent.length > 0) && (
+                  <div className="border rounded-lg flex justify-center items-center p-4">
+                    <h4>No ordered services in progress</h4>
+                  </div>
+                )}
                 {data?.recent.map((order) => {
                   return <RecentSaleCard order={order} key={order._id} />;
                 })}

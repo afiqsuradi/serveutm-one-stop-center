@@ -1,8 +1,7 @@
 const Service = require("../model/services");
 const { User } = require("../model/user");
 const { cloneDeep } = require("lodash");
-const Order = require("../model/order");
-const { idToDate } = require("./helper/utils");
+const { idToDate, getMonthlyRevenue } = require("./helper/utils");
 const _ = require("lodash");
 
 const dashboardController = {};
@@ -73,6 +72,7 @@ dashboardController.getServiceProviderStats = async (req, res) => {
           return clonedOrder;
         });
       }
+      const monthlyRevenue = await getMonthlyRevenue(new Date().getFullYear());
 
       return res.status(200).json({
         total_revenue: revenue,
@@ -80,6 +80,7 @@ dashboardController.getServiceProviderStats = async (req, res) => {
         active: active.length,
         canceled: canceled.length,
         recent: active,
+        monthlyRevenue,
       });
     }
     return res.status(200).json({

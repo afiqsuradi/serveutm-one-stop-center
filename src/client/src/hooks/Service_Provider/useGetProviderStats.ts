@@ -1,3 +1,4 @@
+import { RevenueType } from "@/components/Service_Provider/Dashboard/Overview";
 import { useAuth } from "../Auth/useAuth";
 import useData from "../useData";
 import { OrderType } from "@/interface/Orders";
@@ -8,6 +9,7 @@ interface StatsResponse {
   active: number;
   canceled: number;
   recent: OrderType[];
+  monthlyRevenue: RevenueType[];
 }
 
 const useGetProviderStats = () => {

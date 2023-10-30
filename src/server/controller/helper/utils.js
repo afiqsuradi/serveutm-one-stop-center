@@ -1,4 +1,5 @@
 const ObjectId = require("mongodb").ObjectId;
+const Order = require("../../model/order");
 
 const idToDate = (objectId) => {
   // Get the timestamp from the ObjectId
@@ -21,4 +22,48 @@ const idToDate = (objectId) => {
   return formattedDate;
 };
 
-module.exports = { idToDate };
+const getMonthlyRevenue = async (year) => {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const orders = await Order.find({
+    fullfillmentStatus: "Completed",
+    paymentStatus: "Success",
+    placed: {
+      $gte: new Date(`${year}-01-01`),
+      $lte: new Date(`${year}-12-31`),
+    },
+  });
+
+  const monthlyRevenue = [];
+
+  for (let month = 1; month <= 12; month++) {
+    const ordersInMonth = orders.filter(
+      (order) => order.placed.getMonth() === month - 1
+    );
+    const totalRevenueInMonth = ordersInMonth.reduce(
+      (total, order) => total + order.total,
+      0
+    );
+
+    monthlyRevenue.push({
+      name: months[month - 1],
+      total: totalRevenueInMonth,
+    });
+  }
+
+  return monthlyRevenue;
+};
+
+module.exports = { idToDate, getMonthlyRevenue };
