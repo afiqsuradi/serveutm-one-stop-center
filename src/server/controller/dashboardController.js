@@ -72,7 +72,10 @@ dashboardController.getServiceProviderStats = async (req, res) => {
           return clonedOrder;
         });
       }
-      const monthlyRevenue = await getMonthlyRevenue(new Date().getFullYear());
+      const monthlyRevenue = await getMonthlyRevenue(
+        new Date().getFullYear(),
+        user._id
+      );
 
       return res.status(200).json({
         total_revenue: revenue,

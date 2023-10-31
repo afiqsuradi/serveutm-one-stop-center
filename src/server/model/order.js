@@ -37,6 +37,11 @@ const orderSchema = mongoose.Schema({
     type: Date,
     required: true,
   },
+  serviceOwner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   total: {
     type: Number,
     required: true,

@@ -22,7 +22,7 @@ const idToDate = (objectId) => {
   return formattedDate;
 };
 
-const getMonthlyRevenue = async (year) => {
+const getMonthlyRevenue = async (year, ownerId) => {
   const months = [
     "Jan",
     "Feb",
@@ -44,8 +44,8 @@ const getMonthlyRevenue = async (year) => {
       $gte: new Date(`${year}-01-01`),
       $lte: new Date(`${year}-12-31`),
     },
+    serviceOwner: ownerId,
   });
-
   const monthlyRevenue = [];
 
   for (let month = 1; month <= 12; month++) {
