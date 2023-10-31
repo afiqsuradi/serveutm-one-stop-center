@@ -235,7 +235,8 @@ const PrivateChat = ({ room_id }: Props) => {
                               ""
                             )}
                             <div className="space-x-4">
-                              {order.fullfillmentStatus === "In Progress" ? (
+                              {order.fullfillmentStatus === "In Progress" &&
+                              order.user.username !== Auth.username ? (
                                 <>
                                   <Button
                                     className="w-[9rem]"
