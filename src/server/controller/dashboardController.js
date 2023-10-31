@@ -3,6 +3,7 @@ const { User } = require("../model/user");
 const { cloneDeep } = require("lodash");
 const { idToDate, getMonthlyRevenue } = require("./helper/utils");
 const _ = require("lodash");
+const Order = require("../model/order");
 
 const dashboardController = {};
 
@@ -92,6 +93,50 @@ dashboardController.getServiceProviderStats = async (req, res) => {
       active: 0,
       canceled: 0,
       recent: [],
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+dashboardController.getUserStats = async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.user.username });
+    const orders = await Order.find({
+      user: user._id,
+    });
+    if (orders) {
+      const completed = orders.filter(
+        (order) =>
+          order.paymentStatus === "Success" &&
+          order.fullfillmentStatus === "Completed"
+      );
+      const expenditures = completed.reduce(
+        (acc, curr) => (acc += curr.total),
+        0
+      );
+      let active = orders.filter(
+        (order) =>
+          order.paymentStatus === "Success" &&
+          order.fullfillmentStatus === "In Progress"
+      );
+      const canceled = orders.filter(
+        (order) =>
+          order.paymentStatus === "Refunded" &&
+          order.fullfillmentStatus === "Canceled"
+      );
+      return res.status(200).json({
+        expenditures,
+        completed: completed.length,
+        active: active.length,
+        canceled: canceled.length,
+      });
+    }
+    return res.status(200).json({
+      expenditures: 0,
+      completed: 0,
+      active: 0,
+      canceled: 0,
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });

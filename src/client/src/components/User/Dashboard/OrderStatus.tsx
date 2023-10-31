@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ActiveOrders from "./ActiveOrders";
-import CompletedOrder from "./CompletedOrder";
-import CanceledOrders from "./CanceledOrders";
+import ActiveOrders from "../Order/ActiveOrders";
+import CompletedOrder from "../Order/CompletedOrder";
+import CanceledOrders from "../Order/CanceledOrders";
 
 const OrderStatus = () => {
   return (

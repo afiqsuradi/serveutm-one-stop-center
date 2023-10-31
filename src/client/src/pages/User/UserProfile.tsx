@@ -1,6 +1,5 @@
 import ProviderInfo from "@/components/Service_Provider/Profile/ProviderInfo";
 import ProviderServices from "@/components/Service_Provider/Profile/ProviderServices";
-import OrderStatus from "@/components/User/Order/OrderStatus";
 import AvatarCard from "@/components/User/Profile/AvatarCard";
 import BecomeSellerBanner from "@/components/User/Profile/BecomeSellerBanner";
 import ROUTES from "@/constant/routes";
@@ -36,7 +35,6 @@ const UserProfile = () => {
           {data.role === "user" && Auth.username === data.username ? (
             <>
               <BecomeSellerBanner />
-              <OrderStatus />
             </>
           ) : data.role === "service_provider" ? (
             <ProviderServices username={data.username} />
