@@ -29,16 +29,21 @@ const StripeReturn = () => {
   const [status, setStatus] = useState<string>("");
   const { data, fetchData } = useGetData<StatusResponse>();
   const navigate = useNavigate();
-  useEffect(() => {
+
+  const getStatus = () => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const sessionId = urlParams.get("session_id");
     fetchData(`/api/checkout?session_id=${sessionId}`);
-  }, []);
+  };
 
   useEffect(() => {
     if (data) {
       setStatus(data.status);
+    } else {
+      setTimeout(() => {
+        getStatus();
+      }, 1000);
     }
   }, [data]);
 
