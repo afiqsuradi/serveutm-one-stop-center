@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import UserOrderDetailDialog from "../Dashboard/UserOrderDetailDialog";
 
 const CanceledOrders = () => {
   const { data, isLoading, error } = useOrders({
@@ -42,26 +43,30 @@ const CanceledOrders = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.data.map((order) => {
+          {data.data.map((order, idx) => {
             return (
-              <TableRow>
-                <TableCell>
-                  <img src={order.service.images[0]} className="w-[100px]" />
-                </TableCell>
-                <TableCell>
-                  <div className="flex flex-col">
-                    <h4>{order.service.title}</h4>
-                    <p className="text-foreground/60">{order.package.title}</p>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <p>RM {order.package.price * order.quantity}</p>
-                </TableCell>
-                <TableCell>
-                  <p>{order.placed}</p>
-                </TableCell>
-                <TableCell>{order.fullfillmentStatus}</TableCell>
-              </TableRow>
+              <UserOrderDetailDialog order={order} key={idx}>
+                <TableRow className="hover:cursor-pointer">
+                  <TableCell>
+                    <img src={order.service.images[0]} className="w-[100px]" />
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex flex-col">
+                      <h4>{order.service.title}</h4>
+                      <p className="text-foreground/60">
+                        {order.package.title}
+                      </p>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <p>RM {order.package.price * order.quantity}</p>
+                  </TableCell>
+                  <TableCell>
+                    <p>{order.placed}</p>
+                  </TableCell>
+                  <TableCell>{order.fullfillmentStatus}</TableCell>
+                </TableRow>
+              </UserOrderDetailDialog>
             );
           })}
         </TableBody>

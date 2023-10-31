@@ -33,10 +33,23 @@ ordersController.getOrders = async (req, res) => {
       },
       {
         $lookup: {
+          from: "User",
+          localField: "serviceOwner",
+          foreignField: "_id",
+          as: "serviceOwner",
+        },
+      },
+      {
+        $lookup: {
           from: "Services",
           localField: "service",
           foreignField: "_id",
           as: "service",
+        },
+      },
+      {
+        $unwind: {
+          path: "$serviceOwner",
         },
       },
       {
@@ -56,6 +69,11 @@ ordersController.getOrders = async (req, res) => {
             username: 1,
             profileImage: 1,
           },
+          serviceOwner: {
+            name: 1,
+            username: 1,
+            profileImage: 1,
+          },
           service: {
             title: 1,
             description: 1,
@@ -63,6 +81,7 @@ ordersController.getOrders = async (req, res) => {
             images: 1,
           },
           requirements: 1,
+          total: 1,
           paymentStatus: 1,
           fullfillmentStatus: 1,
           package: 1,

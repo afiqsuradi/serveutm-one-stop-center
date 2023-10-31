@@ -10,6 +10,11 @@ export type OrderType = {
   paymentStatus: string;
   fullfillmentStatus: string;
   package: PricingPackageType;
+  serviceOwner: {
+    name: string;
+    username: string;
+    profileImage: string;
+  };
   user: {
     name: string;
     username: string;
