@@ -21,6 +21,11 @@ import EditGig from "./pages/Gigs/EditGig";
 import ServicesList from "./pages/ServicesList";
 import Homepage from "./pages/Homepage";
 import NotFound from "./pages/NotFound";
+import StripeCheckout from "./pages/Checkout/StripeCheckout";
+import { StripeProvider } from "./context/stripeSecretProvider";
+import StripeReturn from "./pages/Checkout/StripeReturn";
+import TextChat from "./pages/Chat/TextChat";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -39,11 +44,20 @@ function App() {
           <Route path={ROUTES.CONTACT_US} element={<ContactUs />} />
           <Route path={ROUTES.VERIFY} element={<Verify />} />
           <Route path={ROUTES.USER_PROFILE} element={<UserProfile />} />
-          <Route path={ROUTES.VIEW_SERVICE_SPECIFIC} element={<GigDetail />} />
           <Route path={ROUTES.VIEW_SERVICES} element={<ServicesList />} />
+          <Route element={<StripeProvider />}>
+            <Route
+              path={ROUTES.VIEW_SERVICE_SPECIFIC}
+              element={<GigDetail />}
+            />
+            <Route path={ROUTES.CHECKOUT} element={<StripeCheckout />} />
+            <Route path={ROUTES.CHECKOUT_RETURN} element={<StripeReturn />} />
+          </Route>
           <Route
             element={<RequireAuth allowedRole={["user", "service_provider"]} />}
           >
+            <Route path={ROUTES.CHAT} element={<TextChat />} />
+            <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
             <Route path={ROUTES.USER_SETTING} element={<UserSetting />} />
 
             <Route element={<RequireAuth allowedRole={["service_provider"]} />}>

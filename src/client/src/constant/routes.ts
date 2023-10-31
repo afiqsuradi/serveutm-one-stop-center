@@ -17,5 +17,8 @@ const ROUTES = {
   VIEW_SERVICE_SPECIFIC: "/services/:id",
   ADD_SERVICE: "/profile/add_gigs",
   EDIT_SERVICE: "/settings/services/:id",
+  CHECKOUT: "/checkout",
+  CHECKOUT_RETURN: "/checkout-confirm",
+  CHAT: "/inbox",
 };
 export default ROUTES;

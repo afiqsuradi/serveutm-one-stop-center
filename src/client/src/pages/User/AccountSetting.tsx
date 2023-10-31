@@ -11,7 +11,7 @@ const AccountSetting = () => {
   return (
     <div className="flex justify-between flex-wrap gap-12">
       <AvatarCard userData={data} />
-      <div className="space-y-6">
+      <div className="space-y-6 max-w-full">
         <AvatarSetting profileImage={Auth.profileImage} />
         <AccountSettingForm />
       </div>

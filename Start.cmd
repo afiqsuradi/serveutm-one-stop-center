@@ -18,4 +18,7 @@ timeout /t 15
 echo Starting admin...
 start "Admin" cmd /k cd ./src/admin ^& code ./ ^& npm run dev
 
+echo Starting Webhook payment
+start "Webhook" cmd /k C: ^& stripe listen --forward-to https://localhost:25565/api/webhook/stripe --skip-verify
+
 echo Done!

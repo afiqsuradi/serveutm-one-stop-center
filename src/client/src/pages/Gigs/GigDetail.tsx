@@ -6,20 +6,35 @@ import useService from "@/hooks/Gigs/useService";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useNavigate, useParams } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { HiArrowLongRight } from "react-icons/hi2";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import PrePurchase from "@/components/Gigs/Acquire/PrePurchase";
+import { useState } from "react";
+import ContactBtn from "@/components/Chat/ContactBtn";
 interface Props {
   serviceId?: string;
 }
 const GigDetail = ({ serviceId }: Props) => {
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const { data } = useService(id ? id : serviceId ? serviceId : "");
+  const openCheckOut = () => {
+    setIsOpen(true);
+  };
 
   if (!data) return;
   return (
@@ -50,6 +65,12 @@ const GigDetail = ({ serviceId }: Props) => {
               </h2>
               <p>@{data.owner?.username}</p>
             </div>
+            <div className="hidden md:block ml-auto">
+              <ContactBtn receiver={data.owner?.username || ""} />
+            </div>
+          </div>
+          <div className="block md:hidden w-full">
+            <ContactBtn receiver={data.owner?.username || ""} />
           </div>
         </div>
         <div className="w-full">
@@ -80,7 +101,7 @@ const GigDetail = ({ serviceId }: Props) => {
           </div>
         </div>
       </section>
-      <section className="md:w-[30%] md:sticky md:top-24 h-full">
+      <section className="md:w-[30%] md:sticky md:top-24 h-full mt-12 md:mt-0">
         <Tabs
           defaultValue={data.pricePackage[0].title}
           className="md:w-[250px] lg:w-[400px]"
@@ -91,7 +112,7 @@ const GigDetail = ({ serviceId }: Props) => {
                 <TabsTrigger
                   key={pack.title}
                   value={pack.title}
-                  className="break-all whitespace-normal"
+                  className="whitespace-normal text-ellipsis break-words h-full"
                 >
                   {pack.title}
                 </TabsTrigger>
@@ -111,6 +132,24 @@ const GigDetail = ({ serviceId }: Props) => {
                   <CardContent className="space-y-2 break-words">
                     {pack.description}
                   </CardContent>
+                  <CardFooter>
+                    <div className="relative w-full">
+                      <PrePurchase
+                        isOpen={isOpen}
+                        setIsOpen={setIsOpen}
+                        serviceId={data._id || ""}
+                        pack={pack}
+                        owner={data.owner?.username || ""}
+                      />
+                      <Button
+                        className="w-full font-semibold "
+                        onClick={openCheckOut}
+                      >
+                        Continue
+                      </Button>
+                      <HiArrowLongRight className="absolute top-1/2 -translate-y-1/2 text-2xl text-primary-foreground right-4" />
+                    </div>
+                  </CardFooter>
                 </Card>
               </TabsContent>
             );
