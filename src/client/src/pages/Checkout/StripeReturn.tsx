@@ -27,7 +27,7 @@ interface StatusResponse {
 }
 const StripeReturn = () => {
   const [status, setStatus] = useState<string>("");
-  const { data, fetchData } = useGetData<StatusResponse>();
+  const { data, fetchData, success, isLoading } = useGetData<StatusResponse>();
   const navigate = useNavigate();
 
   const getStatus = () => {
@@ -40,12 +40,16 @@ const StripeReturn = () => {
   useEffect(() => {
     if (data) {
       setStatus(data.status);
-    } else {
-      setTimeout(() => {
-        getStatus();
-      }, 1000);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (!success) {
+      setTimeout(() => {
+        getStatus();
+      }, 500);
+    }
+  }, [isLoading]);
 
   if (status === "open") {
     return <Navigate to="/checkout" />;

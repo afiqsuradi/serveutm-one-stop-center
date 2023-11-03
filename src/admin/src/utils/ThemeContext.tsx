@@ -14,7 +14,7 @@ const ThemeContext = createContext({
 
 export default function ThemeProvider({ children }: Props) {
   const persistedTheme = localStorage.getItem("theme");
-  const [theme, setTheme] = useState<string>(persistedTheme || "light");
+  const [theme, setTheme] = useState<string>(persistedTheme || "dark");
 
   const changeCurrentTheme = (newTheme: string) => {
     setTheme(newTheme);

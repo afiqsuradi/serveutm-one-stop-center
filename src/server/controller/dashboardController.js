@@ -1,7 +1,15 @@
 const Service = require("../model/services");
 const { User } = require("../model/user");
 const { cloneDeep } = require("lodash");
-const { idToDate, getMonthlyRevenue } = require("./helper/utils");
+const {
+  idToDate,
+  getMonthlyRevenue,
+  getMonthlyServices,
+  getMonthlyUser,
+  getNewUsersForMonth,
+  getNewServicesForMonth,
+  getNewOrdersForMonth,
+} = require("./helper/utils");
 const _ = require("lodash");
 const Order = require("../model/order");
 
@@ -137,6 +145,37 @@ dashboardController.getUserStats = async (req, res) => {
       completed: 0,
       active: 0,
       canceled: 0,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+dashboardController.getAdminStats = async (req, res) => {
+  try {
+    const currentYear = new Date().getFullYear();
+    const activeUsers = await User.countDocuments({ isVerified: true });
+    const activeGigs = await Service.countDocuments({ isApproved: "Approved" });
+    const completedOrder = await Order.countDocuments({
+      fullfillmentStatus: "Completed",
+      paymentStatus: "Success",
+    });
+    const newUsers = await getNewUsersForMonth();
+    const monthlyUsers = await getMonthlyUser(currentYear);
+    const monthlyServices = await getMonthlyServices(currentYear);
+    const unapproved_services = await Service.find({
+      isApproved: "Pending",
+    }).populate("owner", "username");
+    return res.status(200).json({
+      statistic: {
+        active_user: activeUsers,
+        new_user: newUsers.length || 0,
+        active_gigs: activeGigs,
+        completed_order: completedOrder,
+      },
+      monthly_user: monthlyUsers,
+      monthly_service: monthlyServices,
+      unapproved_services,
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });

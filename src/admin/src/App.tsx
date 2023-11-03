@@ -11,6 +11,7 @@ import EditUser from "./pages/Dashboard/Users/EditUser";
 import Inquiries from "./pages/Dashboard/Inquiries/Inquiries";
 import Services from "./pages/Dashboard/Services/Services";
 import EditService from "./pages/Dashboard/Services/EditService";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path={routes.EDIT_USER} element={<EditUser />} />
             <Route path={routes.EDIT_SERVICE} element={<EditService />} />
             <Route path={routes.INQUIRY} element={<Inquiries />} />
+            <Route path={routes.DASHBOARD} element={<Dashboard />} />
           </Route>
         </Route>
       </Route>

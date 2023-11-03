@@ -4,8 +4,6 @@ const https = require("https");
 const fs = require("fs");
 const app = express();
 const { Server } = require("socket.io");
-const corsOption = require("./config/corsOptions");
-const cors = require("cors");
 
 // Startup
 require("./startup/db")();

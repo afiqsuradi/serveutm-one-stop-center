@@ -9,10 +9,12 @@ type ApiResponseResult<T> = {
   data: T | null;
   isLoading: boolean;
   error: string | null;
+  success: boolean;
   fetchData: (url: string, config?: AxiosRequestConfig) => void;
 };
 
 const useGetData = <T>(): ApiResponseResult<T> => {
+  const [success, setSuccess] = useState(false);
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -30,6 +32,7 @@ const useGetData = <T>(): ApiResponseResult<T> => {
           ...config,
         });
         setData(response.data);
+        setSuccess(() => true);
       } catch (error) {
         const err = error as AxiosError<ErrorData>;
         if (!err.message.includes("canceled")) {
@@ -55,6 +58,7 @@ const useGetData = <T>(): ApiResponseResult<T> => {
   return {
     data,
     isLoading,
+    success,
     error,
     fetchData,
   };

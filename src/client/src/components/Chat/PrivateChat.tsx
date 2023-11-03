@@ -224,12 +224,13 @@ const PrivateChat = ({ room_id }: Props) => {
                               />
                               <p>RM{order.total}</p>
                             </div>
-                            {order.requirements.length > 0 ? (
+                            {order.requirements &&
+                            order.requirements.length > 0 ? (
                               <p>
                                 <span className="text-foreground/75 font-semibold">
                                   User Requirement:
                                 </span>{" "}
-                                {order.requirements}
+                                {order.requirements ? order.requirements : ""}
                               </p>
                             ) : (
                               ""

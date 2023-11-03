@@ -68,6 +68,10 @@ const userSchema = mongoose.Schema({
       ref: "Orders",
     },
   ],
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
   // Bad implementation, ik but im too lazy
   refreshToken: { type: String, default: "" },
 });
