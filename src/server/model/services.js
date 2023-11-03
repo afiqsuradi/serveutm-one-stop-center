@@ -50,6 +50,10 @@ const serviceSchema = new mongoose.Schema({
       },
     },
   ],
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
   images: [String],
   serviceRequest: [
     {
