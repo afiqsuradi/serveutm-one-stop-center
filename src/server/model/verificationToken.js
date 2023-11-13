@@ -6,11 +6,6 @@ const verificationTokenSchema = mongoose.Schema({
     ref: "User",
     required: true,
   },
-  createdAt: {
-    type: Date,
-    expires: 3600 * 60,
-    default: Date.now(),
-  },
   token: { type: String, required: true },
 });
 

@@ -8,15 +8,17 @@ const verifyController = {};
 verifyController.verify = async (req, res) => {
   // get verification token from body
   const { token } = req.body;
+  if (!token) return res.status(404).json({ message: "No token found" });
   // search for user with that param in verificationDb
   const tokenItem = await VerificationToken.findOne({ token: token });
-  if (!tokenItem) return res.sendStatus(400);
+  if (!tokenItem) return res.sendStatus(400).json({ message: "Invalid token" });
   // search for user in user db and update status
   const user = await User.findOneAndUpdate(
     { _id: tokenItem.owner },
     { isVerified: true },
     { new: true }
   );
+  if (!user) return res.sendStatus(404);
   await VerificationToken.findByIdAndDelete(tokenItem._id);
   return res.status(202).json({ isVerified: `"${user.isVerified}"` });
 };
