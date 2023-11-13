@@ -6,11 +6,6 @@ const passwordResetToken = mongoose.Schema({
     ref: "User",
     required: true,
   },
-  createdAt: {
-    type: Date,
-    expires: 1800 * 60,
-    default: Date.now(),
-  },
   token: { type: String, required: true },
 });
 
