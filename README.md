@@ -6,11 +6,22 @@ Welcome to ServeUTM repository where the source code of our webapp located.
 
 ServeUTM aim to provide a flexible platform where the student of Universiti Teknologi Malaysia (UTM) can gain extra income by selling goods or providing services. Our web-based system’s goal is to aid them both financially and academically.
 
+# Live Site
+
+Working until 12/1/2023
+
+- [Client](https://www.serveutm.online)
+
+- [Admin](https://admin.serveutm.online)
+
+These sites were hosted by [OVH VPS](https://www.ovhcloud.com/asia/vps/)
+
 ## Table of Contents
 
 - [Requirements](#requirements)
 - [Backend Installation](#backend-installation)
 - [Frontend Installation](#frontend-installation)
+- [List of username and password](#list-of-username-and-password)
 
 ## Requirements
 
@@ -126,3 +137,28 @@ VITE_STRIPE_PUBLIC=""
 `STRIPE_PUBLIC` - your stripe public key
 
 - For admin, you need to change the backend server address at `./src/admin/src/services/apiClient.ts` -> `BASE_URL` variable
+
+## List of username and password
+
+### Admin
+
+```
+username=aimanafiq03
+password=Asdf123
+```
+
+### Users
+
+```
+#User 1
+username=Imran
+password=Aliff1965
+
+#User 2
+username=Rilevac
+password=Asdf123
+
+#User 3
+username=Irfan
+password=Irfanafnan_33
+```
