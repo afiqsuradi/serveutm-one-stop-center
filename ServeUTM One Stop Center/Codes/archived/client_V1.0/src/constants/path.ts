@@ -1,0 +1,22 @@
+const ROUTES = {
+  REGISTER: "/register",
+  REGISTER_SUCCESS: "/register/success",
+  LOGIN: "/login",
+  VERIFY: "/verify-confirm",
+  PASSWORD_RESET: "/password-reset",
+  PASSWORD_RESET_CONFIRM: "/password-reset/confirm",
+  HOMEPAGE: "/",
+  ABOUT_US: "/about-us",
+  CONTACT_US: "/contact",
+  USER_SETTING: "/settings",
+  USER_PROFILE: "/profile",
+  USER_PROFILE_SPECIFIC: "/profile/:username",
+  PROVIDER_REGISTER: "/seller_onboarding",
+  PROVIDER_ADD: "/profile/add_gigs",
+  DASHBOARD: "/dashboard",
+  NOTFOUND: "/404",
+  VIEW_SERVICES: "/services",
+  VIEW_SERVICE_SPECIFIC: "/services/:id",
+  EDIT_SERVICE: "/settings/services/:id",
+};
+export default ROUTES;
